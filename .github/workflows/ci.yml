@@ -1,0 +1,71 @@
+name: ci
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  site:
+    name: build and verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .node-version
+          cache: npm
+
+      - run: npm ci
+
+      # Every Quidra program shown on the site must be accepted, canonically
+      # formatted and (where runnable) produce the recorded output with the
+      # released compiler. The Debian package is the same artifact visitors
+      # download from the release page.
+      - name: Install the released Quidra compiler
+        run: |
+          set -euo pipefail
+          version="$(node -e "process.stdout.write(require('./examples/manifest.json').compiler.split(' ').pop())")"
+          curl -fsSL --retry 3 -o quidra.deb "https://github.com/quidra-lang/quidra/releases/download/v${version}/quidra-linux-amd64.deb"
+          sudo apt-get update
+          sudo apt-get install -y ./quidra.deb
+          quidra --version
+
+      - name: Verify example programs
+        run: bash scripts/check-examples.sh
+
+      # The grammar check also tokenizes the compiler repository's own examples
+      # at the same release, fetched as a sparse checkout of that one directory.
+      - name: Fetch the core examples at the released tag
+        run: |
+          set -euo pipefail
+          version="$(node -e "process.stdout.write(require('./examples/manifest.json').compiler.split(' ').pop())")"
+          git clone --depth 1 --filter=blob:none --sparse --branch "v${version}" https://github.com/quidra-lang/quidra "$RUNNER_TEMP/quidra"
+          git -C "$RUNNER_TEMP/quidra" sparse-checkout set examples
+
+      - name: Verify syntax grammar coverage
+        run: QUIDRA_CORE_DIR="$RUNNER_TEMP/quidra" node scripts/check-grammar.mjs
+
+      - name: Verify palette contrast
+        run: node scripts/check-contrast.mjs
+
+      - run: npm run check
+      - run: npm run lint
+      - run: npm run build
+
+      - name: Verify internal links and fragments
+        run: node scripts/check-links.mjs dist
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: site-dist
+          path: dist
+          retention-days: 7
