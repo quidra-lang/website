@@ -1,0 +1,19 @@
+// Cloudflare Workers configuration for the static Quidra website.
+//
+// The site is fully pre-rendered by `astro build` into ./dist, so this Worker
+// serves static assets only: there is no `main` script, no bindings and no
+// secrets. Account selection and the custom domain (quidra-lang.com) are
+// configured in the Cloudflare dashboard, never in this file.
+//
+// compatibility_date may not be later than the workerd release bundled with
+// the pinned wrangler (`wrangler dev` refuses future dates); bump both together.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "quidra-website",
+  "compatibility_date": "2026-09-26",
+  "assets": {
+    "directory": "./dist",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  }
+}

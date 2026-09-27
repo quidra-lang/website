@@ -1,0 +1,37 @@
+{
+  "name": "quidra-website",
+  "private": true,
+  "type": "module",
+  "version": "0.0.0",
+  "description": "The official website of the Quidra programming language: https://quidra-lang.com",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build && node scripts/write-headers.mjs",
+    "preview": "astro preview",
+    "check": "astro check",
+    "lint": "eslint .",
+    "check:examples": "bash scripts/check-examples.sh",
+    "check:grammar": "node scripts/check-grammar.mjs",
+    "check:contrast": "node scripts/check-contrast.mjs",
+    "check:links": "node scripts/check-links.mjs dist",
+    "verify": "npm run check:examples && npm run check:grammar && npm run check:contrast && npm run check && npm run lint",
+    "deploy": "npm run build && wrangler deploy",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "3.7.4",
+    "astro": "7.3.5"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "@fontsource-variable/inter": "5.3.0",
+    "@fontsource/ibm-plex-mono": "5.3.0",
+    "eslint": "10.11.0",
+    "eslint-plugin-astro": "3.2.1",
+    "eslint-plugin-jsx-a11y-x": "0.2.0",
+    "shiki": "4.4.3",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.70.1",
+    "wrangler": "4.142.0"
+  }
+}
