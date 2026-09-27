@@ -4,8 +4,8 @@
     {
       "id": "hero",
       "file": "hero.qui",
-      "title": "Values, classes and no ceremony",
-      "summary": "A class with fields, a constructor and two methods, used from top-level statements. The copy made by = stays independent: scaling b leaves a at length 5.0.",
+      "title": "A small native Quidra program",
+      "summary": "Explicit types, indentation-based blocks, no semicolons, and a top-level call in one small program compiled through LLVM.",
       "run": true,
       "args": [],
       "output": "hero.out"

@@ -1,21 +1,17 @@
 ---
 /**
- * "Meaning per token, concretely": the table from the Quidra README, kept
- * verbatim. Each common form has one stable job.
+ * A first-glance view of Quidra's surface: familiar forms first, with the
+ * distinctive semantic rules introduced only where they become relevant.
  */
 const rows = [
-  { form: '=', meaning: 'independent value-oriented assignment' },
-  { form: '&x', meaning: 'explicit observable access to storage' },
-  { form: 'T &', meaning: 'writable path to caller-visible storage' },
-  { form: 'const T &', meaning: 'live read-only path to storage' },
-  { form: 'T | none', meaning: 'normal absence is part of the type' },
-  { form: 'T | error', meaning: 'failure is part of the type' },
-  { form: 'try', meaning: 'propagate error, not every non-value state' },
-  { form: 'T(value)', meaning: 'explicit representation conversion' },
-  { form: 'tensor<T><3, _, _>', meaning: 'element type plus three axis slots: the first extent is 3, the others are unrestricted, and three slots require rank 3' },
-  { form: 'and / or / not', meaning: 'boolean logic only' },
-  { form: 'AND / OR / XOR / NOT / << / >>', meaning: 'fixed-width integer bit operations, without reusing & or |' },
-  { form: 'match', meaning: 'alternatives must be handled explicitly and exhaustively' },
+  { form: 'int count = 3', meaning: 'a typed binding with familiar declaration syntax' },
+  { form: 'auto name = "Quidra"', meaning: 'infer a type when the initializer makes it unambiguous' },
+  { form: 'for value in values', meaning: 'iterate directly over values' },
+  { form: 'Point(3.0, 4.0)', meaning: 'construct a value by calling its type' },
+  { form: '=', meaning: 'ordinary assignment has independent value semantics' },
+  { form: '&x', meaning: 'observable aliasing is requested explicitly' },
+  { form: 'T(value)', meaning: 'representation changes are explicit' },
+  { form: 'and / or / not', meaning: 'boolean logic uses readable words' },
 ];
 ---
 

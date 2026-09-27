@@ -16,23 +16,18 @@ const hero = example('hero');
 const heroAnnotations: Annotation[] = [
   {
     line: 1,
-    token: 'class Point',
-    text: 'A class is exactly the fields and methods it declares. Methods read and write fields directly: no self, no this, nothing inherited to trace.',
+    token: 'int factorial(int n)',
+    text: 'Types stay explicit where they carry meaning: this function takes an int and returns an int.',
   },
   {
-    line: 10,
-    token: 'math.sqrt',
-    text: 'Standard namespaces such as math are always visible and never imported. There is no bare sqrt, so a name means one thing everywhere.',
+    line: 2,
+    token: 'if n <= 1',
+    text: 'Indentation defines the block. There are no braces or semicolons to carry around.',
   },
   {
-    line: 16,
-    token: 'Point a = Point(3.0, 4.0)',
-    text: 'Top-level statements are the program. No main, no semicolons, four-space blocks, and the file compiles to a native executable.',
-  },
-  {
-    line: 17,
-    token: 'Point b = a',
-    text: '= always copies the value. Scaling b leaves a untouched, and the output proves it. Aliasing exists, but you spell it with &.',
+    line: 7,
+    token: 'print(factorial(5))',
+    text: 'Top-level code can run directly, while the file still compiles through LLVM to native machine code.',
   },
 ];
 
@@ -59,11 +54,6 @@ const laws = [
     text: 'An already-typed numeric value never changes representation implicitly, even when the conversion would be lossless. Casts use the destination type and integer narrowing is range checked. Floating-point to integer is not a generic cast, because the rounding is the meaning: say math.round, math.floor, math.ceil or math.trunc.',
   },
   {
-    id: 'absence',
-    title: 'Absence, failure and completion are different.',
-    text: 'void is successful completion with no data, none is normal absence, error is a failed operation represented as data. A result that may be an error stays explicit until a match handles it, try propagates it, or a fail-fast consumption site reports it.',
-  },
-  {
     id: 'names',
     title: 'Name resolution is monotonic.',
     text: 'Reserved names are never reusable, visible names are never shadowable, and otherwise names may be reused in disjoint scopes. Adding code near an existing reference can never silently change what that reference means, for a person or for a model editing the file.',
@@ -75,10 +65,10 @@ const tabLabels: Record<string, string> = {
   basics: 'Basics',
   functions: 'Functions',
   classes: 'Classes',
-  errors: 'Errors',
   references: 'References',
   tensors: 'Tensors',
   cli: 'Command line',
+  errors: 'Errors',
 };
 const tabs = Object.keys(tabLabels)
   .map((id) => examples.find((e) => e.id === id))
@@ -147,9 +137,8 @@ const uninitialized = invalidExample('uninitialized');
           <span class="hero-slogan">Maximum Meaning Per&nbsp;Token</span>
         </h1>
         <p class="lede">
-          A statically typed, natively compiled general-purpose language designed for both humans and language models.
-          It is built so that every token that survives carries a fact the compiler can check: who may write, what may
-          fail, what may be absent and when a representation changes.
+          A statically typed, natively compiled general-purpose language for humans and language models.
+          Quidra keeps ordinary code familiar and compact, while making the distinctions that affect correctness explicit.
         </p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="/get-started/">Get started</a>
@@ -176,16 +165,14 @@ const uninitialized = invalidExample('uninitialized');
 
   <section class="section" id="meaning">
     <div class="container">
-      <SectionHead number="01" eyebrow="semantic compression" title="Fewer meaningless tokens, not fewer meaningful distinctions.">
-        Quidra's primary optimization target is semantic density: how much reliable intent can be recovered from each
-        token without hidden conventions, guesswork or repeated ceremony. Fewer characters are not automatically better.
-        Quidra tries to give each common form one stable job.
+      <SectionHead number="01" eyebrow="semantic compression" title="Simple where it can be. Explicit where it matters.">
+        Maximum Meaning Per Token is not code golf and it is not extra syntax for its own sake. Quidra removes ceremony
+        the compiler can recover safely, then keeps the few tokens that actually change meaning.
       </SectionHead>
       <TokenTable />
       <p class="after-table muted">
-        The same rule reaches past individual tokens. Visible names cannot be shadowed, numeric values never change
-        representation merely because a destination would accept them, mutable storage is never created from ordinary
-        assignment, and movement between CPU and GPU is always written down.
+        The deeper safety rules stay out of ordinary code until they matter: copies remain independent, aliasing is
+        requested explicitly, representation changes are written down, and visible names cannot be silently shadowed.
       </p>
     </div>
   </section>
@@ -193,10 +180,8 @@ const uninitialized = invalidExample('uninitialized');
   <section class="section" id="why">
     <div class="container">
       <SectionHead number="02" eyebrow="design laws" title="Why Quidra">
-        Programming languages communicate intent through tokens, but not every token contributes equally. Ceremony,
-        duplicated declarations, implicit conversions, hidden mutation, hidden failure and unstable name resolution all
-        consume attention and context without necessarily adding reliable meaning. Quidra treats that as a
-        language-design problem, and derives its rules from it.
+        Ordinary code should look ordinary. Quidra becomes explicit exactly where hidden behavior would make a program
+        harder to reason about: value versus storage, write authority, initialization, representation and name resolution.
       </SectionHead>
       <ol class="laws">
         {
@@ -229,10 +214,10 @@ const uninitialized = invalidExample('uninitialized');
 
   <section class="section" id="examples">
     <div class="container">
-      <SectionHead number="03" eyebrow="the language" title="Read it in a few minutes">
-        Familiar words and punctuation, each with one stable meaning. Every program below is checked, canonically
-        formatted and run with Quidra {site.quidraVersion} before it is published, and the output shown is the recorded
-        output.
+      <SectionHead number="03" eyebrow="the language" title="Start familiar. Go as deep as you need.">
+        Begin with bindings, functions, classes and iteration; reach for references, tensors or explicit errors only when
+        the program needs them. Every example below is checked, canonically formatted and run with Quidra
+        {site.quidraVersion} before it is published.
       </SectionHead>
       <ExampleTabs tabs={tabs} label="Language examples" />
     </div>
