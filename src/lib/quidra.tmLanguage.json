@@ -1,0 +1,438 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "quidra",
+  "scopeName": "source.quidra",
+  "fileTypes": ["qui"],
+  "patterns": [
+    { "include": "#comment" },
+    { "include": "#string" },
+    { "include": "#class-declaration" },
+    { "include": "#cli-declaration" },
+    { "include": "#extern-declaration" },
+    { "include": "#constructor-declaration" },
+    { "include": "#function-declaration" },
+    { "include": "#binding-declaration" },
+    { "include": "#expression" }
+  ],
+  "repository": {
+    "comment": {
+      "name": "comment.line.double-slash.quidra",
+      "match": "(//).*$",
+      "captures": {
+        "1": { "name": "punctuation.definition.comment.quidra" }
+      }
+    },
+
+    "string": {
+      "name": "string.quoted.double.quidra",
+      "begin": "\"",
+      "beginCaptures": {
+        "0": { "name": "punctuation.definition.string.begin.quidra" }
+      },
+      "end": "\"",
+      "endCaptures": {
+        "0": { "name": "punctuation.definition.string.end.quidra" }
+      },
+      "patterns": [
+        {
+          "name": "constant.character.escape.quidra",
+          "match": "\\{\\{|\\}\\}"
+        },
+        { "include": "#interpolation" }
+      ]
+    },
+
+    "interpolation": {
+      "name": "meta.interpolation.quidra",
+      "begin": "\\{",
+      "beginCaptures": {
+        "0": { "name": "punctuation.section.interpolation.begin.quidra" }
+      },
+      "end": "\\}",
+      "endCaptures": {
+        "0": { "name": "punctuation.section.interpolation.end.quidra" }
+      },
+      "patterns": [
+        { "include": "#format-spec" },
+        { "include": "#expression" }
+      ]
+    },
+
+    "format-spec": {
+      "match": "(:)\\s*((?:int|frac|sig|zero)(?:=[0-9]+)?(?:\\s*,\\s*(?:int|frac|sig|zero)(?:=[0-9]+)?)*)\\s*(?=\\})",
+      "captures": {
+        "1": { "name": "punctuation.separator.quidra" },
+        "2": { "name": "constant.other.format-spec.quidra" }
+      }
+    },
+
+    "class-declaration": {
+      "match": "^\\s*(class|enum)\\s+([A-Za-z_][A-Za-z0-9_]*)\\s*(<(?:[^<>\\n]|<[^<>\\n]*>)*>)?",
+      "captures": {
+        "1": { "name": "keyword.declaration.quidra" },
+        "2": { "name": "entity.name.type.quidra" },
+        "3": { "patterns": [{ "include": "#type-parameters" }] }
+      }
+    },
+
+    "cli-declaration": {
+      "match": "^\\s*(cli)\\s+([A-Za-z_][A-Za-z0-9_]*)\\s*(?=$|//)",
+      "captures": {
+        "1": { "name": "keyword.declaration.quidra" }
+      }
+    },
+
+    "extern-declaration": {
+      "name": "meta.function.extern.quidra",
+      "begin": "^\\s*(extern)\\s+((?:fn<(?:[^<>\\n]|<[^<>\\n]*>)*>\\([^()\\n]*\\)|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?:<(?:[^<>\\n]|<[^<>\\n]*>)*>)*)(?:\\[[^\\[\\]\\n]*\\])*(?:\\s*\\|\\s*(?:fn<(?:[^<>\\n]|<[^<>\\n]*>)*>\\([^()\\n]*\\)|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?:<(?:[^<>\\n]|<[^<>\\n]*>)*>)*)(?:\\[[^\\[\\]\\n]*\\])*)*)\\s+([A-Za-z_][A-Za-z0-9_]*)\\s*(\\()",
+      "beginCaptures": {
+        "1": { "name": "keyword.declaration.quidra" },
+        "2": { "patterns": [{ "include": "#type" }] },
+        "3": { "name": "entity.name.function.quidra" },
+        "4": { "name": "punctuation.section.parens.begin.quidra" }
+      },
+      "end": "\\)",
+      "endCaptures": {
+        "0": { "name": "punctuation.section.parens.end.quidra" }
+      },
+      "patterns": [{ "include": "#parameter-list" }]
+    },
+
+    "constructor-declaration": {
+      "name": "meta.function.constructor.quidra",
+      "begin": "^\\s*(?:(private)\\s+)?(?:((?:fn<(?:[^<>\\n]|<[^<>\\n]*>)*>\\([^()\\n]*\\)|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?:<(?:[^<>\\n]|<[^<>\\n]*>)*>)*)(?:\\[[^\\[\\]\\n]*\\])*(?:\\s*\\|\\s*(?:fn<(?:[^<>\\n]|<[^<>\\n]*>)*>\\([^()\\n]*\\)|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?:<(?:[^<>\\n]|<[^<>\\n]*>)*>)*)(?:\\[[^\\[\\]\\n]*\\])*)*)\\s+)?(construct)\\s*(\\()",
+      "beginCaptures": {
+        "1": { "name": "storage.modifier.quidra" },
+        "2": { "patterns": [{ "include": "#type" }] },
+        "3": { "name": "keyword.declaration.quidra" },
+        "4": { "name": "punctuation.section.parens.begin.quidra" }
+      },
+      "end": "\\)",
+      "endCaptures": {
+        "0": { "name": "punctuation.section.parens.end.quidra" }
+      },
+      "patterns": [{ "include": "#parameter-list" }]
+    },
+
+    "function-declaration": {
+      "name": "meta.function.quidra",
+      "begin": "^\\s*(?:(private)\\s+)?(?!(?:return|if|elif|else|for|while|match|import|public|try|not|and|or|in|break|continue|class|enum|extern|cli|construct|private|const|NOT|AND|OR|XOR)\\b)((?:fn<(?:[^<>\\n]|<[^<>\\n]*>)*>\\([^()\\n]*\\)|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?:<(?:[^<>\\n]|<[^<>\\n]*>)*>)*)(?:\\[[^\\[\\]\\n]*\\])*(?:\\s*\\|\\s*(?:fn<(?:[^<>\\n]|<[^<>\\n]*>)*>\\([^()\\n]*\\)|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?:<(?:[^<>\\n]|<[^<>\\n]*>)*>)*)(?:\\[[^\\[\\]\\n]*\\])*)*)\\s+([A-Za-z_][A-Za-z0-9_]*)\\s*(<(?:[^<>\\n]|<[^<>\\n]*>)*>)?\\s*(\\()",
+      "beginCaptures": {
+        "1": { "name": "storage.modifier.quidra" },
+        "2": { "patterns": [{ "include": "#type" }] },
+        "3": { "name": "entity.name.function.quidra" },
+        "4": { "patterns": [{ "include": "#type-parameters" }] },
+        "5": { "name": "punctuation.section.parens.begin.quidra" }
+      },
+      "end": "\\)",
+      "endCaptures": {
+        "0": { "name": "punctuation.section.parens.end.quidra" }
+      },
+      "patterns": [{ "include": "#parameter-list" }]
+    },
+
+    "binding-declaration": {
+      "match": "^\\s*(?:(private)\\s+)?(?:(const)\\s+)?(?!(?:return|if|elif|else|for|while|match|import|public|try|not|and|or|in|break|continue|class|enum|extern|cli|construct|private|const|NOT|AND|OR|XOR)\\b)((?:fn<(?:[^<>\\n]|<[^<>\\n]*>)*>\\([^()\\n]*\\)|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?:<(?:[^<>\\n]|<[^<>\\n]*>)*>)*)(?:\\[[^\\[\\]\\n]*\\])*(?:\\s*\\|\\s*(?:fn<(?:[^<>\\n]|<[^<>\\n]*>)*>\\([^()\\n]*\\)|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?:<(?:[^<>\\n]|<[^<>\\n]*>)*>)*)(?:\\[[^\\[\\]\\n]*\\])*)*)\\s+(&)?\\s*([A-Za-z_][A-Za-z0-9_]*)\\b(?=\\s*(?:=(?!=)|$|//))",
+      "captures": {
+        "1": { "name": "storage.modifier.quidra" },
+        "2": { "name": "storage.modifier.quidra" },
+        "3": { "patterns": [{ "include": "#type" }] },
+        "4": { "name": "keyword.operator.address.quidra" }
+      }
+    },
+
+    "parameter-list": {
+      "patterns": [
+        { "include": "#comment" },
+        { "include": "#string" },
+        { "include": "#storage-modifier" },
+        { "include": "#constant-boolean" },
+        { "include": "#namespace" },
+        { "include": "#primitive-type" },
+        { "include": "#type-void-none" },
+        { "include": "#user-type" },
+        { "include": "#call" },
+        { "include": "#angle" },
+        { "include": "#number" },
+        { "include": "#operator-address" },
+        { "include": "#operator-union" },
+        { "include": "#operator-assignment" },
+        { "include": "#operator-arithmetic" },
+        { "include": "#punctuation-brackets" },
+        { "include": "#nested-parens" },
+        { "include": "#punctuation-separator" },
+        { "include": "#punctuation-accessor" },
+        { "include": "#parameter-name" }
+      ]
+    },
+
+    "parameter-name": {
+      "match": "(?<=[A-Za-z0-9_>\\])]\\s|&)([a-z_][A-Za-z0-9_]*)\\b(?=\\s*(?:,|=(?!=)|\\)|$|//))",
+      "captures": {
+        "1": { "name": "variable.parameter.quidra" }
+      }
+    },
+
+    "nested-parens": {
+      "begin": "\\(",
+      "beginCaptures": {
+        "0": { "name": "punctuation.section.parens.begin.quidra" }
+      },
+      "end": "\\)",
+      "endCaptures": {
+        "0": { "name": "punctuation.section.parens.end.quidra" }
+      },
+      "patterns": [
+        { "include": "#comment" },
+        { "include": "#nested-parens" },
+        { "include": "#expression" }
+      ]
+    },
+
+    "type-parameters": {
+      "patterns": [
+        {
+          "match": "<",
+          "name": "punctuation.section.angle.begin.quidra"
+        },
+        {
+          "match": ">",
+          "name": "punctuation.section.angle.end.quidra"
+        },
+        {
+          "match": "([A-Za-z_][A-Za-z0-9_]*)\\s*(:)\\s*(numeric|integer|floating|ordered|equatable)\\b",
+          "captures": {
+            "1": { "name": "entity.name.type.parameter.quidra" },
+            "2": { "name": "punctuation.separator.quidra" },
+            "3": { "name": "storage.type.generic-constraint.quidra" }
+          }
+        },
+        {
+          "match": "[A-Za-z_][A-Za-z0-9_]*",
+          "name": "entity.name.type.parameter.quidra"
+        },
+        { "include": "#punctuation-separator" }
+      ]
+    },
+
+    "type": {
+      "patterns": [
+        { "include": "#storage-modifier" },
+        { "include": "#namespace" },
+        { "include": "#primitive-type" },
+        { "include": "#type-void-none" },
+        { "include": "#user-type" },
+        { "include": "#angle" },
+        { "include": "#punctuation-brackets" },
+        { "include": "#punctuation-parens" },
+        { "include": "#operator-union" },
+        { "include": "#operator-address" },
+        { "include": "#number" },
+        { "include": "#operator-arithmetic" },
+        { "include": "#punctuation-separator" },
+        { "include": "#punctuation-accessor" },
+        { "include": "#wildcard" }
+      ]
+    },
+
+    "type-void-none": {
+      "match": "\\b(void|none)\\b",
+      "name": "storage.type.primitive.quidra"
+    },
+
+    "expression": {
+      "patterns": [
+        { "include": "#string" },
+        { "include": "#keyword-control" },
+        { "include": "#keyword-try" },
+        { "include": "#keyword-import" },
+        { "include": "#keyword-declaration" },
+        { "include": "#storage-modifier" },
+        { "include": "#operator-logical" },
+        { "include": "#operator-bitwise-word" },
+        { "include": "#constant-control-character" },
+        { "include": "#constant-boolean" },
+        { "include": "#constant-none" },
+        { "include": "#constant-void" },
+        { "include": "#namespace" },
+        { "include": "#primitive-type" },
+        { "include": "#user-type" },
+        { "include": "#call" },
+        { "include": "#angle" },
+        { "include": "#number" },
+        { "include": "#operator-address" },
+        { "include": "#operator-union" },
+        { "include": "#operator-shift" },
+        { "include": "#operator-assignment" },
+        { "include": "#operator-comparison" },
+        { "include": "#operator-arithmetic" },
+        { "include": "#punctuation-parens" },
+        { "include": "#punctuation-brackets" },
+        { "include": "#punctuation-separator" },
+        { "include": "#punctuation-accessor" }
+      ]
+    },
+
+    "keyword-control": {
+      "match": "\\b(if|elif|else|for|in|while|match|return|break|continue)\\b",
+      "name": "keyword.control.quidra"
+    },
+
+    "keyword-try": {
+      "match": "\\btry\\b",
+      "name": "keyword.control.try.quidra"
+    },
+
+    "keyword-import": {
+      "match": "\\b(import|public)\\b",
+      "name": "keyword.control.import.quidra"
+    },
+
+    "keyword-declaration": {
+      "match": "\\b(class|enum|construct|extern)\\b",
+      "name": "keyword.declaration.quidra"
+    },
+
+    "storage-modifier": {
+      "match": "\\b(const|private|auto)\\b",
+      "name": "storage.modifier.quidra"
+    },
+
+    "operator-logical": {
+      "match": "\\b(and|or|not)\\b",
+      "name": "keyword.operator.logical.quidra"
+    },
+
+    "operator-bitwise-word": {
+      "match": "\\b(AND|OR|XOR|NOT)\\b",
+      "name": "keyword.operator.bitwise.quidra"
+    },
+
+    "operator-shift": {
+      "match": "<<|>>",
+      "name": "keyword.operator.bitwise.quidra"
+    },
+
+    "constant-control-character": {
+      "match": "\\b(ENTER|TAB|HOME|QUOTE|BACKSPACE|PAGE|VTAB|BELL)\\b",
+      "name": "constant.language.control-character.quidra"
+    },
+
+    "constant-boolean": {
+      "match": "\\b(true|false)\\b",
+      "name": "constant.language.boolean.quidra"
+    },
+
+    "constant-none": {
+      "match": "\\bnone\\b",
+      "name": "constant.language.none.quidra"
+    },
+
+    "constant-void": {
+      "match": "\\bvoid\\b",
+      "name": "constant.language.void.quidra"
+    },
+
+    "namespace": {
+      "match": "(?<!\\.)\\b(math|io|cli|file|environment|test|time|gpu|task|atomic|ref|random|process|map|set|json|http|stats|linear|signal|image|video|tensor|neural)\\b(?=\\s*\\.)",
+      "name": "support.namespace.quidra"
+    },
+
+    "primitive-type": {
+      "match": "(?<!\\.)\\b(int|int8|int16|int32|int64|uint8|uint16|uint32|uint64|bigint|float|float32|float64|bigreal|bool|string|bin|error|tensor|neural|fn)\\b",
+      "name": "storage.type.primitive.quidra"
+    },
+
+    "user-type": {
+      "match": "\\b[A-Z][A-Za-z0-9_]*\\b",
+      "name": "entity.name.type.quidra"
+    },
+
+    "call": {
+      "match": "\\b([A-Za-z_][A-Za-z0-9_]*)\\b(?=\\s*(?:<(?:[^<>\\n]|<[^<>\\n]*>)*>)?\\s*\\()",
+      "captures": {
+        "1": { "name": "support.function.quidra" }
+      }
+    },
+
+    "angle": {
+      "match": "(?<=[A-Za-z0-9_>])(<)((?:[^<>\\n]|<(?:[^<>\\n]|<[^<>\\n]*>)*>)*)(>)",
+      "captures": {
+        "1": { "name": "punctuation.section.angle.begin.quidra" },
+        "2": { "patterns": [{ "include": "#type" }] },
+        "3": { "name": "punctuation.section.angle.end.quidra" }
+      }
+    },
+
+    "wildcard": {
+      "match": "(?<![A-Za-z0-9_])_(?![A-Za-z0-9_])",
+      "name": "meta.shape.wildcard.quidra"
+    },
+
+    "number": {
+      "match": "\\b[0-9]+(?:\\.[0-9]+(?:[eE][+-]?[0-9]+)?)?\\b",
+      "name": "constant.numeric.quidra"
+    },
+
+    "operator-address": {
+      "match": "&",
+      "name": "keyword.operator.address.quidra"
+    },
+
+    "operator-union": {
+      "match": "\\|",
+      "name": "keyword.operator.union.quidra"
+    },
+
+    "operator-assignment": {
+      "match": "\\+=|-=|\\*=|/=|%=|=(?!=)",
+      "name": "keyword.operator.assignment.quidra"
+    },
+
+    "operator-comparison": {
+      "match": "==|!=|<=|>=|<|>",
+      "name": "keyword.operator.comparison.quidra"
+    },
+
+    "operator-arithmetic": {
+      "match": "[-+*/%]",
+      "name": "keyword.operator.arithmetic.quidra"
+    },
+
+    "punctuation-parens": {
+      "patterns": [
+        {
+          "match": "\\(",
+          "name": "punctuation.section.parens.begin.quidra"
+        },
+        {
+          "match": "\\)",
+          "name": "punctuation.section.parens.end.quidra"
+        }
+      ]
+    },
+
+    "punctuation-brackets": {
+      "patterns": [
+        {
+          "match": "\\[",
+          "name": "punctuation.section.brackets.begin.quidra"
+        },
+        {
+          "match": "\\]",
+          "name": "punctuation.section.brackets.end.quidra"
+        }
+      ]
+    },
+
+    "punctuation-separator": {
+      "match": "[,:]",
+      "name": "punctuation.separator.quidra"
+    },
+
+    "punctuation-accessor": {
+      "match": "\\.",
+      "name": "punctuation.accessor.quidra"
+    }
+  }
+}

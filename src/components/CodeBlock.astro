@@ -1,0 +1,62 @@
+---
+/**
+ * Build-time syntax highlighting. Quidra code is highlighted with the
+ * project's own TextMate grammar (src/lib/quidra.tmLanguage.json); shell
+ * snippets use Shiki's bundled bash grammar. Emits no client-side JavaScript.
+ */
+import type { ShikiTransformer } from 'shiki';
+import { highlight, type CodeLang } from '../lib/highlighter';
+import { annotationTransformer, type Annotation } from '../lib/highlight';
+
+interface Props {
+  code: string;
+  lang?: CodeLang;
+  /** File name shown in the title bar. Omit for a bare block. */
+  file?: string;
+  /** Numbered markers attached to lines, explained beside the figure. */
+  annotations?: Annotation[];
+  /** Program output shown beneath the code. */
+  output?: string;
+  outputLabel?: string;
+  outputIsError?: boolean;
+  class?: string;
+}
+
+const {
+  code,
+  lang = 'quidra',
+  file,
+  annotations = [],
+  output,
+  outputLabel = 'output',
+  outputIsError = false,
+  class: className,
+} = Astro.props;
+
+const trimmed = code.replace(/\s+$/, '');
+const transformers: ShikiTransformer[] = annotations.length ? [annotationTransformer(annotations)] : [];
+const html = await highlight(trimmed, lang, transformers, file ?? (lang === 'quidra' ? 'Quidra code' : 'code'));
+const framed = Boolean(file || output || Astro.slots.has('title'));
+---
+
+{
+  framed ? (
+    <figure class:list={['code-figure', className]}>
+      <figcaption class="code-title">
+        <span class="file">{file ?? ''}</span>
+        <slot name="title" />
+      </figcaption>
+      <Fragment set:html={html} />
+      {output !== undefined && (
+        <div class:list={['output', { 'is-error': outputIsError }]}>
+          <span class="output-label">{outputLabel}</span>
+          <pre>{output.replace(/\s+$/, '')}</pre>
+        </div>
+      )}
+    </figure>
+  ) : (
+    <div class:list={['code-block', className]}>
+      <Fragment set:html={html} />
+    </div>
+  )
+}
