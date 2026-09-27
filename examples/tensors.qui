@@ -1,0 +1,12 @@
+tensor<float32><3, _, _> pixels = tensor.zeros<float32>([3, 64, 64])
+tensor<float32><1, _, _> bias = tensor.ones<float32>([1, 64, 64])
+tensor<float32><3, _, _> shifted = pixels + bias
+float32 sample = shifted[0, 10, 20].item()
+print(sample)
+int[] shape = shifted.shape()
+print(shape[0])
+tensor<float32> a = tensor.ones([2, 3])
+tensor<float32> b = tensor.ones([3, 2])
+tensor<float32> c = linear.matmul(a, b)
+print(c[0, 0].item())
+print(stats.mean(c))

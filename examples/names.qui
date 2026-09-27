@@ -1,0 +1,6 @@
+int local_value()
+    int x = 5
+    return x
+
+int x = 7
+print(local_value() + x)

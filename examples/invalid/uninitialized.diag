@@ -1,0 +1,2 @@
+uninitialized.qui:2:7: error[UNINITIALIZED] Binding 'x' may be uninitialized.
+1 error(s) generated.

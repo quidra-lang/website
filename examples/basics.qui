@@ -1,0 +1,21 @@
+int count = 3
+auto name = "Quidra"
+print("Hello, {name}")
+
+int[] original = [1, 2, 3]
+int[] copy = original
+copy[0] = 9
+print("original[0] = {original[0]}, copy[0] = {copy[0]}")
+
+int total = 0
+for value in original
+    total += value
+print("total = {total}")
+
+for i in range(0, count)
+    if i == 0
+        print("first")
+    elif i < count - 1
+        print("middle")
+    else
+        print("last")

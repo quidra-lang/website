@@ -1,0 +1,15 @@
+int | none | error lookup(int id)
+    if id < 0
+        return error("invalid id")
+    if id == 0
+        return none
+    return id
+
+auto result = lookup(1)
+match result
+    int value
+        print(value)
+    none
+        print("none")
+    error problem
+        print(problem)

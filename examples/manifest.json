@@ -1,0 +1,157 @@
+{
+  "compiler": "quidra 0.3.0",
+  "examples": [
+    {
+      "id": "hero",
+      "file": "hero.qui",
+      "title": "Values, classes and no ceremony",
+      "summary": "A class with fields, a constructor and two methods, used from top-level statements. The copy made by = stays independent: scaling b leaves a at length 5.0.",
+      "run": true,
+      "args": [],
+      "output": "hero.out"
+    },
+    {
+      "id": "tensors",
+      "file": "tensors.qui",
+      "title": "Tensors with shape contracts",
+      "summary": "Exact-rank tensor<float32><3, _, _> bindings, strict singleton broadcasting, .item() and .shape(), plus linear.matmul and stats.mean on 2-D tensors.",
+      "run": true,
+      "args": [],
+      "output": "tensors.out"
+    },
+    {
+      "id": "basics",
+      "file": "basics.qui",
+      "title": "Bindings, values and loops",
+      "summary": "Typed and auto bindings, string interpolation, an int[] copy that stays independent after mutation, a for loop over an array and over range() and an if/elif/else chain.",
+      "run": true,
+      "args": [],
+      "output": "basics.out"
+    },
+    {
+      "id": "functions",
+      "file": "functions.qui",
+      "title": "Defaults, names and generics",
+      "summary": "A default parameter, a call with named arguments and a constrained generic T largest<T: ordered>(T[] values) whose type argument is inferred from typed int[] and float[] variables.",
+      "run": true,
+      "args": [],
+      "output": "functions.out"
+    },
+    {
+      "id": "errors",
+      "file": "errors.qui",
+      "title": "Errors and match",
+      "summary": "int | error is the whole failure story: try propagates the parse error, error(...) creates one and an exhaustive match handles success and failure without exceptions.",
+      "run": true,
+      "args": [],
+      "output": "errors.out"
+    },
+    {
+      "id": "classes",
+      "file": "classes.qui",
+      "title": "Classes with value semantics",
+      "summary": "A class with fields, a construct, a public and a private method, an independent copy via =, an explicit Point &alias that writes through and value equality with ==.",
+      "run": true,
+      "args": [],
+      "output": "classes.out"
+    },
+    {
+      "id": "references",
+      "file": "references.qui",
+      "title": "Write authority at the call",
+      "summary": "const int[] & versus int[] & parameters called with &data: the caller always writes & and the parameter declaration decides whether the path may write.",
+      "run": true,
+      "args": [],
+      "output": "references.out"
+    },
+    {
+      "id": "cli",
+      "file": "cli.qui",
+      "title": "Declarative command line",
+      "summary": "One cli block declares a required positional argument(), an int option(default = 1) and a bool flag(); field names are the command-line names.",
+      "run": true,
+      "args": [
+        "input.txt",
+        "--count",
+        "3",
+        "--verbose"
+      ],
+      "output": "cli.out"
+    },
+    {
+      "id": "values",
+      "file": "values.qui",
+      "title": "Values by default, storage by request",
+      "summary": "An int[] copied with = stays independent when the copy is mutated; an explicit int &writer alias writes through to x and a const int &view observes the change without write authority.",
+      "run": true,
+      "args": [],
+      "output": "values.out"
+    },
+    {
+      "id": "authority",
+      "file": "authority.qui",
+      "title": "Authority is part of the call",
+      "summary": "A const int & parameter can only observe; an int & parameter may write and the checker lets it initialize storage that was declared without a value.",
+      "run": true,
+      "args": [],
+      "output": "authority.out"
+    },
+    {
+      "id": "representation",
+      "file": "representation.qui",
+      "title": "Explicit representation changes",
+      "summary": "int8(value) is a range-checked narrowing cast, float(value) an explicit widening and math.round states the rounding rule that a generic float-to-int cast would hide.",
+      "run": true,
+      "args": [],
+      "output": "representation.out"
+    },
+    {
+      "id": "absence",
+      "file": "absence.qui",
+      "title": "Absence, failure and value",
+      "summary": "lookup returns int | none | error; an auto binding preserves the full union and an exhaustive match handles each alternative.",
+      "run": true,
+      "args": [],
+      "output": "absence.out"
+    },
+    {
+      "id": "names",
+      "file": "names.qui",
+      "title": "Monotonic name resolution",
+      "summary": "The same spelling x is reused in disjoint scopes, which is allowed; shadowing a visible name would be rejected.",
+      "run": true,
+      "args": [],
+      "output": "names.out"
+    }
+  ],
+  "invalid": [
+    {
+      "id": "uninitialized",
+      "file": "uninitialized.qui",
+      "title": "Read before initialization",
+      "diagnostic": "uninitialized.diag",
+      "code": "UNINITIALIZED"
+    },
+    {
+      "id": "narrowing",
+      "file": "narrowing.qui",
+      "title": "Implicit narrowing",
+      "diagnostic": "narrowing.diag",
+      "code": "TYPE_MISMATCH"
+    },
+    {
+      "id": "match_exhaustive",
+      "file": "match_exhaustive.qui",
+      "title": "Non-exhaustive match",
+      "diagnostic": "match_exhaustive.diag",
+      "code": "MATCH_EXHAUSTIVE"
+    },
+    {
+      "id": "shadowing",
+      "file": "shadowing.qui",
+      "title": "Shadowing a visible name",
+      "diagnostic": "shadowing.diag",
+      "code": "SHADOWING"
+    }
+  ]
+}

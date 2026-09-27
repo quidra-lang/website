@@ -1,0 +1,4 @@
+int count = 1
+if count > 0
+    int count = 2
+    print(count)

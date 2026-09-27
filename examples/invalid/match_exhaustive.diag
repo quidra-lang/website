@@ -1,0 +1,2 @@
+match_exhaustive.qui:6:1: error[MATCH_EXHAUSTIVE] match must cover every union case exactly once.
+1 error(s) generated.

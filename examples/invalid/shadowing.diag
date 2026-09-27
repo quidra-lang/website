@@ -1,0 +1,2 @@
+shadowing.qui:3:5: error[SHADOWING] Name is already visible or reserved.
+1 error(s) generated.

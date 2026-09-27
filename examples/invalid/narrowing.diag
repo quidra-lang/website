@@ -1,0 +1,2 @@
+narrowing.qui:2:14: error[TYPE_MISMATCH] Expected int8 but received int.
+1 error(s) generated.

@@ -1,0 +1,16 @@
+void inspect(const int[] &values)
+    int total = 0
+    for value in values
+        total += value
+    print("total {total}")
+
+void double_all(int[] &values)
+    for &value in values
+        value = value * 2
+
+int[] data = [1, 2, 3]
+// The caller writes & at every call; the parameter decides read-only or read/write.
+inspect(&data)
+double_all(&data)
+inspect(&data)
+print(data[2])

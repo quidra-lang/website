@@ -1,0 +1,11 @@
+int[] a = [1, 2, 3]
+int[] b = a
+b[0] = 9
+print(a[0])
+print(b[0])
+
+int x = 1
+int &writer = &x
+const int &view = &x
+writer = 5
+print(view)

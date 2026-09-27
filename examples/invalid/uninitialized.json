@@ -1,0 +1,1 @@
+{"ok":false,"truncated":false,"diagnostics":[{"code":"UNINITIALIZED","message":"Binding 'x' may be uninitialized.","file":"uninitialized.qui","span":{"start":{"line":2,"column":7},"end":{"line":2,"column":8}}}]}

@@ -1,0 +1,9 @@
+void inspect(const int &value)
+    print(value)
+
+void initialize(int &value)
+    value = 7
+
+int value
+initialize(&value)
+inspect(&value)

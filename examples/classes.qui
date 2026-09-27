@@ -1,0 +1,22 @@
+class Point
+    int x
+    int y
+
+    construct(int x_value, int y_value)
+        x = x_value
+        y = y_value
+
+    private int sum()
+        return x + y
+
+    string describe()
+        return "({x}, {y}) sum {sum()}"
+
+Point a = Point(1, 2)
+Point b = a
+b.x = 9
+Point &alias = &a
+alias.y = 5
+print(a.describe())
+print(b.describe())
+print("{a == b} {a == Point(1, 5)}")

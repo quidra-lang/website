@@ -1,0 +1,13 @@
+int | error parse_score(string text)
+    int value = try int.parse(text)
+    if value > 100
+        return error("score above 100: {value}")
+    return value
+
+string[] inputs = ["42", "500", "abc"]
+for text in inputs
+    match parse_score(text)
+        int value
+            print("score {value}")
+        error problem
+            print("rejected: {problem}")

@@ -1,0 +1,19 @@
+class Point
+    float x
+    float y
+
+    construct(float px, float py)
+        x = px
+        y = py
+
+    float length()
+        return math.sqrt(x * x + y * y)
+
+    void scale(float factor)
+        x *= factor
+        y *= factor
+
+Point a = Point(3.0, 4.0)
+Point b = a
+b.scale(2.0)
+print("a {a.length()}, b {b.length()}")
