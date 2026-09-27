@@ -1,0 +1,481 @@
+---
+import Base from '../layouts/Base.astro';
+import CodeBlock from '../components/CodeBlock.astro';
+import CopyButton from '../components/CopyButton.astro';
+import ExampleTabs from '../components/ExampleTabs.astro';
+import Icon from '../components/Icon.astro';
+import Pipeline from '../components/Pipeline.astro';
+import SectionHead from '../components/SectionHead.astro';
+import TokenTable from '../components/TokenTable.astro';
+import { links, site } from '../config/site';
+import { example, examples, invalidExample } from '../lib/examples';
+import type { Annotation } from '../lib/highlight';
+import benchmarks from '../data/benchmarks.json';
+
+const hero = example('hero');
+const heroAnnotations: Annotation[] = [
+  {
+    line: 1,
+    token: 'class Point',
+    text: 'A class is exactly the fields and methods it declares. Methods read and write fields directly: no self, no this, nothing inherited to trace.',
+  },
+  {
+    line: 10,
+    token: 'math.sqrt',
+    text: 'Standard namespaces such as math are always visible and never imported. There is no bare sqrt, so a name means one thing everywhere.',
+  },
+  {
+    line: 16,
+    token: 'Point a = Point(3.0, 4.0)',
+    text: 'Top-level statements are the program. No main, no semicolons, four-space blocks, and the file compiles to a native executable.',
+  },
+  {
+    line: 17,
+    token: 'Point b = a',
+    text: '= always copies the value. Scaling b leaves a untouched, and the output proves it. Aliasing exists, but you spell it with &.',
+  },
+];
+
+const laws = [
+  {
+    id: 'values',
+    title: 'Values are the default; storage is explicit.',
+    text: 'Ordinary = means an independent value. Observable aliasing is written with &: a T & path can write, a const T & path can only observe. The implementation may share storage or copy on write only when the difference cannot be observed.',
+  },
+  {
+    id: 'authority',
+    title: 'Authority is part of the call.',
+    text: 'A reference parameter makes caller-owned storage access explicit, and the parameter decides whether that path may write. The checker tracks what a call requires to be initialized and what it guarantees afterwards, so a writable parameter can safely initialize storage.',
+  },
+  {
+    id: 'state',
+    title: 'State facts are tracked, not guessed.',
+    text: 'Uninitialized does not mean zero, none or a hidden default. Definite initialization is followed through branches, loops, references, fields, calls and returns; a class may be intentionally partial, and reading the missing part is rejected before the program runs.',
+    invalid: 'uninitialized',
+  },
+  {
+    id: 'representation',
+    title: 'Representation changes are explicit.',
+    text: 'An already-typed numeric value never changes representation implicitly, even when the conversion would be lossless. Casts use the destination type and integer narrowing is range checked. Floating-point to integer is not a generic cast, because the rounding is the meaning: say math.round, math.floor, math.ceil or math.trunc.',
+  },
+  {
+    id: 'absence',
+    title: 'Absence, failure and completion are different.',
+    text: 'void is successful completion with no data, none is normal absence, error is a failed operation represented as data. A result that may be an error stays explicit until a match handles it, try propagates it, or a fail-fast consumption site reports it.',
+  },
+  {
+    id: 'names',
+    title: 'Name resolution is monotonic.',
+    text: 'Reserved names are never reusable, visible names are never shadowable, and otherwise names may be reused in disjoint scopes. Adding code near an existing reference can never silently change what that reference means, for a person or for a model editing the file.',
+  },
+];
+
+/** Short tab labels; the manifest titles are the panel headings. */
+const tabLabels: Record<string, string> = {
+  basics: 'Basics',
+  functions: 'Functions',
+  classes: 'Classes',
+  errors: 'Errors',
+  references: 'References',
+  tensors: 'Tensors',
+  cli: 'Command line',
+};
+const tabs = Object.keys(tabLabels)
+  .map((id) => examples.find((e) => e.id === id))
+  .filter((e): e is NonNullable<typeof e> => Boolean(e))
+  .map((e) => ({
+    id: e.id,
+    title: tabLabels[e.id],
+    heading: e.title,
+    summary: e.summary,
+    file: e.file,
+    code: e.code,
+    output: e.output,
+    outputLabel: e.args.length ? `quidra run ${e.file} -- ${e.args.join(' ')}` : 'output',
+  }));
+
+const tooling = `quidra check program.qui --json
+quidra fmt program.qui --check
+quidra inspect program.qui --no-source --kind call --depth 3
+quidra patch program.qui change.json --write
+quidra lsp`;
+
+const install = `sudo apt-get install ./quidra-linux-amd64.deb
+quidra --version`;
+
+const ordinal = (n: number) => `${n}${['th', 'st', 'nd', 'rd'][(n % 100 > 10 && n % 100 < 14) || n % 10 > 3 ? 0 : n % 10]}`;
+
+const ecosystem = [
+  {
+    name: 'Core',
+    repo: 'quidra-lang/quidra',
+    href: links.core,
+    text: 'The compiler, native runtime, REPL, language server and standard namespaces. C++20 over LLVM, MIT licensed, released from immutable tags with archives for Linux, macOS and Windows.',
+  },
+  {
+    name: 'Playground',
+    repo: 'quidra-lang/playground',
+    href: links.playgroundRepo,
+    text: 'The compiler frontend compiled to WebAssembly and served as a static page. Check, format, lower to IR, inspect and patch in the browser; nothing leaves the tab.',
+  },
+  {
+    name: 'Vision',
+    repo: 'quidra-lang/vision',
+    href: links.vision,
+    text: 'import vision. Image processing on rank-3 CHW tensors: crop, resize, flips and rotations, grayscale, threshold, blur, filter, dilate and erode. Invalid shapes or parameters return error and are never reinterpreted.',
+  },
+  {
+    name: 'DNN',
+    repo: 'quidra-lang/dnn',
+    href: links.dnn,
+    text: 'import dnn. Layers and optimizers as ordinary classes whose constructors can fail, plus activation and loss functions, over the neural autodiff foundation. The execution mode is chosen explicitly with dnn.mode.fast() or dnn.mode.deterministic().',
+  },
+];
+
+const uninitialized = invalidExample('uninitialized');
+---
+
+<Base title={`Quidra — ${site.tagline}`} description={site.description} titleIsBrand>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-text">
+        <p class="eyebrow">
+          <b>Quidra {site.quidraVersion}</b> · statically typed · native via LLVM · MIT
+        </p>
+        <h1>
+          <span class="hero-brand">Quidra</span>
+          <span class="hero-slogan">Maximum Meaning Per&nbsp;Token</span>
+        </h1>
+        <p class="lede">
+          A statically typed, natively compiled general-purpose language designed for both humans and language models.
+          It is built so that every token that survives carries a fact the compiler can check: who may write, what may
+          fail, what may be absent and when a representation changes.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="/get-started/">Get started</a>
+          <a class="btn btn-secondary" href={links.playground} rel="noopener">Playground <Icon name="external" /></a>
+          <a class="btn btn-ghost" href={links.core} rel="noopener"><Icon name="github" /> GitHub</a>
+        </div>
+      </div>
+
+      <div class="hero-code">
+        <CodeBlock code={hero.code} file={hero.file} annotations={heroAnnotations} output={hero.output} outputLabel={`quidra run ${hero.file}`} />
+        <ol class="annotations">
+          {
+            heroAnnotations.map((a, i) => (
+              <li>
+                <span class="ann-mark" aria-hidden="true">{i + 1}</span>
+                <span><code>{a.token}</code> {a.text}</span>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="meaning">
+    <div class="container">
+      <SectionHead number="01" eyebrow="semantic compression" title="Fewer meaningless tokens, not fewer meaningful distinctions.">
+        Quidra's primary optimization target is semantic density: how much reliable intent can be recovered from each
+        token without hidden conventions, guesswork or repeated ceremony. Fewer characters are not automatically better.
+        Quidra tries to give each common form one stable job.
+      </SectionHead>
+      <TokenTable />
+      <p class="after-table muted">
+        The same rule reaches past individual tokens. Visible names cannot be shadowed, numeric values never change
+        representation merely because a destination would accept them, mutable storage is never created from ordinary
+        assignment, and movement between CPU and GPU is always written down.
+      </p>
+    </div>
+  </section>
+
+  <section class="section" id="why">
+    <div class="container">
+      <SectionHead number="02" eyebrow="design laws" title="Why Quidra">
+        Programming languages communicate intent through tokens, but not every token contributes equally. Ceremony,
+        duplicated declarations, implicit conversions, hidden mutation, hidden failure and unstable name resolution all
+        consume attention and context without necessarily adding reliable meaning. Quidra treats that as a
+        language-design problem, and derives its rules from it.
+      </SectionHead>
+      <ol class="laws">
+        {
+          laws.map((law, i) => (
+            <li class="law" id={`law-${law.id}`}>
+              <div class="law-text">
+                <p class="eyebrow"><b>{String(i + 1).padStart(2, '0')}</b></p>
+                <h3>{law.title}</h3>
+                <p>{law.text}</p>
+              </div>
+              <div class="law-code">
+                {law.invalid ? (
+                  <CodeBlock
+                    code={uninitialized.code}
+                    file={uninitialized.file}
+                    output={uninitialized.diagnostic}
+                    outputLabel={`quidra check ${uninitialized.file}`}
+                    outputIsError
+                  />
+                ) : (
+                  <CodeBlock code={example(law.id).code} file={example(law.id).file} output={example(law.id).output} />
+                )}
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" id="examples">
+    <div class="container">
+      <SectionHead number="03" eyebrow="the language" title="Read it in a few minutes">
+        Familiar words and punctuation, each with one stable meaning. Every program below is checked, canonically
+        formatted and run with Quidra {site.quidraVersion} before it is published, and the output shown is the recorded
+        output.
+      </SectionHead>
+      <ExampleTabs tabs={tabs} label="Language examples" />
+    </div>
+  </section>
+
+  <section class="section" id="native">
+    <div class="container native-grid">
+      <div class="native-text">
+        <SectionHead number="04" eyebrow="native by construction" title="Meaning preserved through native compilation">
+          Semantic compression is a source-language goal, not a request for a lightweight implementation. Quidra makes
+          meaning explicit and statically resolved first, then carries those decisions through a typed pipeline into
+          machine code. Later stages never rediscover meaning from source spelling.
+        </SectionHead>
+        <ul class="facts-list">
+          <li>The compiler is written in C++20. Native code is produced through LLVM IR and Clang, optimized at -O3 without fast-math.</li>
+          <li>Runtime safety stays on: integer overflow at every width, division by zero, array and bin bounds, allocation sizes and out-of-range casts are all checked. A runtime safety failure terminates deterministically with status 101.</li>
+          <li>The REPL lowers each submission to LLVM IR and executes it with ORC JIT; nothing is interpreted.</li>
+          <li>Linux, macOS and Windows are supported. GPU placement is explicit through the cuda, hip and metal backends, and there is never an implicit fallback to the CPU.</li>
+        </ul>
+      </div>
+      <div class="native-side">
+        <Pipeline />
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="tooling">
+    <div class="container tooling-grid">
+      <div>
+        <SectionHead number="05" eyebrow="for machines too" title="A compiler you can call">
+          LLM-friendliness is not only surface syntax. The compiler exposes its diagnostics, its structural view of a
+          program and a revision-checked patch operation, so a tool's edit is closer to a checked transaction than to a
+          blind text replacement.
+        </SectionHead>
+        <ul class="facts-list">
+          <li><code>quidra check --json</code> reports diagnostics with stable codes and exact spans.</li>
+          <li><code>quidra inspect</code> exposes nodes with ids, spans, content hashes, inferred types and storage-effect summaries; flags trim the output to what a task needs.</li>
+          <li><code>quidra patch</code> applies an edit keyed by node id and hash, rejects stale revisions and overlapping edits, and accepts the result only after it passes the compiler.</li>
+          <li><code>quidra lsp</code> serves diagnostics and formatting over standard LSP stdio framing.</li>
+        </ul>
+      </div>
+      <div class="tooling-side">
+        <CodeBlock code={tooling} lang="bash" file="Compiler as a tool" />
+        <CodeBlock
+          code={uninitialized.code}
+          file={uninitialized.file}
+          output={uninitialized.diagnosticJson}
+          outputLabel={`quidra check ${uninitialized.file} --json`}
+          outputIsError
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="benchmarks">
+    <div class="container">
+      <SectionHead number="06" eyebrow="measured" title="Quidra publishes its own benchmark, including where it loses.">
+        Ten languages, five independent evaluations, one frozen methodology. Every ranking, score and per-requirement
+        result of run {benchmarks.run_id} is committed as data in the compiler repository. Quidra {benchmarks.compiler_version}, measured at
+        snapshot <code>{benchmarks.evaluated_commit_short}</code>, places:
+      </SectionHead>
+      <ol class="scoreboard">
+        {
+          benchmarks.evaluations.map((ev) => (
+            <li>
+              <a href={`/benchmarks/#${ev.id}`}>
+                <span class="sb-name">{ev.name}</span>
+                <span class="sb-rank">{ordinal(ev.quidra.rank)}<span class="sb-of"> of {ev.ranking.length}</span></span>
+                <span class="sb-score">score {ev.quidra.score.toFixed(2)}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+      <p class="after-table"><a class="link-arrow" href="/benchmarks/">Read the full results and how they were measured</a></p>
+    </div>
+  </section>
+
+  <section class="section" id="ecosystem">
+    <div class="container">
+      <SectionHead number="07" eyebrow="ecosystem" title="A small, explicit library boundary">
+        The standard namespaces are always visible and never imported. Tensors, image and video I/O and the neural
+        autodiff foundation are built in; layers and computer vision ship as ordinary source packages installed from
+        immutable release tags.
+      </SectionHead>
+      <ul class="cards">
+        {
+          ecosystem.map((item) => (
+            <li class="card">
+              <span class="card-repo">{item.repo}</span>
+              <a class="card-name" href={item.href} rel="noopener">{item.name} <Icon name="external" /></a>
+              <span class="card-text">{item.text}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section playground-cta" id="playground">
+    <div class="container cta-grid">
+      <div>
+        <p class="eyebrow"><b>08</b> / try it</p>
+        <h2>The real compiler frontend, in your browser</h2>
+        <p class="lede">
+          The Quidra Playground runs <code>quidra_core</code> compiled to WebAssembly. Check, format, lower to typed IR,
+          inspect and patch happen on your machine; the source never leaves the tab, and it works offline once loaded.
+          It has no Run button by design: execution needs the native toolchain, and a second execution engine that
+          behaved differently would be worse than none.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href={links.playground} rel="noopener">Open the Playground <Icon name="external" /></a>
+          <a class="btn btn-secondary" href={links.playgroundRepo} rel="noopener">Source <Icon name="github" /></a>
+        </div>
+      </div>
+      <ul class="pg-features" aria-label="Playground operations">
+        <li><b>Check</b> type-checks and reports the compiler's own diagnostics, with codes and exact spans.</li>
+        <li><b>Format</b> rewrites the source with the same formatter <code>quidra fmt</code> uses.</li>
+        <li><b>IR</b> lowers a checked program to typed Quidra IR.</li>
+        <li><b>Inspect</b> shows node ids, kinds, spans, content hashes and inferred types.</li>
+        <li><b>Patch</b> applies a structured edit and refuses any result that would not compile.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="get-started">
+    <div class="container start-grid">
+      <div>
+        <SectionHead number="09" eyebrow="get started" title="Install and run">
+          Download the release archive for your platform, put <code>quidra</code> on your <code>PATH</code>, and make sure
+          Clang 15 or newer is installed for native code generation. Then run a file directly, or build a persistent
+          executable.
+        </SectionHead>
+        <a class="link-arrow" href="/get-started/">Full installation guide, REPL and tooling</a>
+      </div>
+      <div class="start-side">
+        <CodeBlock code={install} lang="bash" file="Debian and Ubuntu">
+          <CopyButton slot="title" text={install} />
+        </CodeBlock>
+        <CodeBlock code={`print("Hello from Quidra")`} file="hello.qui" output="Hello from Quidra" outputLabel="quidra hello.qui" />
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* Hero */
+  .hero { padding-block: clamp(3rem, 7vw, 6rem) clamp(3rem, 6vw, 5rem); }
+  .hero-grid { display: grid; gap: 3rem; align-items: start; }
+  @media (min-width: 64rem) {
+    .hero-grid { grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); gap: 4rem; }
+  }
+  .hero-text { display: grid; gap: 1.5rem; align-content: start; }
+  h1 { display: grid; gap: 0.35rem; }
+  .hero-brand {
+    font-size: clamp(1.25rem, 1rem + 1vw, 1.5rem);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--fg-2);
+  }
+  .hero-slogan {
+    font-size: var(--text-display);
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+  }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .hero-note { font-style: normal; }
+  .hero-code { display: grid; gap: 1.25rem; min-width: 0; }
+
+  /* Sections */
+  .after-table { margin-top: 2rem; max-width: 70ch; }
+
+  .laws { list-style: none; display: grid; }
+  .law {
+    display: grid;
+    gap: 1.5rem;
+    padding-block: clamp(2rem, 4vw, 3rem);
+    border-top: 1px solid var(--rule);
+    align-items: start;
+  }
+  .law:first-child { border-top: 0; padding-top: 0; }
+  @media (min-width: 64rem) {
+    .law { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 4rem; }
+  }
+  .law-text { display: grid; gap: 0.85rem; }
+  .law-text p:not(.eyebrow) { color: var(--fg-2); max-width: 52ch; }
+  .law-code { min-width: 0; }
+
+  .native-grid, .tooling-grid, .start-grid, .cta-grid { display: grid; gap: 2.5rem; align-items: start; }
+  @media (min-width: 64rem) {
+    .native-grid, .tooling-grid, .start-grid, .cta-grid { grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); gap: 4rem; }
+  }
+  .native-grid :global(.section-head), .tooling-grid :global(.section-head), .start-grid :global(.section-head) { margin-bottom: 1.5rem; }
+  .native-side { padding-top: 0.5rem; }
+  .facts-list { list-style: none; display: grid; gap: 0.9rem; color: var(--fg-2); max-width: 58ch; }
+  .facts-list li { padding-left: 1.25rem; position: relative; }
+  .facts-list li::before { content: '—'; position: absolute; left: 0; color: var(--accent-text); font-family: var(--font-mono); }
+  .facts-list code { color: var(--fg); background: var(--bg-inset); padding: 0.08em 0.35em; border-radius: 4px; font-size: 0.85em; }
+  .tooling-side, .start-side { display: grid; gap: 1.25rem; min-width: 0; }
+
+  .scoreboard {
+    list-style: none;
+    display: grid;
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  }
+  .scoreboard a { display: grid; gap: 0.35rem; height: 100%; padding: 1.15rem 1.25rem 1.25rem; background: var(--bg); color: var(--fg); text-decoration: none; }
+  .scoreboard a:hover { background: var(--bg-2); }
+  .sb-name { font-size: var(--text-sm); color: var(--fg-2); font-weight: 500; }
+  .sb-rank { font-size: var(--text-xl); font-weight: 600; letter-spacing: var(--tracking-tight); line-height: 1.1; }
+  .sb-of { font-size: var(--text-sm); font-weight: 400; color: var(--fg-3); letter-spacing: 0; }
+  .sb-score { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--fg-3); }
+
+  .cards {
+    list-style: none;
+    display: grid;
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  @media (min-width: 48rem) { .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 72rem) { .cards { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .card { position: relative; display: grid; gap: 0.6rem; height: 100%; padding: 1.4rem 1.5rem 1.6rem; background: var(--bg); color: var(--fg); align-content: start; transition: background-color var(--dur) var(--ease); }
+  .card:hover { background: var(--bg-2); }
+  .card:has(.card-name:focus-visible) { outline: 2px solid var(--accent); outline-offset: -2px; }
+  .card-repo { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--fg-3); }
+  .card-name { display: inline-flex; align-items: center; gap: 0.4rem; width: fit-content; font-weight: 600; font-size: var(--text-md); letter-spacing: var(--tracking-tight); color: var(--fg); text-decoration: none; }
+  .card-name::after { content: ''; position: absolute; inset: 0; }
+  .card-name:focus-visible { outline: none; }
+  .card-name :global(svg) { width: 0.8rem; height: 0.8rem; color: var(--fg-3); }
+  .card:hover .card-name { text-decoration: underline; text-underline-offset: 0.16em; }
+  .card-text { color: var(--fg-2); font-size: var(--text-sm); }
+
+  .playground-cta .cta-grid > div { display: grid; gap: 1.25rem; }
+  .playground-cta h2 { max-width: 20ch; }
+  .pg-features { list-style: none; display: grid; gap: 0; border-top: 1px solid var(--rule); font-size: var(--text-sm); color: var(--fg-2); }
+  .pg-features li { padding: 0.9rem 0; border-bottom: 1px solid var(--rule); }
+  .pg-features b { color: var(--fg); font-weight: 600; display: inline-block; min-width: 5.5rem; }
+  .pg-features code { color: var(--fg); }
+</style>

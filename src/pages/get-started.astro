@@ -1,0 +1,278 @@
+---
+import Base from '../layouts/Base.astro';
+import CodeBlock from '../components/CodeBlock.astro';
+import CopyButton from '../components/CopyButton.astro';
+import Icon from '../components/Icon.astro';
+import { links, releaseAssets, releaseAssetUrl, site } from '../config/site';
+import { example, invalidExample } from '../lib/examples';
+
+const description = `Install Quidra ${site.quidraVersion} from a release archive or build it from source, run your first program, and learn the compiler's commands.`;
+
+const hello = `print("Hello from Quidra")`;
+const runHello = `quidra hello.qui`;
+const build = `quidra build hello.qui -o hello
+./hello`;
+const debian = `sudo apt-get install ./quidra-linux-amd64.deb
+quidra --version`;
+const source = `cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build --parallel
+ctest --test-dir build --output-on-failure
+./build/quidra run examples/hello.qui`;
+const tooling = `quidra check program.qui --json    # diagnostics with codes and exact spans
+quidra fmt program.qui --check      # verify canonical formatting
+quidra ir program.qui               # typed Quidra IR
+quidra llvm program.qui             # generated LLVM IR
+quidra inspect program.qui          # typed source nodes with ids and hashes
+quidra lsp                          # Language Server Protocol over stdio`;
+const repl = `$ quidra
+Quidra ${site.quidraVersion}
+>>> int x = 5
+>>> x * 8
+40
+>>> int square(int value)
+...     return value * value
+...
+>>> square(6)
+36`;
+const packages = `quidra install quidra-vision   # newest release compatible with this compiler
+quidra install quidra-dnn
+quidra list
+quidra lock program.qui         # pin versions and SHA-256 in quidra.lock`;
+
+const tryIt = example('basics');
+const uninitialized = invalidExample('uninitialized');
+---
+
+<Base title="Get started" description={description}>
+  <section class="section page-hero">
+    <div class="container">
+      <p class="eyebrow"><b>Get started</b> / Quidra {site.quidraVersion}</p>
+      <h1>Install Quidra and run a program</h1>
+      <p class="lede">
+        Quidra ships as a native compiler with a REPL. Programs are compiled ahead of time through LLVM and Clang; the
+        distribution intentionally does not bundle that backend toolchain, so install Clang 15 or newer alongside it.
+      </p>
+      <nav class="toc" aria-label="On this page">
+        <ul>
+          <li><a href="#install">Install</a></li>
+          <li><a href="#first-program">First program</a></li>
+          <li><a href="#repl">REPL</a></li>
+          <li><a href="#tooling">Compiler tooling</a></li>
+          <li><a href="#packages">Packages</a></li>
+          <li><a href="#playground">Playground</a></li>
+        </ul>
+      </nav>
+    </div>
+  </section>
+
+  <section class="section" id="install">
+    <div class="container step">
+      <div class="step-text">
+        <p class="eyebrow"><b>01</b> / install</p>
+        <h2>Download a release</h2>
+        <p>
+          Every release publishes archives for Linux, macOS and Windows on GitHub. Pick the one for your platform, then put
+          the <code>quidra</code> executable on your <code>PATH</code>.
+        </p>
+        <ul class="requirements">
+          <li><strong>Clang 15+</strong> for <code>quidra FILE.qui</code>, <code>quidra run</code> and <code>quidra build</code> (native code generation).</li>
+          <li><strong>LLVM 15+</strong> with <code>lli</code> for the REPL's ORC JIT.</li>
+        </ul>
+        <p class="small muted">
+          Quidra {site.quidraVersion} was released on {site.releaseDate}. Release notes and checksums are on the
+          <a href={links.latestRelease} rel="noopener">release page</a>.
+        </p>
+      </div>
+      <div class="step-body">
+        <ul class="assets">
+          {
+            releaseAssets.map((asset) => (
+              <li>
+                <span class="asset-platform">{asset.platform}</span>
+                <a class="asset-file" href={releaseAssetUrl(asset.file)} rel="noopener">
+                  {asset.file}
+                  <Icon name="external" />
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+        <CodeBlock code={debian} lang="bash" file="Debian and Ubuntu">
+          <CopyButton slot="title" text={debian} />
+        </CodeBlock>
+        <details class="from-source">
+          <summary>Build from source instead</summary>
+          <p class="small muted">
+            Requires CMake 3.20+, a C++20 compiler, LLVM and Clang 15+, and the libcurl, libpng, libjpeg, libtiff, libwebp
+            and FFmpeg development packages. See the <a href={`${links.core}#build`} rel="noopener">build section of the README</a> for
+            Windows.
+          </p>
+          <CodeBlock code={source} lang="bash" file="Linux and macOS">
+            <CopyButton slot="title" text={source} />
+          </CodeBlock>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="first-program">
+    <div class="container step">
+      <div class="step-text">
+        <p class="eyebrow"><b>02</b> / first program</p>
+        <h2>Write, run, build</h2>
+        <p>
+          Source files end in <code>.qui</code>. Top-level statements are the entry point, blocks are four-space indented,
+          and there is no <code>main</code> to declare.
+        </p>
+        <p>
+          <code>quidra hello.qui</code> compiles to a hidden native artifact beside the file, runs it and removes it.
+          <code>quidra build</code> keeps the executable.
+        </p>
+      </div>
+      <div class="step-body">
+        <CodeBlock code={hello} file="hello.qui" output="Hello from Quidra" />
+        <CodeBlock code={runHello} lang="bash" file="Run directly">
+          <CopyButton slot="title" text={runHello} />
+        </CodeBlock>
+        <CodeBlock code={build} lang="bash" file="Build a persistent executable">
+          <CopyButton slot="title" text={build} />
+        </CodeBlock>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="repl">
+    <div class="container step">
+      <div class="step-text">
+        <p class="eyebrow"><b>03</b> / REPL</p>
+        <h2>Evaluate interactively</h2>
+        <p>
+          Run <code>quidra</code> with no arguments in a terminal. Each submission is parsed, checked, lowered to LLVM IR
+          and executed natively through ORC JIT; declarations stay available for later submissions, and a rejected
+          submission leaves the session intact.
+        </p>
+        <p class="small muted">
+          <code>:type expression</code> prints a static type, <code>:reset</code> clears the session, <code>:help</code> lists the rest.
+        </p>
+      </div>
+      <div class="step-body">
+        <CodeBlock code={repl} lang="text" file="terminal" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="tooling">
+    <div class="container step">
+      <div class="step-text">
+        <p class="eyebrow"><b>04</b> / tooling</p>
+        <h2>Let the compiler explain itself</h2>
+        <p>
+          The same frontend that compiles your program answers questions about it. Diagnostics have stable codes and exact
+          spans, formatting is canonical, and the typed IR and generated LLVM IR are one command away.
+        </p>
+        <p>
+          A failed check is data, not prose. Here is the JSON for an uninitialized read:
+        </p>
+      </div>
+      <div class="step-body">
+        <CodeBlock code={tooling} lang="bash" file="Compiler commands" />
+        <CodeBlock
+          code={uninitialized.code}
+          file={uninitialized.file}
+          output={uninitialized.diagnosticJson}
+          outputLabel={`quidra check ${uninitialized.file} --json`}
+          outputIsError
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="packages">
+    <div class="container step">
+      <div class="step-text">
+        <p class="eyebrow"><b>05</b> / packages</p>
+        <h2>Install first-party packages</h2>
+        <p>
+          Packages are source packages installed from immutable release tags, never from a moving branch. Official
+          distributions use the <code>quidra-</code> prefix; the import name stays short.
+        </p>
+        <p class="small muted">
+          Each package release declares the compiler range it supports in <code>quidra.package</code>; with no version
+          written, the newest release compatible with your compiler is chosen, and an incompatible request fails instead
+          of silently picking another version. <a href={links.vision} rel="noopener">Vision</a> 0.3.0 and
+          <a href={links.dnn} rel="noopener">DNN</a> 0.3.0 support Quidra 0.3.0. See
+          <a href={links.docs.packages} rel="noopener">package management</a> for the full contract.
+        </p>
+      </div>
+      <div class="step-body">
+        <CodeBlock code={packages} lang="bash" file="Package manager" />
+        <CodeBlock code={`import vision\nimport dnn`} file="In source" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="playground">
+    <div class="container step">
+      <div class="step-text">
+        <p class="eyebrow"><b>06</b> / in the browser</p>
+        <h2>Or start in the browser</h2>
+        <p>
+          The <a href={links.playground} rel="noopener">Quidra Playground</a> runs the real compiler frontend, compiled to
+          WebAssembly, in your tab: check, format, lower to typed IR, inspect and patch, with nothing uploaded anywhere.
+          It deliberately has no Run button; execution needs the native toolchain above.
+        </p>
+        <a class="btn btn-primary" href={links.playground} rel="noopener">Open the Playground <Icon name="external" /></a>
+      </div>
+      <div class="step-body">
+        <CodeBlock code={tryIt.code} file={tryIt.file} output={tryIt.output} />
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-hero { border-top: 0; padding-bottom: clamp(2rem, 4vw, 3rem); }
+  .page-hero .container { display: grid; gap: 1rem; }
+  h1 { font-size: var(--text-2xl); }
+  .toc ul { list-style: none; display: flex; flex-wrap: wrap; gap: 0.35rem 1.25rem; margin-top: 0.75rem; font-size: var(--text-sm); }
+  .toc a { display: inline-block; padding-block: 0.25rem; }
+  .toc a { color: var(--fg-2); text-decoration: none; font-weight: 500; }
+  .toc a:hover { color: var(--fg); text-decoration: underline; }
+
+  .step { display: grid; gap: 2rem; align-items: start; }
+  @media (min-width: 64rem) {
+    .step { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 4rem; }
+    .step-text { position: sticky; top: calc(var(--header-h) + 2rem); }
+  }
+  .step-text { display: grid; gap: 1rem; }
+  .step-text p { max-width: 52ch; }
+  .step-body { display: grid; gap: 1.25rem; min-width: 0; }
+  .requirements { padding-left: 1.1em; display: grid; gap: 0.4rem; color: var(--fg-2); font-size: var(--text-sm); }
+  .requirements strong { color: var(--fg); }
+
+  .assets {
+    list-style: none;
+    display: grid;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  .assets li {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.25rem 1rem;
+    padding: 0.8rem 1rem;
+    font-size: var(--text-sm);
+  }
+  .assets li + li { border-top: 1px solid var(--rule); }
+  .asset-platform { color: var(--fg-2); }
+  .asset-file { display: inline-flex; align-items: center; gap: 0.35rem; font-family: var(--font-mono); font-size: 0.85em; text-decoration: none; }
+  .asset-file:hover { text-decoration: underline; }
+  .asset-file :global(svg) { width: 0.75rem; height: 0.75rem; opacity: 0.7; }
+
+  .from-source { display: grid; gap: 1rem; }
+  .from-source summary { font-weight: 500; color: var(--accent-text); width: fit-content; }
+  .from-source summary::before { content: '+ ' / ''; font-family: var(--font-mono); }
+  .from-source[open] summary::before { content: '− ' / ''; }
+</style>

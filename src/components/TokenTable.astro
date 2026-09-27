@@ -1,0 +1,62 @@
+---
+/**
+ * "Meaning per token, concretely": the table from the Quidra README, kept
+ * verbatim. Each common form has one stable job.
+ */
+const rows = [
+  { form: '=', meaning: 'independent value-oriented assignment' },
+  { form: '&x', meaning: 'explicit observable access to storage' },
+  { form: 'T &', meaning: 'writable path to caller-visible storage' },
+  { form: 'const T &', meaning: 'live read-only path to storage' },
+  { form: 'T | none', meaning: 'normal absence is part of the type' },
+  { form: 'T | error', meaning: 'failure is part of the type' },
+  { form: 'try', meaning: 'propagate error, not every non-value state' },
+  { form: 'T(value)', meaning: 'explicit representation conversion' },
+  { form: 'tensor<T><3, _, _>', meaning: 'element type plus three axis slots: the first extent is 3, the others are unrestricted, and three slots require rank 3' },
+  { form: 'and / or / not', meaning: 'boolean logic only' },
+  { form: 'AND / OR / XOR / NOT / << / >>', meaning: 'fixed-width integer bit operations, without reusing & or |' },
+  { form: 'match', meaning: 'alternatives must be handled explicitly and exhaustively' },
+];
+---
+
+<dl class="token-table">
+  {
+    rows.map((row) => (
+      <div class="token-row">
+        <dt><code>{row.form}</code></dt>
+        <dd>{row.meaning}</dd>
+      </div>
+    ))
+  }
+</dl>
+
+<style>
+  .token-table {
+    display: grid;
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  @media (min-width: 48rem) { .token-table { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 72rem) { .token-table { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .token-row {
+    display: grid;
+    gap: 0.5rem;
+    padding: 1.1rem 1.25rem 1.2rem;
+    background: var(--bg);
+    align-content: start;
+  }
+  dt code {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--accent-text);
+  }
+  dd {
+    margin: 0;
+    color: var(--fg-2);
+    font-size: var(--text-sm);
+    text-wrap: pretty;
+  }
+</style>

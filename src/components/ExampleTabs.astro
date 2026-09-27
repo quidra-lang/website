@@ -1,0 +1,132 @@
+---
+/**
+ * Tabbed viewer for the verified example programs in /examples. Without
+ * JavaScript every panel is visible, stacked; the script turns the headings
+ * into an accessible tablist (roving tabindex, arrow keys, Home/End).
+ */
+import CodeBlock from './CodeBlock.astro';
+
+export interface ExampleTab {
+  id: string;
+  /** Short label shown on the tab. */
+  title: string;
+  /** Heading shown at the top of the panel. */
+  heading: string;
+  summary: string;
+  file: string;
+  code: string;
+  output?: string;
+  outputLabel?: string;
+}
+
+interface Props {
+  tabs: ExampleTab[];
+  label: string;
+}
+const { tabs, label } = Astro.props;
+---
+
+<div class="tabs" data-tabs>
+  <div class="tablist" role="tablist" aria-label={label} data-tablist>
+    {
+      tabs.map((tab, i) => (
+        <button
+          type="button"
+          role="tab"
+          id={`tab-${tab.id}`}
+          aria-controls={`panel-${tab.id}`}
+          aria-selected={i === 0 ? 'true' : 'false'}
+          tabindex={i === 0 ? 0 : -1}
+        >
+          {tab.title}
+        </button>
+      ))
+    }
+  </div>
+  {
+    tabs.map((tab) => (
+      <section
+        class="tabpanel"
+        role="tabpanel"
+        id={`panel-${tab.id}`}
+        aria-labelledby={`tab-${tab.id}`}
+        tabindex="0"
+      >
+        <h3 class="tab-heading">{tab.heading}</h3>
+        <p class="tab-summary">{tab.summary}</p>
+        <CodeBlock code={tab.code} file={tab.file} output={tab.output} outputLabel={tab.outputLabel} />
+      </section>
+    ))
+  }
+</div>
+
+<style>
+  .tablist {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 0.25rem;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 1.5rem;
+  }
+  .tablist [role='tab'] {
+    flex: none;
+    padding: 0.7rem 0.9rem;
+    margin-bottom: -1px;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--fg-2);
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: color var(--dur) var(--ease);
+  }
+  .tablist [role='tab']:hover { color: var(--fg); }
+  .tablist [role='tab'][aria-selected='true'] { color: var(--fg); border-bottom-color: var(--accent); }
+  .tablist [role='tab']:focus-visible { outline-offset: -3px; }
+  .tabpanel { display: grid; gap: 1rem; }
+  .tabpanel + .tabpanel { margin-top: 2.5rem; }
+  .tabs.is-enhanced .tabpanel + .tabpanel { margin-top: 0; }
+  .tabpanel[hidden] { display: none; }
+  .tab-heading { font-size: var(--text-md); }
+  .tab-summary { color: var(--fg-2); max-width: 70ch; margin-top: -0.4rem; }
+  /* Without JavaScript the tab buttons would be dead controls, so they are not shown
+     and every panel stays visible. With JavaScript (html.js is set before first paint)
+     only the first panel is shown until the script takes over, so nothing jumps. */
+  .tabs:not(.is-enhanced) .tablist { display: none; }
+  :global(html.js) .tabs:not(.is-enhanced) .tabpanel + .tabpanel { display: none; }
+</style>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>('[data-tabs]')) {
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+    const panels = Array.from(root.querySelectorAll<HTMLElement>('[role="tabpanel"]'));
+    if (tabs.length === 0 || tabs.length !== panels.length) continue;
+    root.classList.add('is-enhanced');
+
+    const select = (index: number, focus = false) => {
+      tabs.forEach((tab, i) => {
+        const active = i === index;
+        tab.setAttribute('aria-selected', String(active));
+        tab.tabIndex = active ? 0 : -1;
+        panels[i].hidden = !active;
+      });
+      if (focus) tabs[index].focus();
+    };
+
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => select(i));
+      tab.addEventListener('keydown', (event) => {
+        const keys: Record<string, number> = {
+          ArrowRight: (i + 1) % tabs.length,
+          ArrowLeft: (i - 1 + tabs.length) % tabs.length,
+          Home: 0,
+          End: tabs.length - 1,
+        };
+        if (event.key in keys) {
+          event.preventDefault();
+          select(keys[event.key], true);
+        }
+      });
+    });
+    select(0);
+  }
+</script>

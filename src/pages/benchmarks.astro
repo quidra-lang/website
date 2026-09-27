@@ -1,0 +1,202 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { links } from '../config/site';
+import data from '../data/benchmarks.json';
+
+/**
+ * The Quidra project runs its own benchmark of ten languages across five
+ * evaluations and publishes the complete result, including the evaluations
+ * Quidra loses. Every number here is read from the result files committed in
+ * the compiler repository (scripts/sync-benchmarks.py regenerates the JSON).
+ */
+const description = `Quidra's published benchmark run ${data.run_id}: ten languages across five evaluations, with every ranking, score and requirement published as data.`;
+
+const ordinal = (n: number) => `${n}${['th', 'st', 'nd', 'rd'][(n % 100 > 10 && n % 100 < 14) || n % 10 > 3 ? 0 : n % 10]}`;
+const fmt = (n: number) => n.toFixed(2);
+---
+
+<Base title="Benchmarks" description={description}>
+  <section class="section page-hero">
+    <div class="container">
+      <p class="eyebrow"><b>Benchmarks</b> / run {data.run_id}</p>
+      <h1>Ten languages, five evaluations, every result published</h1>
+      <p class="lede">
+        The Quidra project runs one frozen methodology over ten languages, Quidra included, and publishes the whole result
+        as data, including the evaluations where Quidra currently ranks last. Rankings are descriptive of the frozen
+        sample; the runner computes them mechanically from validated results, and no cross-evaluation total is ever
+        produced.
+      </p>
+      <dl class="facts">
+        <div><dt>Evaluated compiler</dt><dd>Quidra {data.compiler_version}, benchmark snapshot <code>{data.evaluated_commit_short}</code>; its compiler source is identical to release <a href={links.latestRelease} rel="noopener">v{data.compiler_version}</a></dd></div>
+        <div><dt>Run</dt><dd><a href={data.source_urls.run} rel="noopener"><code>{data.run_id}</code></a> ({data.run_date})</dd></div>
+        <div><dt>Inference model</dt><dd><code>{data.inference_model}</code>, used only where a judgment is required</dd></div>
+        <div><dt>Toolchains</dt><dd>{data.languages.map((l) => `${l.name} ${l.version}`).join(' · ')} (compiler or runtime versions from the frozen configuration)</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="visually-hidden">Quidra's position in each evaluation</h2>
+      <ol class="scoreboard">
+        {
+          data.evaluations.map((ev) => (
+            <li>
+              <a href={`#${ev.id}`}>
+                <span class="sb-name">{ev.name}</span>
+                <span class="sb-rank">{ordinal(ev.quidra.rank)}<span class="sb-of"> of {ev.ranking.length}</span></span>
+                <span class="sb-score">{fmt(ev.quidra.score)}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  {
+    data.evaluations.map((ev) => (
+      <section class="section evaluation" id={ev.id}>
+        <div class="container eval-grid">
+          <div class="eval-text">
+            <p class="eyebrow"><b>{String(ev.order).padStart(2, '0')}</b> / {ev.status.toLowerCase()}</p>
+            <h2>{ev.name}</h2>
+            <p>{ev.summary}</p>
+            <ul class="eval-links">
+              <li><a href={ev.methodology_url} rel="noopener" class="link-arrow">Methodology<span class="visually-hidden"> of {ev.name}</span></a></li>
+              <li><a href={ev.breakdown_url} rel="noopener" class="link-arrow">Score breakdown<span class="visually-hidden"> of {ev.name}</span></a></li>
+            </ul>
+          </div>
+          <div class="eval-table">
+            <div class="table-wrap" tabindex="0" role="region" aria-label={`${ev.name} ranking table`}>
+              <table class="table">
+                <caption class="visually-hidden">{ev.name} ranking</caption>
+                <thead>
+                  <tr>
+                    <th scope="col" class="num">Rank</th>
+                    <th scope="col">Language</th>
+                    <th scope="col" class="num">Score</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {ev.ranking.map((row) => (
+                    <tr class:list={{ 'is-quidra': row.language_id.startsWith('quidra') }}>
+                      <td class="num">{row.rank}</td>
+                      <td>{row.name}</td>
+                      <td class="num">{fmt(row.score)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {ev.requirements.length > 0 && (
+              <details class="requirements">
+                <summary>Per-requirement scores ({ev.requirements.length})</summary>
+                <div class="table-wrap" tabindex="0" role="region" aria-label={`${ev.name} per-requirement scores`}>
+                  <table class="table small">
+                    <caption class="visually-hidden">{ev.name} per-requirement scores</caption>
+                    <thead>
+                      <tr>
+                        <th scope="col">Requirement</th>
+                        <th scope="col" class="num">Weight</th>
+                        {data.languages.map((l) => (
+                          <th scope="col" class="num">{l.name}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {ev.requirements.map((req) => (
+                        <tr>
+                          <th scope="row"><code>{req.id}</code></th>
+                          <td class="num">{req.weight === null ? '—' : req.weight}</td>
+                          {data.languages.map((l) => (
+                            <td class:list={['num', { 'is-quidra-cell': l.id.startsWith('quidra') }]}>
+                              {req.scores[l.id as keyof typeof req.scores] === undefined ? '—' : fmt(req.scores[l.id as keyof typeof req.scores] as number)}
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </details>
+            )}
+          </div>
+        </div>
+      </section>
+    ))
+  }
+
+  <section class="section">
+    <div class="container reading">
+      <h2>How to read these numbers</h2>
+      <ul>
+        <li>{data.interpretation.charAt(0).toUpperCase() + data.interpretation.slice(1)}. Tie policy: {data.tie_policy}.</li>
+        <li>Each evaluation stands on its own. A ranking is published only when all ten languages complete that evaluation and it passes its scientific and integrity gates.</li>
+        <li>Language models are used only where judgment is required; planning, retries, measurements, normalization, aggregation and ranking are owned by the deterministic runner.</li>
+        <li>Machine-readable result files are authoritative. This page is a derived view of <a href={data.source_urls.rankings} rel="noopener"><code>rankings.json</code></a>; the per-worker evidence and reasoning are committed beside it.</li>
+      </ul>
+      <a class="btn btn-secondary" href={data.source_urls.readme} rel="noopener">Read the benchmark README <Icon name="external" /></a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-hero { border-top: 0; padding-bottom: clamp(2rem, 4vw, 3rem); }
+  .page-hero .container { display: grid; gap: 1rem; }
+  h1 { font-size: var(--text-2xl); max-width: 22ch; }
+  .facts { display: grid; gap: 0.5rem 2rem; margin-top: 0.75rem; font-size: var(--text-sm); }
+  .facts div { display: grid; grid-template-columns: 10rem 1fr; gap: 0.5rem; }
+  @media (max-width: 40rem) { .facts div { grid-template-columns: 1fr; gap: 0.15rem; } }
+  .facts dt { color: var(--fg-3); }
+  .facts dd { margin: 0; color: var(--fg-2); }
+
+  .scoreboard {
+    list-style: none;
+    display: grid;
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  }
+  .scoreboard a {
+    display: grid;
+    gap: 0.35rem;
+    height: 100%;
+    padding: 1.15rem 1.25rem 1.25rem;
+    background: var(--bg);
+    color: var(--fg);
+    text-decoration: none;
+  }
+  .scoreboard a:hover { background: var(--bg-2); }
+  .sb-name { font-size: var(--text-sm); color: var(--fg-2); font-weight: 500; }
+  .sb-rank { font-size: var(--text-xl); font-weight: 600; letter-spacing: var(--tracking-tight); line-height: 1.1; }
+  .sb-of { font-size: var(--text-sm); font-weight: 400; color: var(--fg-3); letter-spacing: 0; }
+  .sb-score { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--fg-3); }
+
+  .evaluation { padding-block: clamp(3rem, 6vw, 5rem); }
+  .eval-grid { display: grid; gap: 2rem; align-items: start; }
+  @media (min-width: 64rem) { .eval-grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 4rem; } }
+  .eval-text { display: grid; gap: 1rem; }
+  .eval-text p { max-width: 52ch; color: var(--fg-2); }
+  .eval-text h2 { color: var(--fg); }
+  .eval-links { list-style: none; display: grid; gap: 0.25rem; font-size: var(--text-sm); }
+  .eval-links a { min-height: 2.25rem; }
+  .eval-table { display: grid; gap: 1rem; min-width: 0; }
+  .eval-table .table { max-width: 32rem; }
+  .requirements summary { font-size: var(--text-sm); font-weight: 500; color: var(--accent-text); width: fit-content; }
+  .requirements summary::before { content: '+ ' / ''; font-family: var(--font-mono); }
+  .requirements[open] summary::before { content: '− ' / ''; }
+  .requirements .table-wrap { margin-top: 0.75rem; }
+  .requirements .table th[scope='row'] { font-family: var(--font-mono); font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--fg-2); font-size: 0.78rem; }
+  .requirements .table thead th { font-size: 0.72rem; }
+  .requirements td { font-size: 0.8rem; }
+  .is-quidra-cell { background: var(--accent-soft); font-weight: 600; }
+
+  .reading { display: grid; gap: 1.25rem; max-width: 70ch; }
+  .reading ul { padding-left: 1.1em; display: grid; gap: 0.6rem; color: var(--fg-2); }
+  .reading .btn { width: fit-content; margin-top: 0.5rem; }
+</style>

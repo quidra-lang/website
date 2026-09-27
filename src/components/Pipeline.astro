@@ -1,0 +1,48 @@
+---
+/** The compilation pipeline, as documented in the Quidra README and `quidra describe`. */
+const stages = [
+  'Quidra source',
+  'AST',
+  'module resolution',
+  'generic specialization',
+  'static checking, effect analysis, call resolution',
+  'typed Quidra IR',
+  'LLVM IR',
+  'native machine code',
+];
+---
+
+<ol class="pipeline" aria-label="Compilation pipeline">
+  {stages.map((stage, i) => <li><span class="stage-index">{String(i + 1).padStart(2, '0')}</span><span class="stage-name">{stage}</span></li>)}
+</ol>
+
+<style>
+  .pipeline {
+    list-style: none;
+    display: grid;
+    border-left: 1px solid var(--rule-strong);
+    margin-left: 0.5rem;
+  }
+  .pipeline li {
+    position: relative;
+    display: flex;
+    align-items: baseline;
+    gap: 0.9rem;
+    padding: 0.55rem 0 0.55rem 1.25rem;
+    font-size: var(--text-sm);
+  }
+  .pipeline li::before {
+    content: '';
+    position: absolute;
+    left: -4.5px;
+    top: 1.05rem;
+    width: 8px; height: 8px;
+    border-radius: 999px;
+    background: var(--bg);
+    border: 1.5px solid var(--fg-3);
+  }
+  .pipeline li:first-child::before, .pipeline li:last-child::before { background: var(--accent); border-color: var(--accent); }
+  .stage-index { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--fg-3); }
+  .stage-name { color: var(--fg); font-weight: 500; }
+  .pipeline li:first-child .stage-name, .pipeline li:last-child .stage-name { font-family: var(--font-mono); font-weight: 600; }
+</style>
