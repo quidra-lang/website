@@ -1,0 +1,16 @@
+# Response headers for Cloudflare (Workers static assets and Pages read this file).
+# The site is static; these only harden defaults and set long cache lifetimes
+# for fingerprinted build assets.
+
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Cross-Origin-Opener-Policy: same-origin
+
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/brand/*
+  Cache-Control: public, max-age=604800

@@ -1,0 +1,47 @@
+---
+/**
+ * Copies `text` to the clipboard. Shown only when JavaScript runs (html.js,
+ * set before first paint) and hidden again if the Clipboard API is missing,
+ * so the page works without JavaScript and never shows a dead button.
+ */
+interface Props {
+  text: string;
+  label?: string;
+}
+const { text, label = 'Copy to clipboard' } = Astro.props;
+---
+
+<button type="button" class="copy" data-copy={text} title={label}>
+  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+    <rect x="5.5" y="5.5" width="8" height="8" rx="1.5" />
+    <path d="M10.5 5.5v-2a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2" />
+  </svg>
+  <span data-copy-label aria-live="polite">Copy</span>
+</button>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('button.copy[data-copy]');
+  const supported = Boolean(navigator.clipboard && typeof navigator.clipboard.writeText === 'function');
+  if (!supported) {
+    for (const button of buttons) button.hidden = true;
+  } else {
+    for (const button of buttons) {
+      button.addEventListener('click', async () => {
+        const text = button.dataset.copy ?? '';
+        const label = button.querySelector<HTMLElement>('[data-copy-label]');
+        try {
+          await navigator.clipboard.writeText(text);
+          button.dataset.state = 'copied';
+          if (label) label.textContent = 'Copied';
+        } catch {
+          button.dataset.state = 'failed';
+          if (label) label.textContent = 'Failed';
+        }
+        window.setTimeout(() => {
+          delete button.dataset.state;
+          if (label) label.textContent = 'Copy';
+        }, 1600);
+      });
+    }
+  }
+</script>

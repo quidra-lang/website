@@ -1,0 +1,106 @@
+---
+import { Font } from 'astro:assets';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { links, site } from '../config/site';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Set for the home page so the <title> is the brand line itself. */
+  titleIsBrand?: boolean;
+  ogImage?: string;
+  /** Additional JSON-LD objects for this page. */
+  jsonLd?: Record<string, unknown>[];
+  /** Error pages: no canonical URL, not indexed. */
+  noindex?: boolean;
+}
+
+const { title, description, titleIsBrand = false, ogImage = '/og-image.png', jsonLd = [], noindex = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, site.url).href;
+const pageTitle = titleIsBrand ? title : `${title} · Quidra`;
+const imageUrl = new URL(ogImage, site.url).href;
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Quidra',
+    url: site.url,
+    logo: new URL('/brand/quidra-symbol-512.png', site.url).href,
+    sameAs: [links.org],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Quidra',
+    alternateName: 'Quidra programming language',
+    url: site.url,
+    description: site.description,
+  },
+  ...jsonLd,
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b0e14" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Quidra" />
+    {!noindex && <meta property="og:url" content={canonical} />}
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Quidra — Maximum Meaning Per Token" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+
+    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    {/* Runs before first paint: marks that JavaScript is available (so enhanced controls render without a layout shift) and applies a stored theme choice. */}
+    <script is:inline>
+      document.documentElement.classList.add('js');
+      try {
+        const t = localStorage.getItem('theme');
+        if (t === 'light' || t === 'dark') {
+          document.documentElement.setAttribute('data-theme', t);
+          for (const m of document.querySelectorAll('meta[name="theme-color"]')) m.setAttribute('media', 'not all');
+          document.head.insertAdjacentHTML('beforeend', '<meta name="theme-color" content="' + (t === 'dark' ? '#0b0e14' : '#ffffff') + '">');
+        }
+      } catch {
+        /* storage unavailable */
+      }
+    </script>
+
+    <Font cssVariable="--font-sans" preload />
+    <Font cssVariable="--font-mono" preload={[{ weight: 400 }]} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

@@ -1,0 +1,16 @@
+---
+/** Numbered section heading: mono eyebrow, title, optional lede. */
+interface Props {
+  number?: string;
+  eyebrow: string;
+  title: string;
+  id?: string;
+}
+const { number, eyebrow, title, id } = Astro.props;
+---
+
+<div class="section-head">
+  <p class="eyebrow">{number && <b>{number} / </b>}{eyebrow}</p>
+  <h2 id={id}>{title}</h2>
+  {Astro.slots.has('default') && <p class="lede"><slot /></p>}
+</div>

@@ -1,0 +1,85 @@
+---
+import Icon from './Icon.astro';
+import ThemeToggle from './ThemeToggle.astro';
+import { navigation, site } from '../config/site';
+
+const path = Astro.url.pathname;
+const isCurrent = (href: string) => !href.startsWith('http') && (href === '/' ? path === '/' : path.startsWith(href));
+---
+
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="/">
+      <img src="/brand/quidra-symbol-96.png" width="28" height="28" alt="" />
+      <span>Quidra</span>
+      <span class="brand-version">v{site.quidraVersion}</span>
+    </a>
+
+    <nav class="site-nav" aria-label="Primary">
+      <ul>
+        {
+          navigation.map((item) => (
+            <li class:list={{ 'is-current': isCurrent(item.href) }}>
+              <a
+                href={item.href}
+                aria-current={isCurrent(item.href) ? 'page' : undefined}
+                rel={'external' in item && item.external ? 'noopener' : undefined}
+              >
+                {item.label}
+                {'external' in item && item.external && <Icon name="external" title="external site" />}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="header-actions">
+      <ThemeToggle />
+      <details class="menu">
+        <summary>
+          <span class="visually-hidden">Menu</span>
+          <Icon name="menu" class="icon-menu" />
+          <Icon name="close" class="icon-close" />
+        </summary>
+        <nav class="menu-panel" aria-label="Primary, compact">
+          <ul>
+            {
+              navigation.map((item) => (
+                <li>
+                  <a
+                    href={item.href}
+                    aria-current={isCurrent(item.href) ? 'page' : undefined}
+                    rel={'external' in item && item.external ? 'noopener' : undefined}
+                  >
+                    {item.label}
+                    {'external' in item && item.external && <Icon name="external" title="external site" />}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Close the compact menu on Escape, when focus leaves it, or on a click outside it.
+  const menu = document.querySelector<HTMLDetailsElement>('details.menu');
+  if (menu) {
+    menu.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        menu.open = false;
+        menu.querySelector('summary')?.focus();
+      }
+    });
+    menu.addEventListener('focusout', (event) => {
+      if (menu.open && !menu.contains(event.relatedTarget as Node | null)) menu.open = false;
+    });
+    document.addEventListener('click', (event) => {
+      if (menu.open && !menu.contains(event.target as Node)) menu.open = false;
+    });
+  }
+</script>

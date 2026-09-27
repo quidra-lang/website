@@ -1,0 +1,37 @@
+---
+/** Small inline SVG icon set. All icons are decorative unless a title is passed. */
+interface Props {
+  name: 'github' | 'external' | 'sun' | 'moon' | 'menu' | 'close' | 'arrow-right' | 'terminal' | 'play';
+  class?: string;
+  title?: string;
+}
+const { name, class: className, title } = Astro.props;
+const paths: Record<Props['name'], string> = {
+  github:
+    'M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z',
+  external: 'M6 2h8v8M14 2 6.5 9.5M12 9v5H2V4h5',
+  sun: 'M8 1.5v1.75M8 12.75v1.75M1.5 8h1.75M12.75 8h1.75M3.4 3.4l1.24 1.24M11.36 11.36l1.24 1.24M3.4 12.6l1.24-1.24M11.36 4.64l1.24-1.24M8 5a3 3 0 1 0 0 6 3 3 0 0 0 0-6z',
+  moon: 'M13.5 10.1A6 6 0 0 1 5.9 2.5a6 6 0 1 0 7.6 7.6z',
+  menu: 'M2 4.5h12M2 8h12M2 11.5h12',
+  close: 'M3.5 3.5l9 9M12.5 3.5l-9 9',
+  'arrow-right': 'M2.5 8h11M9 3.5 13.5 8 9 12.5',
+  terminal: 'M2.5 3.5h11v9h-11zM5 6.5l2 1.5-2 1.5M8.5 9.5h2.5',
+  play: 'M4 2.5v11l9-5.5z',
+};
+const filled = name === 'github' || name === 'play';
+---
+
+<svg
+  viewBox="0 0 16 16"
+  class={className}
+  fill={filled ? 'currentColor' : 'none'}
+  stroke={filled ? 'none' : 'currentColor'}
+  stroke-width={filled ? undefined : '1.5'}
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden={title ? undefined : 'true'}
+  role={title ? 'img' : undefined}
+>
+  {title && <title>{title}</title>}
+  <path d={paths[name]} />
+</svg>

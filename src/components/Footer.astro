@@ -1,0 +1,55 @@
+---
+import { links, site } from '../config/site';
+const year = new Date(site.releaseDate).getUTCFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="/">
+          <img src="/brand/quidra-symbol-96.png" width="24" height="24" alt="" />
+          <span>Quidra</span>
+        </a>
+        <p>{site.tagline}. A statically typed, natively compiled language for humans and language models.</p>
+      </div>
+
+      <div class="footer-col">
+        <h2>Project <span class="visually-hidden">(links to GitHub)</span></h2>
+        <ul>
+          <li><a href={links.core} rel="noopener">GitHub</a></li>
+          <li><a href={links.playground} rel="noopener">Playground</a></li>
+          <li><a href={links.vision} rel="noopener">Vision</a></li>
+          <li><a href={links.dnn} rel="noopener">DNN</a></li>
+          <li><a href={links.releases} rel="noopener">Releases</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h2>Learn</h2>
+        <ul>
+          <li><a href="/get-started/">Get started</a></li>
+          <li><a href="/docs/">Docs</a></li>
+          <li><a href={links.docs.language} rel="noopener">Language spec</a></li>
+          <li><a href={links.docs.llmGuide} rel="noopener">LLM guide</a></li>
+          <li><a href="/benchmarks/">Benchmarks</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h2>Community <span class="visually-hidden">(links to GitHub)</span></h2>
+        <ul>
+          <li><a href={links.org} rel="noopener">quidra-lang on GitHub</a></li>
+          <li><a href={links.coreIssues} rel="noopener">Issues</a></li>
+          <li><a href={links.website} rel="noopener">This website's source</a></li>
+          <li><a href={links.license} rel="noopener">License (MIT)</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© {year} Quidra contributors. Released under the <a href={links.license} rel="noopener">MIT License</a>.</span>
+      <span>Quidra {site.quidraVersion}</span>
+    </div>
+  </div>
+</footer>
