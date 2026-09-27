@@ -1,0 +1,2718 @@
+{
+  "run_id": "2026-09-27-38b7137-gh31",
+  "run_date": "2026-09-27",
+  "evaluated_commit": "38b71377330b874976c29ff36cb68984d48fc289",
+  "evaluated_commit_short": "38b7137",
+  "compiler_version": "0.3.0",
+  "inference_model": "claude-sonnet-5",
+  "source_urls": {
+    "readme": "https://github.com/quidra-lang/quidra/blob/main/benchmark/README.md",
+    "run": "https://github.com/quidra-lang/quidra/tree/main/benchmark/2026-09-27-38b7137-gh31",
+    "rankings": "https://github.com/quidra-lang/quidra/blob/main/benchmark/2026-09-27-38b7137-gh31/rankings.json",
+    "methodology_dir": "https://github.com/quidra-lang/quidra/tree/main/benchmark/template/methodology"
+  },
+  "interpretation": "descriptive ranking of the frozen Primary sample; it does not claim statistical superiority beyond the measured sample",
+  "tie_policy": "competition rank on published score",
+  "precision_decimals": 2,
+  "languages": [
+    {
+      "id": "quidra_v0.3.0",
+      "name": "Quidra",
+      "version": "0.3.0"
+    },
+    {
+      "id": "python_v3.12.3",
+      "name": "Python",
+      "version": "3.12.3"
+    },
+    {
+      "id": "cpp_v18.1.3",
+      "name": "C++",
+      "version": "18.1.3"
+    },
+    {
+      "id": "rust_v1.95.0",
+      "name": "Rust",
+      "version": "1.95.0"
+    },
+    {
+      "id": "go_v1.26.3",
+      "name": "Go",
+      "version": "1.26.3"
+    },
+    {
+      "id": "java_v26.0.1",
+      "name": "Java",
+      "version": "26.0.1"
+    },
+    {
+      "id": "typescript_v7.0.2",
+      "name": "TypeScript",
+      "version": "7.0.2"
+    },
+    {
+      "id": "kotlin_v2.3.21",
+      "name": "Kotlin",
+      "version": "2.3.21"
+    },
+    {
+      "id": "swift_v6.2.3",
+      "name": "Swift",
+      "version": "6.2.3"
+    },
+    {
+      "id": "zig_v0.16.0",
+      "name": "Zig",
+      "version": "0.16.0"
+    }
+  ],
+  "evaluations": [
+    {
+      "id": "semantic_compression",
+      "name": "Semantic Compression",
+      "order": 1,
+      "summary": "How much program meaning a language states explicitly and determinately per unit of syntax, relative to the breadth of capabilities it can express. All ten languages are annotated against one frozen, language-neutral semantic-site matrix over 44 probes. Five quality metrics (density, determinacy, locality, hidden semantic cost, capability efficiency) form a quality score, and the published score is its harmonic mean with capability coverage, so a tiny language cannot score high by having few rules. Annotation is worker judgment checked by a mechanical validator and a blinded comparability audit. Higher is better.",
+      "methodology_url": "https://github.com/quidra-lang/quidra/blob/main/benchmark/template/methodology/semantic_compression.md",
+      "breakdown_url": "https://github.com/quidra-lang/quidra/blob/main/benchmark/2026-09-27-38b7137-gh31/breakdown/semantic_compression.md",
+      "status": "COMPLETE",
+      "aggregation": "semantic_harmonic",
+      "ranking": [
+        {
+          "rank": 1,
+          "language_id": "zig_v0.16.0",
+          "name": "Zig",
+          "score": 78.48
+        },
+        {
+          "rank": 2,
+          "language_id": "quidra_v0.3.0",
+          "name": "Quidra",
+          "score": 77.52
+        },
+        {
+          "rank": 3,
+          "language_id": "swift_v6.2.3",
+          "name": "Swift",
+          "score": 77.34
+        },
+        {
+          "rank": 4,
+          "language_id": "go_v1.26.3",
+          "name": "Go",
+          "score": 72.08
+        },
+        {
+          "rank": 5,
+          "language_id": "kotlin_v2.3.21",
+          "name": "Kotlin",
+          "score": 69.24
+        },
+        {
+          "rank": 6,
+          "language_id": "rust_v1.95.0",
+          "name": "Rust",
+          "score": 67.91
+        },
+        {
+          "rank": 7,
+          "language_id": "java_v26.0.1",
+          "name": "Java",
+          "score": 53.48
+        },
+        {
+          "rank": 8,
+          "language_id": "typescript_v7.0.2",
+          "name": "TypeScript",
+          "score": 48.19
+        },
+        {
+          "rank": 9,
+          "language_id": "python_v3.12.3",
+          "name": "Python",
+          "score": 46.99
+        },
+        {
+          "rank": 10,
+          "language_id": "cpp_v18.1.3",
+          "name": "C++",
+          "score": 20.38
+        }
+      ],
+      "quidra": {
+        "rank": 2,
+        "score": 77.52
+      },
+      "requirements": [
+        {
+          "id": "metric.semantic_density",
+          "weight": 0.2,
+          "category": null,
+          "scores": {
+            "quidra_v0.3.0": 100.0,
+            "python_v3.12.3": 23.42,
+            "cpp_v18.1.3": 4.96,
+            "rust_v1.95.0": 29.99,
+            "go_v1.26.3": 45.65,
+            "java_v26.0.1": 0.0,
+            "typescript_v7.0.2": 10.88,
+            "kotlin_v2.3.21": 58.52,
+            "swift_v6.2.3": 70.49,
+            "zig_v0.16.0": 58.69
+          },
+          "ranks": {
+            "quidra_v0.3.0": 1,
+            "python_v3.12.3": 7,
+            "cpp_v18.1.3": 9,
+            "rust_v1.95.0": 6,
+            "go_v1.26.3": 5,
+            "java_v26.0.1": 10,
+            "typescript_v7.0.2": 8,
+            "kotlin_v2.3.21": 4,
+            "swift_v6.2.3": 2,
+            "zig_v0.16.0": 3
+          }
+        },
+        {
+          "id": "metric.semantic_determinacy",
+          "weight": 0.25,
+          "category": null,
+          "scores": {
+            "quidra_v0.3.0": 100.0,
+            "python_v3.12.3": 64.75,
+            "cpp_v18.1.3": 0.0,
+            "rust_v1.95.0": 70.5,
+            "go_v1.26.3": 41.0,
+            "java_v26.0.1": 70.5,
+            "typescript_v7.0.2": 80.33,
+            "kotlin_v2.3.21": 64.75,
+            "swift_v6.2.3": 80.33,
+            "zig_v0.16.0": 45.08
+          },
+          "ranks": {
+            "quidra_v0.3.0": 1,
+            "python_v3.12.3": 6,
+            "cpp_v18.1.3": 10,
+            "rust_v1.95.0": 4,
+            "go_v1.26.3": 9,
+            "java_v26.0.1": 4,
+            "typescript_v7.0.2": 2,
+            "kotlin_v2.3.21": 6,
+            "swift_v6.2.3": 2,
+            "zig_v0.16.0": 8
+          }
+        },
+        {
+          "id": "metric.semantic_locality",
+          "weight": 0.2,
+          "category": null,
+          "scores": {
+            "quidra_v0.3.0": 34.45,
+            "python_v3.12.3": 45.93,
+            "cpp_v18.1.3": 0.0,
+            "rust_v1.95.0": 28.71,
+            "go_v1.26.3": 91.86,
+            "java_v26.0.1": 17.22,
+            "typescript_v7.0.2": 40.19,
+            "kotlin_v2.3.21": 28.71,
+            "swift_v6.2.3": 0.0,
+            "zig_v0.16.0": 100.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 5,
+            "python_v3.12.3": 3,
+            "cpp_v18.1.3": 9,
+            "rust_v1.95.0": 6,
+            "go_v1.26.3": 2,
+            "java_v26.0.1": 8,
+            "typescript_v7.0.2": 4,
+            "kotlin_v2.3.21": 6,
+            "swift_v6.2.3": 9,
+            "zig_v0.16.0": 1
+          }
+        },
+        {
+          "id": "metric.hidden_semantic_cost",
+          "weight": 0.2,
+          "category": null,
+          "scores": {
+            "quidra_v0.3.0": 81.48,
+            "python_v3.12.3": 18.52,
+            "cpp_v18.1.3": 11.11,
+            "rust_v1.95.0": 66.67,
+            "go_v1.26.3": 48.15,
+            "java_v26.0.1": 48.15,
+            "typescript_v7.0.2": 0.0,
+            "kotlin_v2.3.21": 66.67,
+            "swift_v6.2.3": 74.07,
+            "zig_v0.16.0": 100.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 2,
+            "python_v3.12.3": 8,
+            "cpp_v18.1.3": 9,
+            "rust_v1.95.0": 4,
+            "go_v1.26.3": 6,
+            "java_v26.0.1": 6,
+            "typescript_v7.0.2": 10,
+            "kotlin_v2.3.21": 4,
+            "swift_v6.2.3": 3,
+            "zig_v0.16.0": 1
+          }
+        },
+        {
+          "id": "metric.capability_efficiency",
+          "weight": 0.15,
+          "category": null,
+          "scores": {
+            "quidra_v0.3.0": 36.46,
+            "python_v3.12.3": 0.0,
+            "cpp_v18.1.3": 54.31,
+            "rust_v1.95.0": 60.12,
+            "go_v1.26.3": 82.2,
+            "java_v26.0.1": 47.9,
+            "typescript_v7.0.2": 24.43,
+            "kotlin_v2.3.21": 59.63,
+            "swift_v6.2.3": 100.0,
+            "zig_v0.16.0": 27.91
+          },
+          "ranks": {
+            "quidra_v0.3.0": 7,
+            "python_v3.12.3": 10,
+            "cpp_v18.1.3": 5,
+            "rust_v1.95.0": 3,
+            "go_v1.26.3": 2,
+            "java_v26.0.1": 6,
+            "typescript_v7.0.2": 9,
+            "kotlin_v2.3.21": 4,
+            "swift_v6.2.3": 1,
+            "zig_v0.16.0": 8
+          }
+        },
+        {
+          "id": "metric.capability_coverage",
+          "weight": null,
+          "category": null,
+          "scores": {
+            "quidra_v0.3.0": 81.82,
+            "python_v3.12.3": 77.27,
+            "cpp_v18.1.3": 98.86,
+            "rust_v1.95.0": 98.86,
+            "go_v1.26.3": 90.91,
+            "java_v26.0.1": 90.91,
+            "typescript_v7.0.2": 82.95,
+            "kotlin_v2.3.21": 90.91,
+            "swift_v6.2.3": 97.73,
+            "zig_v0.16.0": 94.32
+          },
+          "ranks": {
+            "quidra_v0.3.0": 9,
+            "python_v3.12.3": 10,
+            "cpp_v18.1.3": 1,
+            "rust_v1.95.0": 1,
+            "go_v1.26.3": 5,
+            "java_v26.0.1": 5,
+            "typescript_v7.0.2": 8,
+            "kotlin_v2.3.21": 5,
+            "swift_v6.2.3": 3,
+            "zig_v0.16.0": 4
+          }
+        }
+      ],
+      "categories": []
+    },
+    {
+      "id": "llm_learnability",
+      "name": "LLM Learnability",
+      "order": 2,
+      "summary": "Whether a model can learn a language's rules from a reference pack and apply them when familiarity is controlled: the language is never named, keywords or vocabulary are transformed by reversible mappings in most conditions, and every program is mapped back and validated by the real toolchain. Six conditions (keyword and vocabulary anonymization, surface perturbation, novel-rule generalization, held-out rule composition, prior-conflict resistance) are scored with the same task metrics as LLM Proficiency and combined with fixed weights. It is separate from LLM Proficiency and is not a proof of zero prior exposure. Higher is better.",
+      "methodology_url": "https://github.com/quidra-lang/quidra/blob/main/benchmark/template/methodology/llm_learnability.md",
+      "breakdown_url": "https://github.com/quidra-lang/quidra/blob/main/benchmark/2026-09-27-38b7137-gh31/breakdown/llm_learnability.md",
+      "status": "COMPLETE",
+      "aggregation": "weighted_mean",
+      "ranking": [
+        {
+          "rank": 1,
+          "language_id": "swift_v6.2.3",
+          "name": "Swift",
+          "score": 100.0
+        },
+        {
+          "rank": 2,
+          "language_id": "typescript_v7.0.2",
+          "name": "TypeScript",
+          "score": 99.1
+        },
+        {
+          "rank": 3,
+          "language_id": "rust_v1.95.0",
+          "name": "Rust",
+          "score": 98.4
+        },
+        {
+          "rank": 4,
+          "language_id": "python_v3.12.3",
+          "name": "Python",
+          "score": 98.02
+        },
+        {
+          "rank": 5,
+          "language_id": "java_v26.0.1",
+          "name": "Java",
+          "score": 97.8
+        },
+        {
+          "rank": 6,
+          "language_id": "kotlin_v2.3.21",
+          "name": "Kotlin",
+          "score": 97.6
+        },
+        {
+          "rank": 7,
+          "language_id": "cpp_v18.1.3",
+          "name": "C++",
+          "score": 97.5
+        },
+        {
+          "rank": 8,
+          "language_id": "go_v1.26.3",
+          "name": "Go",
+          "score": 91.58
+        },
+        {
+          "rank": 9,
+          "language_id": "zig_v0.16.0",
+          "name": "Zig",
+          "score": 81.67
+        },
+        {
+          "rank": 10,
+          "language_id": "quidra_v0.3.0",
+          "name": "Quidra",
+          "score": 71.97
+        }
+      ],
+      "quidra": {
+        "rank": 10,
+        "score": 71.97
+      },
+      "requirements": [
+        {
+          "id": "condition.i1_keyword_anonymization",
+          "weight": 0.2,
+          "category": null,
+          "scores": {
+            "quidra_v0.3.0": 96.0,
+            "python_v3.12.3": 100.0,
+            "cpp_v18.1.3": 100.0,
+            "rust_v1.95.0": 100.0,
+            "go_v1.26.3": 100.0,
+            "java_v26.0.1": 100.0,
+            "typescript_v7.0.2": 100.0,
+            "kotlin_v2.3.21": 100.0,
+            "swift_v6.2.3": 100.0,
+            "zig_v0.16.0": 67.67
+          },
+          "ranks": {
+            "quidra_v0.3.0": 9,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 1,
+            "rust_v1.95.0": 1,
+            "go_v1.26.3": 1,
+            "java_v26.0.1": 1,
+            "typescript_v7.0.2": 1,
+            "kotlin_v2.3.21": 1,
+            "swift_v6.2.3": 1,
+            "zig_v0.16.0": 10
+          }
+        },
+        {
+          "id": "condition.i2_vocabulary_anonymization",
+          "weight": 0.2,
+          "category": null,
+          "scores": {
+            "quidra_v0.3.0": 57.33,
+            "python_v3.12.3": 100.0,
+            "cpp_v18.1.3": 92.0,
+            "rust_v1.95.0": 100.0,
+            "go_v1.26.3": 66.67,
+            "java_v26.0.1": 100.0,
+            "typescript_v7.0.2": 100.0,
+            "kotlin_v2.3.21": 100.0,
+            "swift_v6.2.3": 100.0,
+            "zig_v0.16.0": 67.67
+          },
+          "ranks": {
+            "quidra_v0.3.0": 10,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 7,
+            "rust_v1.95.0": 1,
+            "go_v1.26.3": 9,
+            "java_v26.0.1": 1,
+            "typescript_v7.0.2": 1,
+            "kotlin_v2.3.21": 1,
+            "swift_v6.2.3": 1,
+            "zig_v0.16.0": 8
+          }
+        },
+        {
+          "id": "condition.i3_structural_surface_perturbation",
+          "weight": 0.15,
+          "category": null,
+          "scores": {
+            "quidra_v0.3.0": 100.0,
+            "python_v3.12.3": 100.0,
+            "cpp_v18.1.3": 100.0,
+            "rust_v1.95.0": 96.0,
+            "go_v1.26.3": 95.0,
+            "java_v26.0.1": 92.0,
+            "typescript_v7.0.2": 100.0,
+            "kotlin_v2.3.21": 96.0,
+            "swift_v6.2.3": 100.0,
+            "zig_v0.16.0": 92.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 1,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 1,
+            "rust_v1.95.0": 6,
+            "go_v1.26.3": 8,
+            "java_v26.0.1": 9,
+            "typescript_v7.0.2": 1,
+            "kotlin_v2.3.21": 6,
+            "swift_v6.2.3": 1,
+            "zig_v0.16.0": 9
+          }
+        },
+        {
+          "id": "condition.i4_novel_rule_generalization",
+          "weight": 0.2,
+          "category": null,
+          "scores": {
+            "quidra_v0.3.0": 100.0,
+            "python_v3.12.3": 100.0,
+            "cpp_v18.1.3": 100.0,
+            "rust_v1.95.0": 95.0,
+            "go_v1.26.3": 95.0,
+            "java_v26.0.1": 95.0,
+            "typescript_v7.0.2": 100.0,
+            "kotlin_v2.3.21": 95.0,
+            "swift_v6.2.3": 100.0,
+            "zig_v0.16.0": 92.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 1,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 1,
+            "rust_v1.95.0": 6,
+            "go_v1.26.3": 6,
+            "java_v26.0.1": 6,
+            "typescript_v7.0.2": 1,
+            "kotlin_v2.3.21": 6,
+            "swift_v6.2.3": 1,
+            "zig_v0.16.0": 10
+          }
+        },
+        {
+          "id": "condition.i5_held_out_rule_composition",
+          "weight": 0.15,
+          "category": null,
+          "scores": {
+            "quidra_v0.3.0": 34.0,
+            "python_v3.12.3": 91.5,
+            "cpp_v18.1.3": 96.0,
+            "rust_v1.95.0": 100.0,
+            "go_v1.26.3": 100.0,
+            "java_v26.0.1": 100.0,
+            "typescript_v7.0.2": 96.0,
+            "kotlin_v2.3.21": 96.0,
+            "swift_v6.2.3": 100.0,
+            "zig_v0.16.0": 88.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 10,
+            "python_v3.12.3": 8,
+            "cpp_v18.1.3": 5,
+            "rust_v1.95.0": 1,
+            "go_v1.26.3": 1,
+            "java_v26.0.1": 1,
+            "typescript_v7.0.2": 5,
+            "kotlin_v2.3.21": 5,
+            "swift_v6.2.3": 1,
+            "zig_v0.16.0": 9
+          }
+        },
+        {
+          "id": "condition.i6_prior_conflict_resistance",
+          "weight": 0.1,
+          "category": null,
+          "scores": {
+            "quidra_v0.3.0": 12.0,
+            "python_v3.12.3": 93.0,
+            "cpp_v18.1.3": 97.0,
+            "rust_v1.95.0": 100.0,
+            "go_v1.26.3": 100.0,
+            "java_v26.0.1": 100.0,
+            "typescript_v7.0.2": 97.0,
+            "kotlin_v2.3.21": 98.0,
+            "swift_v6.2.3": 100.0,
+            "zig_v0.16.0": 92.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 10,
+            "python_v3.12.3": 8,
+            "cpp_v18.1.3": 6,
+            "rust_v1.95.0": 1,
+            "go_v1.26.3": 1,
+            "java_v26.0.1": 1,
+            "typescript_v7.0.2": 6,
+            "kotlin_v2.3.21": 5,
+            "swift_v6.2.3": 1,
+            "zig_v0.16.0": 9
+          }
+        }
+      ],
+      "categories": []
+    },
+    {
+      "id": "language_quality",
+      "name": "Language Quality",
+      "order": 3,
+      "summary": "The intrinsic quality of the language and its implementation on comparable workloads written idiomatically in each language, excluding maturity and network effects, which belong to Ecosystem. Twenty-five metrics in four weighted categories: performance and resource metrics are mechanical measurements of the same programs; safety and robustness metrics are computed from frozen adversarial case sets that record how early a defect is detected; language and development metrics are worker judgments on frozen rubrics. Scores are 0-100, higher is better.",
+      "methodology_url": "https://github.com/quidra-lang/quidra/blob/main/benchmark/template/methodology/language_quality.md",
+      "breakdown_url": "https://github.com/quidra-lang/quidra/blob/main/benchmark/2026-09-27-38b7137-gh31/breakdown/language_quality.md",
+      "status": "COMPLETE",
+      "aggregation": "category_mean",
+      "ranking": [
+        {
+          "rank": 1,
+          "language_id": "rust_v1.95.0",
+          "name": "Rust",
+          "score": 72.24
+        },
+        {
+          "rank": 2,
+          "language_id": "go_v1.26.3",
+          "name": "Go",
+          "score": 67.22
+        },
+        {
+          "rank": 3,
+          "language_id": "zig_v0.16.0",
+          "name": "Zig",
+          "score": 66.76
+        },
+        {
+          "rank": 4,
+          "language_id": "quidra_v0.3.0",
+          "name": "Quidra",
+          "score": 66.13
+        },
+        {
+          "rank": 5,
+          "language_id": "python_v3.12.3",
+          "name": "Python",
+          "score": 64.4
+        },
+        {
+          "rank": 6,
+          "language_id": "swift_v6.2.3",
+          "name": "Swift",
+          "score": 63.64
+        },
+        {
+          "rank": 7,
+          "language_id": "java_v26.0.1",
+          "name": "Java",
+          "score": 58.77
+        },
+        {
+          "rank": 8,
+          "language_id": "kotlin_v2.3.21",
+          "name": "Kotlin",
+          "score": 56.95
+        },
+        {
+          "rank": 9,
+          "language_id": "cpp_v18.1.3",
+          "name": "C++",
+          "score": 51.32
+        },
+        {
+          "rank": 10,
+          "language_id": "typescript_v7.0.2",
+          "name": "TypeScript",
+          "score": 46.72
+        }
+      ],
+      "quidra": {
+        "rank": 4,
+        "score": 66.13
+      },
+      "requirements": [
+        {
+          "id": "metric.native_execution_performance",
+          "weight": null,
+          "category": "performance",
+          "scores": {
+            "quidra_v0.3.0": 63.02,
+            "python_v3.12.3": 3.77,
+            "cpp_v18.1.3": 87.21,
+            "rust_v1.95.0": 84.0,
+            "go_v1.26.3": 76.26,
+            "java_v26.0.1": 62.82,
+            "typescript_v7.0.2": 42.16,
+            "kotlin_v2.3.21": 61.43,
+            "swift_v6.2.3": 71.08,
+            "zig_v0.16.0": 97.01
+          },
+          "ranks": {
+            "quidra_v0.3.0": 6,
+            "python_v3.12.3": 10,
+            "cpp_v18.1.3": 2,
+            "rust_v1.95.0": 3,
+            "go_v1.26.3": 4,
+            "java_v26.0.1": 7,
+            "typescript_v7.0.2": 9,
+            "kotlin_v2.3.21": 8,
+            "swift_v6.2.3": 5,
+            "zig_v0.16.0": 1
+          }
+        },
+        {
+          "id": "metric.long_running_performance",
+          "weight": null,
+          "category": "performance",
+          "scores": {
+            "quidra_v0.3.0": 61.81,
+            "python_v3.12.3": 3.68,
+            "cpp_v18.1.3": 85.85,
+            "rust_v1.95.0": 82.04,
+            "go_v1.26.3": 74.34,
+            "java_v26.0.1": 74.55,
+            "typescript_v7.0.2": 41.44,
+            "kotlin_v2.3.21": 70.54,
+            "swift_v6.2.3": 69.53,
+            "zig_v0.16.0": 95.32
+          },
+          "ranks": {
+            "quidra_v0.3.0": 8,
+            "python_v3.12.3": 10,
+            "cpp_v18.1.3": 2,
+            "rust_v1.95.0": 3,
+            "go_v1.26.3": 5,
+            "java_v26.0.1": 4,
+            "typescript_v7.0.2": 9,
+            "kotlin_v2.3.21": 6,
+            "swift_v6.2.3": 7,
+            "zig_v0.16.0": 1
+          }
+        },
+        {
+          "id": "metric.compile_build_performance",
+          "weight": null,
+          "category": "performance",
+          "scores": {
+            "quidra_v0.3.0": 0.6,
+            "python_v3.12.3": 100.0,
+            "cpp_v18.1.3": 0.07,
+            "rust_v1.95.0": 0.56,
+            "go_v1.26.3": 0.77,
+            "java_v26.0.1": 0.16,
+            "typescript_v7.0.2": 0.3,
+            "kotlin_v2.3.21": 0.02,
+            "swift_v6.2.3": 0.14,
+            "zig_v0.16.0": 0.01
+          },
+          "ranks": {
+            "quidra_v0.3.0": 3,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 8,
+            "rust_v1.95.0": 4,
+            "go_v1.26.3": 2,
+            "java_v26.0.1": 6,
+            "typescript_v7.0.2": 5,
+            "kotlin_v2.3.21": 9,
+            "swift_v6.2.3": 7,
+            "zig_v0.16.0": 10
+          }
+        },
+        {
+          "id": "metric.startup_latency",
+          "weight": null,
+          "category": "performance",
+          "scores": {
+            "quidra_v0.3.0": 64.1,
+            "python_v3.12.3": 11.07,
+            "cpp_v18.1.3": 63.08,
+            "rust_v1.95.0": 92.44,
+            "go_v1.26.3": 64.76,
+            "java_v26.0.1": 4.05,
+            "typescript_v7.0.2": 4.95,
+            "kotlin_v2.3.21": 2.49,
+            "swift_v6.2.3": 33.46,
+            "zig_v0.16.0": 100.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 4,
+            "python_v3.12.3": 7,
+            "cpp_v18.1.3": 5,
+            "rust_v1.95.0": 2,
+            "go_v1.26.3": 3,
+            "java_v26.0.1": 9,
+            "typescript_v7.0.2": 8,
+            "kotlin_v2.3.21": 10,
+            "swift_v6.2.3": 6,
+            "zig_v0.16.0": 1
+          }
+        },
+        {
+          "id": "metric.memory_efficiency",
+          "weight": null,
+          "category": "resource",
+          "scores": {
+            "quidra_v0.3.0": 75.17,
+            "python_v3.12.3": 64.84,
+            "cpp_v18.1.3": 92.07,
+            "rust_v1.95.0": 95.93,
+            "go_v1.26.3": 83.55,
+            "java_v26.0.1": 21.87,
+            "typescript_v7.0.2": 21.87,
+            "kotlin_v2.3.21": 21.35,
+            "swift_v6.2.3": 75.94,
+            "zig_v0.16.0": 97.81
+          },
+          "ranks": {
+            "quidra_v0.3.0": 6,
+            "python_v3.12.3": 7,
+            "cpp_v18.1.3": 3,
+            "rust_v1.95.0": 2,
+            "go_v1.26.3": 4,
+            "java_v26.0.1": 8,
+            "typescript_v7.0.2": 8,
+            "kotlin_v2.3.21": 10,
+            "swift_v6.2.3": 5,
+            "zig_v0.16.0": 1
+          }
+        },
+        {
+          "id": "metric.source_code_size",
+          "weight": null,
+          "category": "resource",
+          "scores": {
+            "quidra_v0.3.0": 92.32,
+            "python_v3.12.3": 95.13,
+            "cpp_v18.1.3": 63.24,
+            "rust_v1.95.0": 79.87,
+            "go_v1.26.3": 91.21,
+            "java_v26.0.1": 75.05,
+            "typescript_v7.0.2": 60.87,
+            "kotlin_v2.3.21": 84.04,
+            "swift_v6.2.3": 71.11,
+            "zig_v0.16.0": 61.2
+          },
+          "ranks": {
+            "quidra_v0.3.0": 2,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 8,
+            "rust_v1.95.0": 5,
+            "go_v1.26.3": 3,
+            "java_v26.0.1": 6,
+            "typescript_v7.0.2": 10,
+            "kotlin_v2.3.21": 4,
+            "swift_v6.2.3": 7,
+            "zig_v0.16.0": 9
+          }
+        },
+        {
+          "id": "metric.binary_artifact_size",
+          "weight": null,
+          "category": "resource",
+          "scores": {
+            "quidra_v0.3.0": 1.7,
+            "python_v3.12.3": 100.0,
+            "cpp_v18.1.3": 17.09,
+            "rust_v1.95.0": 0.09,
+            "go_v1.26.3": 0.17,
+            "java_v26.0.1": 52.78,
+            "typescript_v7.0.2": 55.9,
+            "kotlin_v2.3.21": 0.07,
+            "swift_v6.2.3": 11.36,
+            "zig_v0.16.0": 0.11
+          },
+          "ranks": {
+            "quidra_v0.3.0": 6,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 4,
+            "rust_v1.95.0": 9,
+            "go_v1.26.3": 7,
+            "java_v26.0.1": 3,
+            "typescript_v7.0.2": 2,
+            "kotlin_v2.3.21": 10,
+            "swift_v6.2.3": 5,
+            "zig_v0.16.0": 8
+          }
+        },
+        {
+          "id": "metric.runtime_overhead",
+          "weight": null,
+          "category": "resource",
+          "scores": {
+            "quidra_v0.3.0": 100.0,
+            "python_v3.12.3": 99.72,
+            "cpp_v18.1.3": 99.65,
+            "rust_v1.95.0": 99.68,
+            "go_v1.26.3": 99.68,
+            "java_v26.0.1": 26.19,
+            "typescript_v7.0.2": 22.1,
+            "kotlin_v2.3.21": 24.27,
+            "swift_v6.2.3": 99.72,
+            "zig_v0.16.0": 99.68
+          },
+          "ranks": {
+            "quidra_v0.3.0": 1,
+            "python_v3.12.3": 2,
+            "cpp_v18.1.3": 7,
+            "rust_v1.95.0": 4,
+            "go_v1.26.3": 4,
+            "java_v26.0.1": 8,
+            "typescript_v7.0.2": 10,
+            "kotlin_v2.3.21": 9,
+            "swift_v6.2.3": 2,
+            "zig_v0.16.0": 4
+          }
+        },
+        {
+          "id": "metric.code_efficiency_conciseness",
+          "weight": null,
+          "category": "language_development",
+          "scores": {
+            "quidra_v0.3.0": 90.0,
+            "python_v3.12.3": 90.0,
+            "cpp_v18.1.3": 50.0,
+            "rust_v1.95.0": 75.0,
+            "go_v1.26.3": 60.0,
+            "java_v26.0.1": 50.0,
+            "typescript_v7.0.2": 90.0,
+            "kotlin_v2.3.21": 95.0,
+            "swift_v6.2.3": 95.0,
+            "zig_v0.16.0": 65.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 3,
+            "python_v3.12.3": 3,
+            "cpp_v18.1.3": 9,
+            "rust_v1.95.0": 6,
+            "go_v1.26.3": 8,
+            "java_v26.0.1": 9,
+            "typescript_v7.0.2": 3,
+            "kotlin_v2.3.21": 1,
+            "swift_v6.2.3": 1,
+            "zig_v0.16.0": 7
+          }
+        },
+        {
+          "id": "metric.readability",
+          "weight": null,
+          "category": "language_development",
+          "scores": {
+            "quidra_v0.3.0": 95.0,
+            "python_v3.12.3": 85.0,
+            "cpp_v18.1.3": 50.0,
+            "rust_v1.95.0": 80.0,
+            "go_v1.26.3": 95.0,
+            "java_v26.0.1": 85.0,
+            "typescript_v7.0.2": 75.0,
+            "kotlin_v2.3.21": 90.0,
+            "swift_v6.2.3": 90.0,
+            "zig_v0.16.0": 75.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 1,
+            "python_v3.12.3": 5,
+            "cpp_v18.1.3": 10,
+            "rust_v1.95.0": 7,
+            "go_v1.26.3": 1,
+            "java_v26.0.1": 5,
+            "typescript_v7.0.2": 8,
+            "kotlin_v2.3.21": 3,
+            "swift_v6.2.3": 3,
+            "zig_v0.16.0": 8
+          }
+        },
+        {
+          "id": "metric.functionality_expressiveness",
+          "weight": null,
+          "category": "language_development",
+          "scores": {
+            "quidra_v0.3.0": 85.0,
+            "python_v3.12.3": 90.0,
+            "cpp_v18.1.3": 90.0,
+            "rust_v1.95.0": 100.0,
+            "go_v1.26.3": 75.0,
+            "java_v26.0.1": 85.0,
+            "typescript_v7.0.2": 90.0,
+            "kotlin_v2.3.21": 95.0,
+            "swift_v6.2.3": 95.0,
+            "zig_v0.16.0": 80.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 7,
+            "python_v3.12.3": 4,
+            "cpp_v18.1.3": 4,
+            "rust_v1.95.0": 1,
+            "go_v1.26.3": 10,
+            "java_v26.0.1": 7,
+            "typescript_v7.0.2": 4,
+            "kotlin_v2.3.21": 2,
+            "swift_v6.2.3": 2,
+            "zig_v0.16.0": 9
+          }
+        },
+        {
+          "id": "metric.diagnostics",
+          "weight": null,
+          "category": "language_development",
+          "scores": {
+            "quidra_v0.3.0": 100.0,
+            "python_v3.12.3": 65.0,
+            "cpp_v18.1.3": 60.0,
+            "rust_v1.95.0": 100.0,
+            "go_v1.26.3": 65.0,
+            "java_v26.0.1": 75.0,
+            "typescript_v7.0.2": 95.0,
+            "kotlin_v2.3.21": 85.0,
+            "swift_v6.2.3": 95.0,
+            "zig_v0.16.0": 95.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 1,
+            "python_v3.12.3": 8,
+            "cpp_v18.1.3": 10,
+            "rust_v1.95.0": 1,
+            "go_v1.26.3": 8,
+            "java_v26.0.1": 7,
+            "typescript_v7.0.2": 3,
+            "kotlin_v2.3.21": 6,
+            "swift_v6.2.3": 3,
+            "zig_v0.16.0": 3
+          }
+        },
+        {
+          "id": "metric.dependency_simplicity",
+          "weight": null,
+          "category": "language_development",
+          "scores": {
+            "quidra_v0.3.0": 100.0,
+            "python_v3.12.3": 60.0,
+            "cpp_v18.1.3": 35.0,
+            "rust_v1.95.0": 100.0,
+            "go_v1.26.3": 100.0,
+            "java_v26.0.1": 75.0,
+            "typescript_v7.0.2": 65.0,
+            "kotlin_v2.3.21": 65.0,
+            "swift_v6.2.3": 95.0,
+            "zig_v0.16.0": 95.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 1,
+            "python_v3.12.3": 9,
+            "cpp_v18.1.3": 10,
+            "rust_v1.95.0": 1,
+            "go_v1.26.3": 1,
+            "java_v26.0.1": 6,
+            "typescript_v7.0.2": 7,
+            "kotlin_v2.3.21": 7,
+            "swift_v6.2.3": 4,
+            "zig_v0.16.0": 4
+          }
+        },
+        {
+          "id": "metric.portability_design_platform_neutrality",
+          "weight": null,
+          "category": "language_development",
+          "scores": {
+            "quidra_v0.3.0": 90.0,
+            "python_v3.12.3": 90.0,
+            "cpp_v18.1.3": 50.0,
+            "rust_v1.95.0": 90.0,
+            "go_v1.26.3": 100.0,
+            "java_v26.0.1": 95.0,
+            "typescript_v7.0.2": 80.0,
+            "kotlin_v2.3.21": 100.0,
+            "swift_v6.2.3": 80.0,
+            "zig_v0.16.0": 100.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 5,
+            "python_v3.12.3": 5,
+            "cpp_v18.1.3": 10,
+            "rust_v1.95.0": 5,
+            "go_v1.26.3": 1,
+            "java_v26.0.1": 4,
+            "typescript_v7.0.2": 8,
+            "kotlin_v2.3.21": 1,
+            "swift_v6.2.3": 8,
+            "zig_v0.16.0": 1
+          }
+        },
+        {
+          "id": "metric.ffi_interoperability_design",
+          "weight": null,
+          "category": "language_development",
+          "scores": {
+            "quidra_v0.3.0": 70.0,
+            "python_v3.12.3": 70.0,
+            "cpp_v18.1.3": 80.0,
+            "rust_v1.95.0": 100.0,
+            "go_v1.26.3": 65.0,
+            "java_v26.0.1": 85.0,
+            "typescript_v7.0.2": 30.0,
+            "kotlin_v2.3.21": 85.0,
+            "swift_v6.2.3": 95.0,
+            "zig_v0.16.0": 95.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 7,
+            "python_v3.12.3": 7,
+            "cpp_v18.1.3": 6,
+            "rust_v1.95.0": 1,
+            "go_v1.26.3": 9,
+            "java_v26.0.1": 4,
+            "typescript_v7.0.2": 10,
+            "kotlin_v2.3.21": 4,
+            "swift_v6.2.3": 2,
+            "zig_v0.16.0": 2
+          }
+        },
+        {
+          "id": "metric.concurrency",
+          "weight": null,
+          "category": "language_development",
+          "scores": {
+            "quidra_v0.3.0": 55.0,
+            "python_v3.12.3": 60.0,
+            "cpp_v18.1.3": 60.0,
+            "rust_v1.95.0": 90.0,
+            "go_v1.26.3": 70.0,
+            "java_v26.0.1": 85.0,
+            "typescript_v7.0.2": 75.0,
+            "kotlin_v2.3.21": 85.0,
+            "swift_v6.2.3": 100.0,
+            "zig_v0.16.0": 65.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 10,
+            "python_v3.12.3": 8,
+            "cpp_v18.1.3": 8,
+            "rust_v1.95.0": 2,
+            "go_v1.26.3": 6,
+            "java_v26.0.1": 3,
+            "typescript_v7.0.2": 5,
+            "kotlin_v2.3.21": 3,
+            "swift_v6.2.3": 1,
+            "zig_v0.16.0": 7
+          }
+        },
+        {
+          "id": "metric.type_safety",
+          "weight": null,
+          "category": "safety_robustness",
+          "scores": {
+            "quidra_v0.3.0": 74.58,
+            "python_v3.12.3": 29.17,
+            "cpp_v18.1.3": 19.58,
+            "rust_v1.95.0": 51.67,
+            "go_v1.26.3": 62.5,
+            "java_v26.0.1": 45.83,
+            "typescript_v7.0.2": 33.33,
+            "kotlin_v2.3.21": 56.25,
+            "swift_v6.2.3": 67.08,
+            "zig_v0.16.0": 67.08
+          },
+          "ranks": {
+            "quidra_v0.3.0": 1,
+            "python_v3.12.3": 9,
+            "cpp_v18.1.3": 10,
+            "rust_v1.95.0": 6,
+            "go_v1.26.3": 4,
+            "java_v26.0.1": 7,
+            "typescript_v7.0.2": 8,
+            "kotlin_v2.3.21": 5,
+            "swift_v6.2.3": 2,
+            "zig_v0.16.0": 2
+          }
+        },
+        {
+          "id": "metric.memory_safety",
+          "weight": null,
+          "category": "safety_robustness",
+          "scores": {
+            "quidra_v0.3.0": 44.44,
+            "python_v3.12.3": 66.67,
+            "cpp_v18.1.3": 11.11,
+            "rust_v1.95.0": 77.78,
+            "go_v1.26.3": 88.89,
+            "java_v26.0.1": 100.0,
+            "typescript_v7.0.2": 55.56,
+            "kotlin_v2.3.21": 100.0,
+            "swift_v6.2.3": 44.44,
+            "zig_v0.16.0": 33.33
+          },
+          "ranks": {
+            "quidra_v0.3.0": 7,
+            "python_v3.12.3": 5,
+            "cpp_v18.1.3": 10,
+            "rust_v1.95.0": 4,
+            "go_v1.26.3": 3,
+            "java_v26.0.1": 1,
+            "typescript_v7.0.2": 6,
+            "kotlin_v2.3.21": 1,
+            "swift_v6.2.3": 7,
+            "zig_v0.16.0": 9
+          }
+        },
+        {
+          "id": "metric.runtime_safety",
+          "weight": null,
+          "category": "safety_robustness",
+          "scores": {
+            "quidra_v0.3.0": 41.67,
+            "python_v3.12.3": 68.75,
+            "cpp_v18.1.3": 3.33,
+            "rust_v1.95.0": 39.02,
+            "go_v1.26.3": 51.16,
+            "java_v26.0.1": 57.69,
+            "typescript_v7.0.2": 22.22,
+            "kotlin_v2.3.21": 45.83,
+            "swift_v6.2.3": 13.95,
+            "zig_v0.16.0": 9.76
+          },
+          "ranks": {
+            "quidra_v0.3.0": 5,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 10,
+            "rust_v1.95.0": 6,
+            "go_v1.26.3": 3,
+            "java_v26.0.1": 2,
+            "typescript_v7.0.2": 7,
+            "kotlin_v2.3.21": 4,
+            "swift_v6.2.3": 8,
+            "zig_v0.16.0": 9
+          }
+        },
+        {
+          "id": "metric.boundary_value_safety",
+          "weight": null,
+          "category": "safety_robustness",
+          "scores": {
+            "quidra_v0.3.0": 54.55,
+            "python_v3.12.3": 65.91,
+            "cpp_v18.1.3": 7.27,
+            "rust_v1.95.0": 51.93,
+            "go_v1.26.3": 60.45,
+            "java_v26.0.1": 42.27,
+            "typescript_v7.0.2": 22.27,
+            "kotlin_v2.3.21": 37.73,
+            "swift_v6.2.3": 47.27,
+            "zig_v0.16.0": 53.75
+          },
+          "ranks": {
+            "quidra_v0.3.0": 3,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 10,
+            "rust_v1.95.0": 5,
+            "go_v1.26.3": 2,
+            "java_v26.0.1": 7,
+            "typescript_v7.0.2": 9,
+            "kotlin_v2.3.21": 8,
+            "swift_v6.2.3": 6,
+            "zig_v0.16.0": 4
+          }
+        },
+        {
+          "id": "metric.adversarial_input_robustness",
+          "weight": null,
+          "category": "safety_robustness",
+          "scores": {
+            "quidra_v0.3.0": 50.71,
+            "python_v3.12.3": 79.29,
+            "cpp_v18.1.3": 48.57,
+            "rust_v1.95.0": 69.29,
+            "go_v1.26.3": 64.29,
+            "java_v26.0.1": 85.71,
+            "typescript_v7.0.2": 59.29,
+            "kotlin_v2.3.21": 75.0,
+            "swift_v6.2.3": 51.43,
+            "zig_v0.16.0": 42.86
+          },
+          "ranks": {
+            "quidra_v0.3.0": 8,
+            "python_v3.12.3": 2,
+            "cpp_v18.1.3": 9,
+            "rust_v1.95.0": 4,
+            "go_v1.26.3": 5,
+            "java_v26.0.1": 1,
+            "typescript_v7.0.2": 6,
+            "kotlin_v2.3.21": 3,
+            "swift_v6.2.3": 7,
+            "zig_v0.16.0": 10
+          }
+        },
+        {
+          "id": "metric.early_error_detection",
+          "weight": null,
+          "category": "safety_robustness",
+          "scores": {
+            "quidra_v0.3.0": 59.81,
+            "python_v3.12.3": 57.88,
+            "cpp_v18.1.3": 25.38,
+            "rust_v1.95.0": 64.47,
+            "go_v1.26.3": 64.04,
+            "java_v26.0.1": 65.0,
+            "typescript_v7.0.2": 44.62,
+            "kotlin_v2.3.21": 61.15,
+            "swift_v6.2.3": 55.96,
+            "zig_v0.16.0": 49.86
+          },
+          "ranks": {
+            "quidra_v0.3.0": 5,
+            "python_v3.12.3": 6,
+            "cpp_v18.1.3": 10,
+            "rust_v1.95.0": 2,
+            "go_v1.26.3": 3,
+            "java_v26.0.1": 1,
+            "typescript_v7.0.2": 9,
+            "kotlin_v2.3.21": 4,
+            "swift_v6.2.3": 7,
+            "zig_v0.16.0": 8
+          }
+        },
+        {
+          "id": "metric.debuggability",
+          "weight": null,
+          "category": "safety_robustness",
+          "scores": {
+            "quidra_v0.3.0": 66.67,
+            "python_v3.12.3": 68.59,
+            "cpp_v18.1.3": 13.46,
+            "rust_v1.95.0": 54.49,
+            "go_v1.26.3": 45.83,
+            "java_v26.0.1": 61.54,
+            "typescript_v7.0.2": 38.46,
+            "kotlin_v2.3.21": 52.24,
+            "swift_v6.2.3": 32.05,
+            "zig_v0.16.0": 27.24
+          },
+          "ranks": {
+            "quidra_v0.3.0": 2,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 10,
+            "rust_v1.95.0": 4,
+            "go_v1.26.3": 6,
+            "java_v26.0.1": 3,
+            "typescript_v7.0.2": 7,
+            "kotlin_v2.3.21": 5,
+            "swift_v6.2.3": 8,
+            "zig_v0.16.0": 9
+          }
+        },
+        {
+          "id": "metric.silent_bug_resistance",
+          "weight": null,
+          "category": "safety_robustness",
+          "scores": {
+            "quidra_v0.3.0": 91.18,
+            "python_v3.12.3": 70.59,
+            "cpp_v18.1.3": 29.41,
+            "rust_v1.95.0": 75.0,
+            "go_v1.26.3": 72.06,
+            "java_v26.0.1": 70.59,
+            "typescript_v7.0.2": 52.94,
+            "kotlin_v2.3.21": 64.71,
+            "swift_v6.2.3": 88.24,
+            "zig_v0.16.0": 63.24
+          },
+          "ranks": {
+            "quidra_v0.3.0": 1,
+            "python_v3.12.3": 5,
+            "cpp_v18.1.3": 10,
+            "rust_v1.95.0": 3,
+            "go_v1.26.3": 4,
+            "java_v26.0.1": 5,
+            "typescript_v7.0.2": 9,
+            "kotlin_v2.3.21": 7,
+            "swift_v6.2.3": 2,
+            "zig_v0.16.0": 8
+          }
+        },
+        {
+          "id": "metric.implementation_robustness",
+          "weight": null,
+          "category": "safety_robustness",
+          "scores": {
+            "quidra_v0.3.0": 100.0,
+            "python_v3.12.3": 100.0,
+            "cpp_v18.1.3": 100.0,
+            "rust_v1.95.0": 97.06,
+            "go_v1.26.3": 100.0,
+            "java_v26.0.1": 100.0,
+            "typescript_v7.0.2": 100.0,
+            "kotlin_v2.3.21": 100.0,
+            "swift_v6.2.3": 100.0,
+            "zig_v0.16.0": 97.06
+          },
+          "ranks": {
+            "quidra_v0.3.0": 1,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 1,
+            "rust_v1.95.0": 9,
+            "go_v1.26.3": 1,
+            "java_v26.0.1": 1,
+            "typescript_v7.0.2": 1,
+            "kotlin_v2.3.21": 1,
+            "swift_v6.2.3": 1,
+            "zig_v0.16.0": 9
+          }
+        }
+      ],
+      "categories": [
+        {
+          "id": "performance",
+          "weight": 0.25,
+          "metrics": [
+            "metric.native_execution_performance",
+            "metric.long_running_performance",
+            "metric.compile_build_performance",
+            "metric.startup_latency"
+          ],
+          "scores": {
+            "quidra_v0.3.0": 47.38,
+            "python_v3.12.3": 29.63,
+            "cpp_v18.1.3": 59.05,
+            "rust_v1.95.0": 64.76,
+            "go_v1.26.3": 54.03,
+            "java_v26.0.1": 35.4,
+            "typescript_v7.0.2": 22.21,
+            "kotlin_v2.3.21": 33.62,
+            "swift_v6.2.3": 43.55,
+            "zig_v0.16.0": 73.08
+          },
+          "ranks": {
+            "quidra_v0.3.0": 5,
+            "python_v3.12.3": 9,
+            "cpp_v18.1.3": 3,
+            "rust_v1.95.0": 2,
+            "go_v1.26.3": 4,
+            "java_v26.0.1": 7,
+            "typescript_v7.0.2": 10,
+            "kotlin_v2.3.21": 8,
+            "swift_v6.2.3": 6,
+            "zig_v0.16.0": 1
+          }
+        },
+        {
+          "id": "resource",
+          "weight": 0.1875,
+          "metrics": [
+            "metric.memory_efficiency",
+            "metric.source_code_size",
+            "metric.binary_artifact_size",
+            "metric.runtime_overhead"
+          ],
+          "scores": {
+            "quidra_v0.3.0": 67.3,
+            "python_v3.12.3": 89.92,
+            "cpp_v18.1.3": 68.01,
+            "rust_v1.95.0": 68.89,
+            "go_v1.26.3": 68.65,
+            "java_v26.0.1": 43.97,
+            "typescript_v7.0.2": 40.19,
+            "kotlin_v2.3.21": 32.43,
+            "swift_v6.2.3": 64.53,
+            "zig_v0.16.0": 64.7
+          },
+          "ranks": {
+            "quidra_v0.3.0": 5,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 4,
+            "rust_v1.95.0": 2,
+            "go_v1.26.3": 3,
+            "java_v26.0.1": 8,
+            "typescript_v7.0.2": 9,
+            "kotlin_v2.3.21": 10,
+            "swift_v6.2.3": 7,
+            "zig_v0.16.0": 6
+          }
+        },
+        {
+          "id": "language_development",
+          "weight": 0.25,
+          "metrics": [
+            "metric.code_efficiency_conciseness",
+            "metric.readability",
+            "metric.functionality_expressiveness",
+            "metric.diagnostics",
+            "metric.dependency_simplicity",
+            "metric.portability_design_platform_neutrality",
+            "metric.ffi_interoperability_design",
+            "metric.concurrency"
+          ],
+          "scores": {
+            "quidra_v0.3.0": 85.62,
+            "python_v3.12.3": 76.25,
+            "cpp_v18.1.3": 59.38,
+            "rust_v1.95.0": 91.88,
+            "go_v1.26.3": 78.75,
+            "java_v26.0.1": 79.38,
+            "typescript_v7.0.2": 75.0,
+            "kotlin_v2.3.21": 87.5,
+            "swift_v6.2.3": 93.12,
+            "zig_v0.16.0": 83.75
+          },
+          "ranks": {
+            "quidra_v0.3.0": 4,
+            "python_v3.12.3": 8,
+            "cpp_v18.1.3": 10,
+            "rust_v1.95.0": 2,
+            "go_v1.26.3": 7,
+            "java_v26.0.1": 6,
+            "typescript_v7.0.2": 9,
+            "kotlin_v2.3.21": 3,
+            "swift_v6.2.3": 1,
+            "zig_v0.16.0": 5
+          }
+        },
+        {
+          "id": "safety_robustness",
+          "weight": 0.3125,
+          "metrics": [
+            "metric.type_safety",
+            "metric.memory_safety",
+            "metric.runtime_safety",
+            "metric.boundary_value_safety",
+            "metric.adversarial_input_robustness",
+            "metric.early_error_detection",
+            "metric.debuggability",
+            "metric.silent_bug_resistance",
+            "metric.implementation_robustness"
+          ],
+          "scores": {
+            "quidra_v0.3.0": 64.85,
+            "python_v3.12.3": 67.43,
+            "cpp_v18.1.3": 28.68,
+            "rust_v1.95.0": 64.52,
+            "go_v1.26.3": 67.69,
+            "java_v26.0.1": 69.85,
+            "typescript_v7.0.2": 47.63,
+            "kotlin_v2.3.21": 65.88,
+            "swift_v6.2.3": 55.6,
+            "zig_v0.16.0": 49.35
+          },
+          "ranks": {
+            "quidra_v0.3.0": 5,
+            "python_v3.12.3": 3,
+            "cpp_v18.1.3": 10,
+            "rust_v1.95.0": 6,
+            "go_v1.26.3": 2,
+            "java_v26.0.1": 1,
+            "typescript_v7.0.2": 9,
+            "kotlin_v2.3.21": 4,
+            "swift_v6.2.3": 7,
+            "zig_v0.16.0": 8
+          }
+        }
+      ]
+    },
+    {
+      "id": "ecosystem",
+      "name": "Ecosystem",
+      "order": 4,
+      "summary": "The infrastructure, maturity and real-world evidence around a language: libraries, package activity, third-party tools, production adoption, community knowledge, tooling, editor and debugger support, documentation, installation, release maturity and platform coverage. It is kept separate from Language Quality so a young language's maturity gap stays visible. Fifteen metrics in two equally weighted categories; for each, an LLM worker gathers evidence by web search and assigns rubric levels that the runner converts to a 0-100 score. Absent evidence scores low rather than N/A. Higher is better.",
+      "methodology_url": "https://github.com/quidra-lang/quidra/blob/main/benchmark/template/methodology/ecosystem.md",
+      "breakdown_url": "https://github.com/quidra-lang/quidra/blob/main/benchmark/2026-09-27-38b7137-gh31/breakdown/ecosystem.md",
+      "status": "COMPLETE",
+      "aggregation": "category_mean",
+      "ranking": [
+        {
+          "rank": 1,
+          "language_id": "java_v26.0.1",
+          "name": "Java",
+          "score": 99.25
+        },
+        {
+          "rank": 2,
+          "language_id": "typescript_v7.0.2",
+          "name": "TypeScript",
+          "score": 98.5
+        },
+        {
+          "rank": 3,
+          "language_id": "python_v3.12.3",
+          "name": "Python",
+          "score": 98.25
+        },
+        {
+          "rank": 4,
+          "language_id": "kotlin_v2.3.21",
+          "name": "Kotlin",
+          "score": 97.75
+        },
+        {
+          "rank": 5,
+          "language_id": "go_v1.26.3",
+          "name": "Go",
+          "score": 97.5
+        },
+        {
+          "rank": 5,
+          "language_id": "rust_v1.95.0",
+          "name": "Rust",
+          "score": 97.5
+        },
+        {
+          "rank": 7,
+          "language_id": "cpp_v18.1.3",
+          "name": "C++",
+          "score": 96.25
+        },
+        {
+          "rank": 8,
+          "language_id": "swift_v6.2.3",
+          "name": "Swift",
+          "score": 91.0
+        },
+        {
+          "rank": 9,
+          "language_id": "zig_v0.16.0",
+          "name": "Zig",
+          "score": 66.5
+        },
+        {
+          "rank": 10,
+          "language_id": "quidra_v0.3.0",
+          "name": "Quidra",
+          "score": 32.5
+        }
+      ],
+      "quidra": {
+        "rank": 10,
+        "score": 32.5
+      },
+      "requirements": [
+        {
+          "id": "metric.third_party_library_availability_domain_coverage",
+          "weight": null,
+          "category": "external",
+          "scores": {
+            "quidra_v0.3.0": 0.0,
+            "python_v3.12.3": 100.0,
+            "cpp_v18.1.3": 100.0,
+            "rust_v1.95.0": 95.0,
+            "go_v1.26.3": 90.0,
+            "java_v26.0.1": 100.0,
+            "typescript_v7.0.2": 100.0,
+            "kotlin_v2.3.21": 95.0,
+            "swift_v6.2.3": 80.0,
+            "zig_v0.16.0": 45.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 10,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 1,
+            "rust_v1.95.0": 5,
+            "go_v1.26.3": 7,
+            "java_v26.0.1": 1,
+            "typescript_v7.0.2": 1,
+            "kotlin_v2.3.21": 5,
+            "swift_v6.2.3": 8,
+            "zig_v0.16.0": 9
+          }
+        },
+        {
+          "id": "metric.package_ecosystem_activity_maintenance",
+          "weight": null,
+          "category": "external",
+          "scores": {
+            "quidra_v0.3.0": 30.0,
+            "python_v3.12.3": 100.0,
+            "cpp_v18.1.3": 90.0,
+            "rust_v1.95.0": 100.0,
+            "go_v1.26.3": 100.0,
+            "java_v26.0.1": 100.0,
+            "typescript_v7.0.2": 100.0,
+            "kotlin_v2.3.21": 100.0,
+            "swift_v6.2.3": 85.0,
+            "zig_v0.16.0": 50.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 10,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 7,
+            "rust_v1.95.0": 1,
+            "go_v1.26.3": 1,
+            "java_v26.0.1": 1,
+            "typescript_v7.0.2": 1,
+            "kotlin_v2.3.21": 1,
+            "swift_v6.2.3": 8,
+            "zig_v0.16.0": 9
+          }
+        },
+        {
+          "id": "metric.third_party_tool_availability",
+          "weight": null,
+          "category": "external",
+          "scores": {
+            "quidra_v0.3.0": 0.0,
+            "python_v3.12.3": 100.0,
+            "cpp_v18.1.3": 100.0,
+            "rust_v1.95.0": 100.0,
+            "go_v1.26.3": 100.0,
+            "java_v26.0.1": 100.0,
+            "typescript_v7.0.2": 100.0,
+            "kotlin_v2.3.21": 100.0,
+            "swift_v6.2.3": 90.0,
+            "zig_v0.16.0": 70.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 10,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 1,
+            "rust_v1.95.0": 1,
+            "go_v1.26.3": 1,
+            "java_v26.0.1": 1,
+            "typescript_v7.0.2": 1,
+            "kotlin_v2.3.21": 1,
+            "swift_v6.2.3": 8,
+            "zig_v0.16.0": 9
+          }
+        },
+        {
+          "id": "metric.production_adoption_deployment_evidence",
+          "weight": null,
+          "category": "external",
+          "scores": {
+            "quidra_v0.3.0": 0.0,
+            "python_v3.12.3": 100.0,
+            "cpp_v18.1.3": 100.0,
+            "rust_v1.95.0": 100.0,
+            "go_v1.26.3": 100.0,
+            "java_v26.0.1": 100.0,
+            "typescript_v7.0.2": 100.0,
+            "kotlin_v2.3.21": 100.0,
+            "swift_v6.2.3": 95.0,
+            "zig_v0.16.0": 55.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 10,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 1,
+            "rust_v1.95.0": 1,
+            "go_v1.26.3": 1,
+            "java_v26.0.1": 1,
+            "typescript_v7.0.2": 1,
+            "kotlin_v2.3.21": 1,
+            "swift_v6.2.3": 8,
+            "zig_v0.16.0": 9
+          }
+        },
+        {
+          "id": "metric.community_public_knowledge_availability",
+          "weight": null,
+          "category": "external",
+          "scores": {
+            "quidra_v0.3.0": 15.0,
+            "python_v3.12.3": 100.0,
+            "cpp_v18.1.3": 100.0,
+            "rust_v1.95.0": 100.0,
+            "go_v1.26.3": 100.0,
+            "java_v26.0.1": 100.0,
+            "typescript_v7.0.2": 100.0,
+            "kotlin_v2.3.21": 95.0,
+            "swift_v6.2.3": 90.0,
+            "zig_v0.16.0": 60.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 10,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 1,
+            "rust_v1.95.0": 1,
+            "go_v1.26.3": 1,
+            "java_v26.0.1": 1,
+            "typescript_v7.0.2": 1,
+            "kotlin_v2.3.21": 7,
+            "swift_v6.2.3": 8,
+            "zig_v0.16.0": 9
+          }
+        },
+        {
+          "id": "metric.core_tooling_availability_quality",
+          "weight": null,
+          "category": "tooling",
+          "scores": {
+            "quidra_v0.3.0": 75.0,
+            "python_v3.12.3": 100.0,
+            "cpp_v18.1.3": 95.0,
+            "rust_v1.95.0": 100.0,
+            "go_v1.26.3": 100.0,
+            "java_v26.0.1": 100.0,
+            "typescript_v7.0.2": 100.0,
+            "kotlin_v2.3.21": 100.0,
+            "swift_v6.2.3": 100.0,
+            "zig_v0.16.0": 90.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 10,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 8,
+            "rust_v1.95.0": 1,
+            "go_v1.26.3": 1,
+            "java_v26.0.1": 1,
+            "typescript_v7.0.2": 1,
+            "kotlin_v2.3.21": 1,
+            "swift_v6.2.3": 1,
+            "zig_v0.16.0": 9
+          }
+        },
+        {
+          "id": "metric.package_dependency_management_quality",
+          "weight": null,
+          "category": "tooling",
+          "scores": {
+            "quidra_v0.3.0": 60.0,
+            "python_v3.12.3": 95.0,
+            "cpp_v18.1.3": 80.0,
+            "rust_v1.95.0": 100.0,
+            "go_v1.26.3": 100.0,
+            "java_v26.0.1": 100.0,
+            "typescript_v7.0.2": 100.0,
+            "kotlin_v2.3.21": 100.0,
+            "swift_v6.2.3": 90.0,
+            "zig_v0.16.0": 70.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 10,
+            "python_v3.12.3": 6,
+            "cpp_v18.1.3": 8,
+            "rust_v1.95.0": 1,
+            "go_v1.26.3": 1,
+            "java_v26.0.1": 1,
+            "typescript_v7.0.2": 1,
+            "kotlin_v2.3.21": 1,
+            "swift_v6.2.3": 7,
+            "zig_v0.16.0": 9
+          }
+        },
+        {
+          "id": "metric.ide_editor_support_quality",
+          "weight": null,
+          "category": "tooling",
+          "scores": {
+            "quidra_v0.3.0": 70.0,
+            "python_v3.12.3": 100.0,
+            "cpp_v18.1.3": 100.0,
+            "rust_v1.95.0": 95.0,
+            "go_v1.26.3": 100.0,
+            "java_v26.0.1": 100.0,
+            "typescript_v7.0.2": 100.0,
+            "kotlin_v2.3.21": 100.0,
+            "swift_v6.2.3": 95.0,
+            "zig_v0.16.0": 70.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 9,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 1,
+            "rust_v1.95.0": 7,
+            "go_v1.26.3": 1,
+            "java_v26.0.1": 1,
+            "typescript_v7.0.2": 1,
+            "kotlin_v2.3.21": 1,
+            "swift_v6.2.3": 7,
+            "zig_v0.16.0": 9
+          }
+        },
+        {
+          "id": "metric.debugger_profiler_support",
+          "weight": null,
+          "category": "tooling",
+          "scores": {
+            "quidra_v0.3.0": 45.0,
+            "python_v3.12.3": 100.0,
+            "cpp_v18.1.3": 100.0,
+            "rust_v1.95.0": 90.0,
+            "go_v1.26.3": 100.0,
+            "java_v26.0.1": 100.0,
+            "typescript_v7.0.2": 100.0,
+            "kotlin_v2.3.21": 95.0,
+            "swift_v6.2.3": 95.0,
+            "zig_v0.16.0": 80.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 10,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 1,
+            "rust_v1.95.0": 8,
+            "go_v1.26.3": 1,
+            "java_v26.0.1": 1,
+            "typescript_v7.0.2": 1,
+            "kotlin_v2.3.21": 6,
+            "swift_v6.2.3": 6,
+            "zig_v0.16.0": 9
+          }
+        },
+        {
+          "id": "metric.build_test_integration",
+          "weight": null,
+          "category": "tooling",
+          "scores": {
+            "quidra_v0.3.0": 60.0,
+            "python_v3.12.3": 100.0,
+            "cpp_v18.1.3": 95.0,
+            "rust_v1.95.0": 95.0,
+            "go_v1.26.3": 100.0,
+            "java_v26.0.1": 100.0,
+            "typescript_v7.0.2": 100.0,
+            "kotlin_v2.3.21": 100.0,
+            "swift_v6.2.3": 100.0,
+            "zig_v0.16.0": 85.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 10,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 7,
+            "rust_v1.95.0": 7,
+            "go_v1.26.3": 1,
+            "java_v26.0.1": 1,
+            "typescript_v7.0.2": 1,
+            "kotlin_v2.3.21": 1,
+            "swift_v6.2.3": 1,
+            "zig_v0.16.0": 9
+          }
+        },
+        {
+          "id": "metric.documentation_quality",
+          "weight": null,
+          "category": "tooling",
+          "scores": {
+            "quidra_v0.3.0": 65.0,
+            "python_v3.12.3": 100.0,
+            "cpp_v18.1.3": 85.0,
+            "rust_v1.95.0": 100.0,
+            "go_v1.26.3": 100.0,
+            "java_v26.0.1": 100.0,
+            "typescript_v7.0.2": 100.0,
+            "kotlin_v2.3.21": 100.0,
+            "swift_v6.2.3": 95.0,
+            "zig_v0.16.0": 75.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 10,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 8,
+            "rust_v1.95.0": 1,
+            "go_v1.26.3": 1,
+            "java_v26.0.1": 1,
+            "typescript_v7.0.2": 1,
+            "kotlin_v2.3.21": 1,
+            "swift_v6.2.3": 7,
+            "zig_v0.16.0": 9
+          }
+        },
+        {
+          "id": "metric.installation_distribution_experience",
+          "weight": null,
+          "category": "tooling",
+          "scores": {
+            "quidra_v0.3.0": 60.0,
+            "python_v3.12.3": 100.0,
+            "cpp_v18.1.3": 90.0,
+            "rust_v1.95.0": 100.0,
+            "go_v1.26.3": 100.0,
+            "java_v26.0.1": 100.0,
+            "typescript_v7.0.2": 100.0,
+            "kotlin_v2.3.21": 95.0,
+            "swift_v6.2.3": 95.0,
+            "zig_v0.16.0": 80.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 10,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 8,
+            "rust_v1.95.0": 1,
+            "go_v1.26.3": 1,
+            "java_v26.0.1": 1,
+            "typescript_v7.0.2": 1,
+            "kotlin_v2.3.21": 6,
+            "swift_v6.2.3": 6,
+            "zig_v0.16.0": 9
+          }
+        },
+        {
+          "id": "metric.toolchain_stability_release_maturity",
+          "weight": null,
+          "category": "tooling",
+          "scores": {
+            "quidra_v0.3.0": 50.0,
+            "python_v3.12.3": 100.0,
+            "cpp_v18.1.3": 100.0,
+            "rust_v1.95.0": 95.0,
+            "go_v1.26.3": 100.0,
+            "java_v26.0.1": 100.0,
+            "typescript_v7.0.2": 95.0,
+            "kotlin_v2.3.21": 100.0,
+            "swift_v6.2.3": 100.0,
+            "zig_v0.16.0": 60.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 10,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 1,
+            "rust_v1.95.0": 7,
+            "go_v1.26.3": 1,
+            "java_v26.0.1": 1,
+            "typescript_v7.0.2": 7,
+            "kotlin_v2.3.21": 1,
+            "swift_v6.2.3": 1,
+            "zig_v0.16.0": 9
+          }
+        },
+        {
+          "id": "metric.implemented_platform_coverage",
+          "weight": null,
+          "category": "tooling",
+          "scores": {
+            "quidra_v0.3.0": 40.0,
+            "python_v3.12.3": 70.0,
+            "cpp_v18.1.3": 100.0,
+            "rust_v1.95.0": 95.0,
+            "go_v1.26.3": 85.0,
+            "java_v26.0.1": 85.0,
+            "typescript_v7.0.2": 85.0,
+            "kotlin_v2.3.21": 90.0,
+            "swift_v6.2.3": 85.0,
+            "zig_v0.16.0": 85.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 10,
+            "python_v3.12.3": 9,
+            "cpp_v18.1.3": 1,
+            "rust_v1.95.0": 2,
+            "go_v1.26.3": 4,
+            "java_v26.0.1": 4,
+            "typescript_v7.0.2": 4,
+            "kotlin_v2.3.21": 3,
+            "swift_v6.2.3": 4,
+            "zig_v0.16.0": 4
+          }
+        },
+        {
+          "id": "metric.external_integration_coverage",
+          "weight": null,
+          "category": "tooling",
+          "scores": {
+            "quidra_v0.3.0": 35.0,
+            "python_v3.12.3": 100.0,
+            "cpp_v18.1.3": 100.0,
+            "rust_v1.95.0": 90.0,
+            "go_v1.26.3": 85.0,
+            "java_v26.0.1": 100.0,
+            "typescript_v7.0.2": 90.0,
+            "kotlin_v2.3.21": 95.0,
+            "swift_v6.2.3": 85.0,
+            "zig_v0.16.0": 75.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 10,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 1,
+            "rust_v1.95.0": 5,
+            "go_v1.26.3": 7,
+            "java_v26.0.1": 1,
+            "typescript_v7.0.2": 5,
+            "kotlin_v2.3.21": 4,
+            "swift_v6.2.3": 7,
+            "zig_v0.16.0": 9
+          }
+        }
+      ],
+      "categories": [
+        {
+          "id": "external",
+          "weight": 0.5,
+          "metrics": [
+            "metric.third_party_library_availability_domain_coverage",
+            "metric.package_ecosystem_activity_maintenance",
+            "metric.third_party_tool_availability",
+            "metric.production_adoption_deployment_evidence",
+            "metric.community_public_knowledge_availability"
+          ],
+          "scores": {
+            "quidra_v0.3.0": 9.0,
+            "python_v3.12.3": 100.0,
+            "cpp_v18.1.3": 98.0,
+            "rust_v1.95.0": 99.0,
+            "go_v1.26.3": 98.0,
+            "java_v26.0.1": 100.0,
+            "typescript_v7.0.2": 100.0,
+            "kotlin_v2.3.21": 98.0,
+            "swift_v6.2.3": 88.0,
+            "zig_v0.16.0": 56.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 10,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 5,
+            "rust_v1.95.0": 4,
+            "go_v1.26.3": 5,
+            "java_v26.0.1": 1,
+            "typescript_v7.0.2": 1,
+            "kotlin_v2.3.21": 5,
+            "swift_v6.2.3": 8,
+            "zig_v0.16.0": 9
+          }
+        },
+        {
+          "id": "tooling",
+          "weight": 0.5,
+          "metrics": [
+            "metric.core_tooling_availability_quality",
+            "metric.package_dependency_management_quality",
+            "metric.ide_editor_support_quality",
+            "metric.debugger_profiler_support",
+            "metric.build_test_integration",
+            "metric.documentation_quality",
+            "metric.installation_distribution_experience",
+            "metric.toolchain_stability_release_maturity",
+            "metric.implemented_platform_coverage",
+            "metric.external_integration_coverage"
+          ],
+          "scores": {
+            "quidra_v0.3.0": 56.0,
+            "python_v3.12.3": 96.5,
+            "cpp_v18.1.3": 94.5,
+            "rust_v1.95.0": 96.0,
+            "go_v1.26.3": 97.0,
+            "java_v26.0.1": 98.5,
+            "typescript_v7.0.2": 97.0,
+            "kotlin_v2.3.21": 97.5,
+            "swift_v6.2.3": 94.0,
+            "zig_v0.16.0": 77.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 10,
+            "python_v3.12.3": 5,
+            "cpp_v18.1.3": 7,
+            "rust_v1.95.0": 6,
+            "go_v1.26.3": 3,
+            "java_v26.0.1": 1,
+            "typescript_v7.0.2": 3,
+            "kotlin_v2.3.21": 2,
+            "swift_v6.2.3": 8,
+            "zig_v0.16.0": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "llm_proficiency",
+      "name": "LLM Proficiency",
+      "order": 5,
+      "summary": "How useful a language is to a present-day LLM under its real name, syntax, standard library and toolchain; pretraining familiarity is deliberately included. One fixed model implements three frozen workloads under two scenarios with up to three repair turns, and correctness is decided by hidden-input oracles. Eighteen weighted metrics, including Correct@1, silent-bug resistance, test pass rate and repair success, combine into a 0-100 score; sixteen are computed by the runner from trial evidence and two are worker-judged. Higher is better.",
+      "methodology_url": "https://github.com/quidra-lang/quidra/blob/main/benchmark/template/methodology/llm_proficiency.md",
+      "breakdown_url": "https://github.com/quidra-lang/quidra/blob/main/benchmark/2026-09-27-38b7137-gh31/breakdown/llm_proficiency.md",
+      "status": "COMPLETE",
+      "aggregation": "weighted_mean",
+      "ranking": [
+        {
+          "rank": 1,
+          "language_id": "python_v3.12.3",
+          "name": "Python",
+          "score": 88.68
+        },
+        {
+          "rank": 2,
+          "language_id": "rust_v1.95.0",
+          "name": "Rust",
+          "score": 85.28
+        },
+        {
+          "rank": 3,
+          "language_id": "go_v1.26.3",
+          "name": "Go",
+          "score": 82.57
+        },
+        {
+          "rank": 4,
+          "language_id": "cpp_v18.1.3",
+          "name": "C++",
+          "score": 76.48
+        },
+        {
+          "rank": 5,
+          "language_id": "kotlin_v2.3.21",
+          "name": "Kotlin",
+          "score": 74.01
+        },
+        {
+          "rank": 6,
+          "language_id": "java_v26.0.1",
+          "name": "Java",
+          "score": 72.02
+        },
+        {
+          "rank": 7,
+          "language_id": "swift_v6.2.3",
+          "name": "Swift",
+          "score": 64.78
+        },
+        {
+          "rank": 8,
+          "language_id": "typescript_v7.0.2",
+          "name": "TypeScript",
+          "score": 30.99
+        },
+        {
+          "rank": 9,
+          "language_id": "zig_v0.16.0",
+          "name": "Zig",
+          "score": 5.24
+        },
+        {
+          "rank": 10,
+          "language_id": "quidra_v0.3.0",
+          "name": "Quidra",
+          "score": 4.91
+        }
+      ],
+      "quidra": {
+        "rank": 10,
+        "score": 4.91
+      },
+      "requirements": [
+        {
+          "id": "metric.generation_success_rate",
+          "weight": 0.04,
+          "category": null,
+          "scores": {
+            "quidra_v0.3.0": 100.0,
+            "python_v3.12.3": 100.0,
+            "cpp_v18.1.3": 100.0,
+            "rust_v1.95.0": 100.0,
+            "go_v1.26.3": 100.0,
+            "java_v26.0.1": 100.0,
+            "typescript_v7.0.2": 100.0,
+            "kotlin_v2.3.21": 100.0,
+            "swift_v6.2.3": 100.0,
+            "zig_v0.16.0": 100.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 1,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 1,
+            "rust_v1.95.0": 1,
+            "go_v1.26.3": 1,
+            "java_v26.0.1": 1,
+            "typescript_v7.0.2": 1,
+            "kotlin_v2.3.21": 1,
+            "swift_v6.2.3": 1,
+            "zig_v0.16.0": 1
+          }
+        },
+        {
+          "id": "metric.compile_parse_success_rate",
+          "weight": 0.04,
+          "category": null,
+          "scores": {
+            "quidra_v0.3.0": 0.0,
+            "python_v3.12.3": 88.89,
+            "cpp_v18.1.3": 66.67,
+            "rust_v1.95.0": 77.78,
+            "go_v1.26.3": 72.22,
+            "java_v26.0.1": 94.44,
+            "typescript_v7.0.2": 0.0,
+            "kotlin_v2.3.21": 72.22,
+            "swift_v6.2.3": 72.22,
+            "zig_v0.16.0": 0.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 8,
+            "python_v3.12.3": 2,
+            "cpp_v18.1.3": 7,
+            "rust_v1.95.0": 3,
+            "go_v1.26.3": 4,
+            "java_v26.0.1": 1,
+            "typescript_v7.0.2": 8,
+            "kotlin_v2.3.21": 4,
+            "swift_v6.2.3": 4,
+            "zig_v0.16.0": 8
+          }
+        },
+        {
+          "id": "metric.correct_at_1",
+          "weight": 0.12,
+          "category": null,
+          "scores": {
+            "quidra_v0.3.0": 0.0,
+            "python_v3.12.3": 88.89,
+            "cpp_v18.1.3": 66.67,
+            "rust_v1.95.0": 77.78,
+            "go_v1.26.3": 72.22,
+            "java_v26.0.1": 83.33,
+            "typescript_v7.0.2": 0.0,
+            "kotlin_v2.3.21": 72.22,
+            "swift_v6.2.3": 50.0,
+            "zig_v0.16.0": 0.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 8,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 6,
+            "rust_v1.95.0": 3,
+            "go_v1.26.3": 4,
+            "java_v26.0.1": 2,
+            "typescript_v7.0.2": 8,
+            "kotlin_v2.3.21": 4,
+            "swift_v6.2.3": 7,
+            "zig_v0.16.0": 8
+          }
+        },
+        {
+          "id": "metric.correct_at_n",
+          "weight": 0.05,
+          "category": null,
+          "scores": {
+            "quidra_v0.3.0": 0.0,
+            "python_v3.12.3": 100.0,
+            "cpp_v18.1.3": 100.0,
+            "rust_v1.95.0": 100.0,
+            "go_v1.26.3": 100.0,
+            "java_v26.0.1": 88.89,
+            "typescript_v7.0.2": 61.11,
+            "kotlin_v2.3.21": 100.0,
+            "swift_v6.2.3": 100.0,
+            "zig_v0.16.0": 0.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 9,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 1,
+            "rust_v1.95.0": 1,
+            "go_v1.26.3": 1,
+            "java_v26.0.1": 7,
+            "typescript_v7.0.2": 8,
+            "kotlin_v2.3.21": 1,
+            "swift_v6.2.3": 1,
+            "zig_v0.16.0": 9
+          }
+        },
+        {
+          "id": "metric.test_pass_rate",
+          "weight": 0.1,
+          "category": null,
+          "scores": {
+            "quidra_v0.3.0": 0.0,
+            "python_v3.12.3": 86.96,
+            "cpp_v18.1.3": 60.0,
+            "rust_v1.95.0": 82.19,
+            "go_v1.26.3": 80.0,
+            "java_v26.0.1": 64.29,
+            "typescript_v7.0.2": 20.67,
+            "kotlin_v2.3.21": 65.22,
+            "swift_v6.2.3": 55.05,
+            "zig_v0.16.0": 0.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 9,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 6,
+            "rust_v1.95.0": 2,
+            "go_v1.26.3": 3,
+            "java_v26.0.1": 5,
+            "typescript_v7.0.2": 8,
+            "kotlin_v2.3.21": 4,
+            "swift_v6.2.3": 7,
+            "zig_v0.16.0": 9
+          }
+        },
+        {
+          "id": "metric.repair_success_rate",
+          "weight": 0.07,
+          "category": null,
+          "scores": {
+            "quidra_v0.3.0": 0.0,
+            "python_v3.12.3": 100.0,
+            "cpp_v18.1.3": 100.0,
+            "rust_v1.95.0": 100.0,
+            "go_v1.26.3": 100.0,
+            "java_v26.0.1": 33.33,
+            "typescript_v7.0.2": 61.11,
+            "kotlin_v2.3.21": 100.0,
+            "swift_v6.2.3": 100.0,
+            "zig_v0.16.0": 0.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 9,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 1,
+            "rust_v1.95.0": 1,
+            "go_v1.26.3": 1,
+            "java_v26.0.1": 8,
+            "typescript_v7.0.2": 7,
+            "kotlin_v2.3.21": 1,
+            "swift_v6.2.3": 1,
+            "zig_v0.16.0": 9
+          }
+        },
+        {
+          "id": "metric.repair_efficiency",
+          "weight": 0.05,
+          "category": null,
+          "scores": {
+            "quidra_v0.3.0": 0.0,
+            "python_v3.12.3": 95.83,
+            "cpp_v18.1.3": 83.33,
+            "rust_v1.95.0": 94.44,
+            "go_v1.26.3": 93.06,
+            "java_v26.0.1": 86.11,
+            "typescript_v7.0.2": 40.28,
+            "kotlin_v2.3.21": 86.11,
+            "swift_v6.2.3": 79.17,
+            "zig_v0.16.0": 0.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 9,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 6,
+            "rust_v1.95.0": 2,
+            "go_v1.26.3": 3,
+            "java_v26.0.1": 4,
+            "typescript_v7.0.2": 8,
+            "kotlin_v2.3.21": 4,
+            "swift_v6.2.3": 7,
+            "zig_v0.16.0": 9
+          }
+        },
+        {
+          "id": "metric.diagnosis_efficiency",
+          "weight": 0.05,
+          "category": null,
+          "scores": {
+            "quidra_v0.3.0": 0.0,
+            "python_v3.12.3": 50.0,
+            "cpp_v18.1.3": 0.0,
+            "rust_v1.95.0": 100.0,
+            "go_v1.26.3": 100.0,
+            "java_v26.0.1": 0.0,
+            "typescript_v7.0.2": 44.44,
+            "kotlin_v2.3.21": 0.0,
+            "swift_v6.2.3": 33.33,
+            "zig_v0.16.0": 0.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 6,
+            "python_v3.12.3": 3,
+            "cpp_v18.1.3": 6,
+            "rust_v1.95.0": 1,
+            "go_v1.26.3": 1,
+            "java_v26.0.1": 6,
+            "typescript_v7.0.2": 4,
+            "kotlin_v2.3.21": 6,
+            "swift_v6.2.3": 5,
+            "zig_v0.16.0": 6
+          }
+        },
+        {
+          "id": "metric.silent_bug_resistance",
+          "weight": 0.12,
+          "category": null,
+          "scores": {
+            "quidra_v0.3.0": 0.0,
+            "python_v3.12.3": 100.0,
+            "cpp_v18.1.3": 100.0,
+            "rust_v1.95.0": 100.0,
+            "go_v1.26.3": 100.0,
+            "java_v26.0.1": 88.24,
+            "typescript_v7.0.2": 0.0,
+            "kotlin_v2.3.21": 100.0,
+            "swift_v6.2.3": 92.31,
+            "zig_v0.16.0": 0.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 8,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 1,
+            "rust_v1.95.0": 1,
+            "go_v1.26.3": 1,
+            "java_v26.0.1": 7,
+            "typescript_v7.0.2": 8,
+            "kotlin_v2.3.21": 1,
+            "swift_v6.2.3": 6,
+            "zig_v0.16.0": 8
+          }
+        },
+        {
+          "id": "metric.syntax_hallucination_resistance",
+          "weight": 0.07,
+          "category": null,
+          "scores": {
+            "quidra_v0.3.0": 0.0,
+            "python_v3.12.3": 100.0,
+            "cpp_v18.1.3": 90.0,
+            "rust_v1.95.0": 77.8,
+            "go_v1.26.3": 72.2,
+            "java_v26.0.1": 94.4,
+            "typescript_v7.0.2": 100.0,
+            "kotlin_v2.3.21": 72.2,
+            "swift_v6.2.3": 50.0,
+            "zig_v0.16.0": 0.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 9,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 4,
+            "rust_v1.95.0": 5,
+            "go_v1.26.3": 6,
+            "java_v26.0.1": 3,
+            "typescript_v7.0.2": 1,
+            "kotlin_v2.3.21": 6,
+            "swift_v6.2.3": 8,
+            "zig_v0.16.0": 9
+          }
+        },
+        {
+          "id": "metric.specification_compliance",
+          "weight": 0.07,
+          "category": null,
+          "scores": {
+            "quidra_v0.3.0": 0.0,
+            "python_v3.12.3": 100.0,
+            "cpp_v18.1.3": 100.0,
+            "rust_v1.95.0": 90.0,
+            "go_v1.26.3": 72.2,
+            "java_v26.0.1": 88.9,
+            "typescript_v7.0.2": 61.11,
+            "kotlin_v2.3.21": 100.0,
+            "swift_v6.2.3": 66.67,
+            "zig_v0.16.0": 0.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 9,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 1,
+            "rust_v1.95.0": 4,
+            "go_v1.26.3": 6,
+            "java_v26.0.1": 5,
+            "typescript_v7.0.2": 8,
+            "kotlin_v2.3.21": 1,
+            "swift_v6.2.3": 7,
+            "zig_v0.16.0": 9
+          }
+        },
+        {
+          "id": "metric.prompt_robustness",
+          "weight": 0.05,
+          "category": null,
+          "scores": {
+            "quidra_v0.3.0": 0.0,
+            "python_v3.12.3": 66.67,
+            "cpp_v18.1.3": 50.0,
+            "rust_v1.95.0": 66.67,
+            "go_v1.26.3": 66.67,
+            "java_v26.0.1": 83.33,
+            "typescript_v7.0.2": 0.0,
+            "kotlin_v2.3.21": 66.67,
+            "swift_v6.2.3": 33.33,
+            "zig_v0.16.0": 0.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 8,
+            "python_v3.12.3": 2,
+            "cpp_v18.1.3": 6,
+            "rust_v1.95.0": 2,
+            "go_v1.26.3": 2,
+            "java_v26.0.1": 1,
+            "typescript_v7.0.2": 8,
+            "kotlin_v2.3.21": 2,
+            "swift_v6.2.3": 7,
+            "zig_v0.16.0": 8
+          }
+        },
+        {
+          "id": "metric.unseen_case_generalization",
+          "weight": 0.06,
+          "category": null,
+          "scores": {
+            "quidra_v0.3.0": 0.0,
+            "python_v3.12.3": 90.48,
+            "cpp_v18.1.3": 66.67,
+            "rust_v1.95.0": 78.57,
+            "go_v1.26.3": 76.19,
+            "java_v26.0.1": 85.71,
+            "typescript_v7.0.2": 0.0,
+            "kotlin_v2.3.21": 73.81,
+            "swift_v6.2.3": 52.38,
+            "zig_v0.16.0": 0.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 8,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 6,
+            "rust_v1.95.0": 3,
+            "go_v1.26.3": 4,
+            "java_v26.0.1": 2,
+            "typescript_v7.0.2": 8,
+            "kotlin_v2.3.21": 5,
+            "swift_v6.2.3": 7,
+            "zig_v0.16.0": 8
+          }
+        },
+        {
+          "id": "metric.source_token_efficiency",
+          "weight": 0.03,
+          "category": null,
+          "scores": {
+            "quidra_v0.3.0": 24.85,
+            "python_v3.12.3": 90.38,
+            "cpp_v18.1.3": 81.38,
+            "rust_v1.95.0": 46.28,
+            "go_v1.26.3": 67.63,
+            "java_v26.0.1": 55.68,
+            "typescript_v7.0.2": 40.86,
+            "kotlin_v2.3.21": 59.43,
+            "swift_v6.2.3": 64.76,
+            "zig_v0.16.0": 33.66
+          },
+          "ranks": {
+            "quidra_v0.3.0": 10,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 2,
+            "rust_v1.95.0": 7,
+            "go_v1.26.3": 3,
+            "java_v26.0.1": 6,
+            "typescript_v7.0.2": 8,
+            "kotlin_v2.3.21": 5,
+            "swift_v6.2.3": 4,
+            "zig_v0.16.0": 9
+          }
+        },
+        {
+          "id": "metric.total_token_efficiency",
+          "weight": 0.03,
+          "category": null,
+          "scores": {
+            "quidra_v0.3.0": 5.37,
+            "python_v3.12.3": 90.16,
+            "cpp_v18.1.3": 69.08,
+            "rust_v1.95.0": 57.91,
+            "go_v1.26.3": 70.23,
+            "java_v26.0.1": 67.38,
+            "typescript_v7.0.2": 18.51,
+            "kotlin_v2.3.21": 58.15,
+            "swift_v6.2.3": 49.1,
+            "zig_v0.16.0": 7.6
+          },
+          "ranks": {
+            "quidra_v0.3.0": 10,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 3,
+            "rust_v1.95.0": 6,
+            "go_v1.26.3": 2,
+            "java_v26.0.1": 4,
+            "typescript_v7.0.2": 8,
+            "kotlin_v2.3.21": 5,
+            "swift_v6.2.3": 7,
+            "zig_v0.16.0": 9
+          }
+        },
+        {
+          "id": "metric.generated_code_performance",
+          "weight": 0.03,
+          "category": null,
+          "scores": {
+            "quidra_v0.3.0": 0.0,
+            "python_v3.12.3": 9.74,
+            "cpp_v18.1.3": 76.92,
+            "rust_v1.95.0": 95.16,
+            "go_v1.26.3": 67.59,
+            "java_v26.0.1": 1.84,
+            "typescript_v7.0.2": 3.34,
+            "kotlin_v2.3.21": 1.81,
+            "swift_v6.2.3": 20.88,
+            "zig_v0.16.0": 0.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 9,
+            "python_v3.12.3": 5,
+            "cpp_v18.1.3": 2,
+            "rust_v1.95.0": 1,
+            "go_v1.26.3": 3,
+            "java_v26.0.1": 7,
+            "typescript_v7.0.2": 6,
+            "kotlin_v2.3.21": 8,
+            "swift_v6.2.3": 4,
+            "zig_v0.16.0": 9
+          }
+        },
+        {
+          "id": "metric.generated_code_memory_efficiency",
+          "weight": 0.01,
+          "category": null,
+          "scores": {
+            "quidra_v0.3.0": 0.0,
+            "python_v3.12.3": 99.75,
+            "cpp_v18.1.3": 99.7,
+            "rust_v1.95.0": 99.77,
+            "go_v1.26.3": 99.73,
+            "java_v26.0.1": 20.98,
+            "typescript_v7.0.2": 12.97,
+            "kotlin_v2.3.21": 22.68,
+            "swift_v6.2.3": 62.74,
+            "zig_v0.16.0": 0.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 9,
+            "python_v3.12.3": 2,
+            "cpp_v18.1.3": 4,
+            "rust_v1.95.0": 1,
+            "go_v1.26.3": 3,
+            "java_v26.0.1": 7,
+            "typescript_v7.0.2": 8,
+            "kotlin_v2.3.21": 6,
+            "swift_v6.2.3": 5,
+            "zig_v0.16.0": 9
+          }
+        },
+        {
+          "id": "metric.generated_code_compile_performance",
+          "weight": 0.01,
+          "category": null,
+          "scores": {
+            "quidra_v0.3.0": 0.0,
+            "python_v3.12.3": 100.0,
+            "cpp_v18.1.3": 2.62,
+            "rust_v1.95.0": 12.13,
+            "go_v1.26.3": 18.97,
+            "java_v26.0.1": 4.66,
+            "typescript_v7.0.2": 6.55,
+            "kotlin_v2.3.21": 0.6,
+            "swift_v6.2.3": 3.84,
+            "zig_v0.16.0": 0.0
+          },
+          "ranks": {
+            "quidra_v0.3.0": 9,
+            "python_v3.12.3": 1,
+            "cpp_v18.1.3": 7,
+            "rust_v1.95.0": 3,
+            "go_v1.26.3": 2,
+            "java_v26.0.1": 5,
+            "typescript_v7.0.2": 4,
+            "kotlin_v2.3.21": 8,
+            "swift_v6.2.3": 6,
+            "zig_v0.16.0": 9
+          }
+        }
+      ],
+      "categories": []
+    }
+  ]
+}
