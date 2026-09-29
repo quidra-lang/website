@@ -5,7 +5,7 @@ int | none | error lookup(int id)
         return none
     return id
 
-auto result = lookup(1)
+auto | error result = lookup(1)
 match result
     int value
         print(value)

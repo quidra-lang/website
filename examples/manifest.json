@@ -1,5 +1,5 @@
 {
-  "compiler": "quidra 0.3.0",
+  "compiler": "quidra 0.4.0",
   "examples": [
     {
       "id": "hero",
@@ -109,7 +109,7 @@
       "id": "absence",
       "file": "absence.qui",
       "title": "Absence, failure and value",
-      "summary": "lookup returns int | none | error; an auto binding preserves the full union and an exhaustive match handles each alternative.",
+      "summary": "lookup returns int | none | error; an auto | error binding keeps the error alternative and an exhaustive match handles each one.",
       "run": true,
       "args": [],
       "output": "absence.out"
