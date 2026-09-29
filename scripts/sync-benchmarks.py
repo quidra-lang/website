@@ -191,9 +191,16 @@ def build(core: Path, ref: str) -> tuple[dict, dict]:
     commit = summary["evaluated"]["commit_sha"]
     if not commit.startswith(short_sha):
         fail(f"evaluated commit {commit} does not start with run_id short sha {short_sha}")
-    compiler_version = summary["evaluated"]["compiler_version"]
-    if provenance.get("quidra_project_version") != compiler_version:
-        fail("compiler_version differs between summary.json and provenance.json")
+    quidra_version = provenance.get("quidra_project_version")
+    if not isinstance(quidra_version, str) or not quidra_version:
+        fail("provenance.json does not carry a Quidra version")
+    summary_version = summary["evaluated"].get("version")
+    if summary_version is None:
+        # Historical benchmark runs predate the unified version key. Read that
+        # immutable evidence without propagating its legacy key into site data.
+        summary_version = summary["evaluated"].get("compiler_version")
+    if summary_version != quidra_version:
+        fail("version differs between summary.json and provenance.json")
 
     # --- languages -------------------------------------------------------------
     display_names: list[str] = metadata["languages"]
@@ -206,8 +213,8 @@ def build(core: Path, ref: str) -> tuple[dict, dict]:
         entry = config["languages"].get(name)
         if entry is None:
             fail(f"benchmark/config.json has no entry for language {name!r}")
-        version = compiler_version if name == target_name else entry["version"]
-        name_to_id[name] = f"{entry['id']}_v{version}"
+        resolved_version = quidra_version if name == target_name else entry["version"]
+        name_to_id[name] = f"{entry['id']}_v{resolved_version}"
 
     # Cross-check against the run's own display-name -> generation-id map.
     for ev_id, ev_data in versioned["evaluations"].items():
@@ -380,7 +387,7 @@ def build(core: Path, ref: str) -> tuple[dict, dict]:
         "run_date": run_date,
         "evaluated_commit": commit,
         "evaluated_commit_short": short_sha,
-        "compiler_version": compiler_version,
+        "version": quidra_version,
         "inference_model": provenance["inference_identity"]["model"],
         "source_urls": {k: github_url(rel, ref, is_dir=is_dir) for k, (rel, is_dir) in source_paths.items()},
         "interpretation": basis["interpretation"],

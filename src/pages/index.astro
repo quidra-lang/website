@@ -106,7 +106,7 @@ const ecosystem = [
     name: 'Playground',
     repo: 'quidra-lang/playground',
     href: links.playgroundRepo,
-    text: 'The compiler frontend compiled to WebAssembly and served as a static page. Check, format, lower to IR, inspect and patch in the browser; nothing leaves the tab.',
+    text: 'The real compiler frontend runs as WebAssembly for browser-local Check, Format, IR, Inspect and Patch. Native Build/Run use a sandboxed runner only when requested, gated to the same language version and exact Core commit.',
   },
   {
     name: 'Vision',
@@ -118,7 +118,7 @@ const ecosystem = [
     name: 'DNN',
     repo: 'quidra-lang/dnn',
     href: links.dnn,
-    text: 'import dnn. Layers and optimizers as ordinary classes whose constructors can fail, plus activation and loss functions, over the neural autodiff foundation. The execution mode is chosen explicitly with dnn.mode.fast() or dnn.mode.deterministic().',
+    text: 'import dnn. Parameters, State, layers, losses, optimizers and model persistence are ordinary source-package abstractions over Core tensor/autograd primitives. The execution mode is chosen explicitly with dnn.mode.fast() or dnn.mode.deterministic().',
   },
 ];
 
@@ -276,7 +276,7 @@ const uninitialized = invalidExample('uninitialized');
     <div class="container">
       <SectionHead number="06" eyebrow="measured" title="Quidra publishes its own benchmark, including where it loses.">
         Ten languages, five independent evaluations, one frozen methodology. Every ranking, score and per-requirement
-        result of run {benchmarks.run_id} is committed as data in the compiler repository. Quidra {benchmarks.compiler_version}, measured at
+        result of run {benchmarks.run_id} is committed as data in the compiler repository. Quidra {benchmarks.version}, measured at
         snapshot <code>{benchmarks.evaluated_commit_short}</code>, places:
       </SectionHead>
       <ol class="scoreboard">
@@ -299,8 +299,8 @@ const uninitialized = invalidExample('uninitialized');
   <section class="section" id="ecosystem">
     <div class="container">
       <SectionHead number="07" eyebrow="ecosystem" title="A small, explicit library boundary">
-        The standard namespaces are always visible and never imported. Tensors, image and video I/O and the neural
-        autodiff foundation are built in; layers and computer vision ship as ordinary source packages installed from
+        The standard namespaces are always visible and never imported. Tensor/autograd primitives plus image and video
+        I/O are built in; DNN model state, layers and computer vision ship as ordinary source packages installed from
         immutable release tags.
       </SectionHead>
       <ul class="cards">
@@ -323,10 +323,10 @@ const uninitialized = invalidExample('uninitialized');
         <p class="eyebrow"><b>08</b> / try it</p>
         <h2>The real compiler frontend, in your browser</h2>
         <p class="lede">
-          The Quidra Playground runs <code>quidra_core</code> compiled to WebAssembly. Check, format, lower to typed IR,
-          inspect and patch happen on your machine; the source never leaves the tab, and it works offline once loaded.
-          It has no Run button by design: execution needs the native toolchain, and a second execution engine that
-          behaved differently would be worse than none.
+          The Quidra Playground runs <code>quidra_core</code> compiled to WebAssembly. Check, Format, IR, Inspect and
+          Patch stay browser-local and do not upload source. Build and Run send the current source only when requested
+          to a separately sandboxed native runner that invokes the real Quidra CLI. Those operations are enabled only
+          when the runner reports the same language version and exact Core commit as the WebAssembly frontend.
         </p>
         <div class="hero-actions">
           <a class="btn btn-primary" href={links.playground} rel="noopener">Open the Playground <Icon name="external" /></a>
@@ -339,6 +339,8 @@ const uninitialized = invalidExample('uninitialized');
         <li><b>IR</b> lowers a checked program to typed Quidra IR.</li>
         <li><b>Inspect</b> shows node ids, kinds, spans, content hashes and inferred types.</li>
         <li><b>Patch</b> applies a structured edit and refuses any result that would not compile.</li>
+        <li><b>Build</b> invokes the real native compiler in the sandboxed runner after identity verification.</li>
+        <li><b>Run</b> executes through that same native runner; source is uploaded only for the explicit request.</li>
       </ul>
     </div>
   </section>

@@ -12,9 +12,10 @@
     "lint": "eslint .",
     "check:examples": "bash scripts/check-examples.sh",
     "check:grammar": "node scripts/check-grammar.mjs",
+    "check:contracts": "node scripts/check-cross-repo-contracts.mjs",
     "check:contrast": "node scripts/check-contrast.mjs",
     "check:links": "node scripts/check-links.mjs dist",
-    "verify": "npm run check:examples && npm run check:grammar && npm run check:contrast && npm run check && npm run lint",
+    "verify": "npm run check:examples && npm run check:grammar && npm run check:contracts && npm run check:contrast && npm run check && npm run lint",
     "deploy": "npm run build && wrangler deploy",
     "astro": "astro"
   },

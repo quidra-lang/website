@@ -54,6 +54,9 @@ jobs:
       - name: Verify syntax grammar coverage
         run: QUIDRA_CORE_DIR="$RUNNER_TEMP/quidra" node scripts/check-grammar.mjs
 
+      - name: Verify cross-repository copy contracts
+        run: node scripts/check-cross-repo-contracts.mjs
+
       - name: Verify palette contrast
         run: node scripts/check-contrast.mjs
 

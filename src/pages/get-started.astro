@@ -217,9 +217,10 @@ const uninitialized = invalidExample('uninitialized');
         <p class="eyebrow"><b>06</b> / in the browser</p>
         <h2>Or start in the browser</h2>
         <p>
-          The <a href={links.playground} rel="noopener">Quidra Playground</a> runs the real compiler frontend, compiled to
-          WebAssembly, in your tab: check, format, lower to typed IR, inspect and patch, with nothing uploaded anywhere.
-          It deliberately has no Run button; execution needs the native toolchain above.
+          The <a href={links.playground} rel="noopener">Quidra Playground</a> runs the real compiler frontend as
+          WebAssembly for browser-local Check, Format, IR, Inspect and Patch. Build and Run send source only when you
+          request them to a separately sandboxed native runner, and stay disabled unless its language version and exact
+          Core commit match the WebAssembly frontend.
         </p>
         <a class="btn btn-primary" href={links.playground} rel="noopener">Open the Playground <Icon name="external" /></a>
       </div>

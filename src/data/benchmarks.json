@@ -3,7 +3,7 @@
   "run_date": "2026-09-27",
   "evaluated_commit": "38b71377330b874976c29ff36cb68984d48fc289",
   "evaluated_commit_short": "38b7137",
-  "compiler_version": "0.3.0",
+  "version": "0.3.0",
   "inference_model": "claude-sonnet-5",
   "source_urls": {
     "readme": "https://github.com/quidra-lang/quidra/blob/main/benchmark/README.md",

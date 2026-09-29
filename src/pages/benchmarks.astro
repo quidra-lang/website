@@ -28,7 +28,7 @@ const fmt = (n: number) => n.toFixed(2);
         produced.
       </p>
       <dl class="facts">
-        <div><dt>Evaluated compiler</dt><dd>Quidra {data.compiler_version}, benchmark snapshot <code>{data.evaluated_commit_short}</code>; its compiler source is identical to release <a href={links.latestRelease} rel="noopener">v{data.compiler_version}</a></dd></div>
+        <div><dt>Evaluated compiler</dt><dd>Quidra {data.version}, benchmark snapshot <code>{data.evaluated_commit_short}</code>; its compiler source is identical to release <a href={`${links.releases}/tag/v${data.version}`} rel="noopener">v{data.version}</a></dd></div>
         <div><dt>Run</dt><dd><a href={data.source_urls.run} rel="noopener"><code>{data.run_id}</code></a> ({data.run_date})</dd></div>
         <div><dt>Inference model</dt><dd><code>{data.inference_model}</code>, used only where a judgment is required</dd></div>
         <div><dt>Toolchains</dt><dd>{data.languages.map((l) => `${l.name} ${l.version}`).join(' · ')} (compiler or runtime versions from the frozen configuration)</dd></div>
