@@ -1,3 +1,4 @@
 int value = 100
 int8 small = value
 print(small)
+print(NL)

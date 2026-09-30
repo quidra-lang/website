@@ -28,7 +28,10 @@ export const links = {
   license: `${core}/blob/main/LICENSE`,
   playground: 'https://quidra-lang.github.io/playground/',
   playgroundRepo: `${org}/playground`,
+  math: `${org}/math`,
+  nn: `${org}/nn`,
   vision: `${org}/vision`,
+  video: `${org}/video`,
   dnn: `${org}/dnn`,
   website: `${org}/website`,
   docs: {

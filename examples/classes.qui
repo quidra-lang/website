@@ -18,5 +18,8 @@ b.x = 9
 Point &alias = &a
 alias.y = 5
 print(a.describe())
+print(NL)
 print(b.describe())
+print(NL)
 print("{a == b} {a == Point(1, 5)}")
+print(NL)

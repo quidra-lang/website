@@ -12,9 +12,14 @@ T largest<T: ordered>(T[] values)
     return best
 
 print(add(41))
+print(NL)
 print(add(a = 40, b = 2))
+print(NL)
 print(within(50, minimum = 0, maximum = 100))
+print(NL)
 int[] scores = [3, 9, 4]
 print(largest(scores))
+print(NL)
 float[] readings = [2.5, 1.5]
 print(largest(readings))
+print(NL)

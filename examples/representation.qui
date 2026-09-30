@@ -1,6 +1,10 @@
+import math
+
 int value = 100
 int8 small = int8(value)
 float ratio = float(value) / 3.0
 int rounded = math.round(ratio)
 print(small)
+print(NL)
 print(rounded)
+print(NL)

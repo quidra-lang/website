@@ -314,7 +314,7 @@
     },
 
     "constant-control-character": {
-      "match": "\\b(ENTER|TAB|HOME|QUOTE|BACKSPACE|PAGE|VTAB|BELL)\\b",
+      "match": "\\b(NL|HT|CR|DQ|BS|FF|VT|BL)\\b",
       "name": "constant.language.control-character.quidra"
     },
 
@@ -334,7 +334,7 @@
     },
 
     "namespace": {
-      "match": "(?<!\\.)\\b(math|io|cli|file|environment|test|time|gpu|task|atomic|ref|random|process|map|set|json|http|stats|linear|signal|image|video|tensor|neural)\\b(?=\\s*\\.)",
+      "match": "(?<!\\.)\\b(math|cli|file|environment|test|time|gpu|task|atomic|ref|random|process|map|set|json|http|stats|linear|signal|image|video|tensor|neural)\\b(?=\\s*\\.)",
       "name": "support.namespace.quidra"
     },
 

@@ -1,5 +1,6 @@
 void inspect(const int &value)
     print(value)
+    print(NL)
 
 void initialize(int &value)
     value = 7

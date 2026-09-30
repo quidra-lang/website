@@ -16,6 +16,8 @@ jobs:
   site:
     name: build and verify
     runs-on: ubuntu-latest
+    env:
+      QUIDRA_CORE_REF: ${{ github.event_name == 'pull_request' && github.base_ref || github.ref_name }}
     steps:
       - uses: actions/checkout@v7
 
@@ -26,31 +28,30 @@ jobs:
 
       - run: npm ci
 
-      # Every Quidra program shown on the site must be accepted, canonically
-      # formatted and (where runnable) produce the recorded output with the
-      # released compiler. The Debian package is the same artifact visitors
-      # download from the release page.
-      - name: Install the released Quidra compiler
+      # Website and Core evolve together. main verifies against Core main;
+      # develop verifies against Core develop; pull requests verify against the
+      # branch they target. This prevents development syntax from being checked
+      # with an older released compiler.
+      - name: Build the matching Core compiler
         run: |
           set -euo pipefail
-          version="$(node -e "process.stdout.write(require('./examples/manifest.json').compiler.split(' ').pop())")"
-          curl -fsSL --retry 3 -o quidra.deb "https://github.com/quidra-lang/quidra/releases/download/v${version}/quidra-linux-amd64.deb"
           sudo apt-get update
-          sudo apt-get install -y ./quidra.deb
-          quidra --version
+          sudo apt-get install -y clang llvm cmake ninja-build git libcurl4-openssl-dev
+          git clone --depth 1 --branch "$QUIDRA_CORE_REF" https://github.com/quidra-lang/quidra "$RUNNER_TEMP/quidra"
+          mkdir -p "$RUNNER_TEMP/quidra-packages"
+          git clone --depth 1 --branch "$QUIDRA_CORE_REF" https://github.com/quidra-lang/math "$RUNNER_TEMP/quidra-packages/math"
+          cmake -S "$RUNNER_TEMP/quidra" -B "$RUNNER_TEMP/quidra-build" -G Ninja -DCMAKE_BUILD_TYPE=Release
+          cmake --build "$RUNNER_TEMP/quidra-build" --parallel
+          "$RUNNER_TEMP/quidra-build/quidra" --version
+          echo "QUIDRA=$RUNNER_TEMP/quidra-build/quidra" >> "$GITHUB_ENV"
+          echo "QUIDRA_PACKAGE_PATH=$RUNNER_TEMP/quidra-packages" >> "$GITHUB_ENV"
+          echo "QUIDRA_NATIVE_INCLUDE_DIR=$RUNNER_TEMP/quidra/include" >> "$GITHUB_ENV"
 
       - name: Verify example programs
         run: bash scripts/check-examples.sh
 
-      # The grammar check also tokenizes the compiler repository's own examples
-      # at the same release, fetched as a sparse checkout of that one directory.
-      - name: Fetch the core examples at the released tag
-        run: |
-          set -euo pipefail
-          version="$(node -e "process.stdout.write(require('./examples/manifest.json').compiler.split(' ').pop())")"
-          git clone --depth 1 --filter=blob:none --sparse --branch "v${version}" https://github.com/quidra-lang/quidra "$RUNNER_TEMP/quidra"
-          git -C "$RUNNER_TEMP/quidra" sparse-checkout set examples
-
+      # Tokenize Website examples and the matching Core branch's own examples
+      # with the same grammar contract.
       - name: Verify syntax grammar coverage
         run: QUIDRA_CORE_DIR="$RUNNER_TEMP/quidra" node scripts/check-grammar.mjs
 

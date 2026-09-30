@@ -3,6 +3,7 @@ void inspect(const int[] &values)
     for value in values
         total += value
     print("total {total}")
+    print(NL)
 
 void double_all(int[] &values)
     for &value in values
@@ -14,3 +15,4 @@ inspect(&data)
 double_all(&data)
 inspect(&data)
 print(data[2])
+print(NL)

@@ -8,7 +8,7 @@ import { example, invalidExample } from '../lib/examples';
 
 const description = `Install Quidra ${site.quidraVersion} from a release archive or build it from source, run your first program, and learn the compiler's commands.`;
 
-const hello = `print("Hello from Quidra")`;
+const hello = `print("Hello from Quidra")\nprint(NL)`;
 const runHello = `quidra hello.qui`;
 const build = `quidra build hello.qui -o hello
 ./hello`;
@@ -199,8 +199,8 @@ const uninitialized = invalidExample('uninitialized');
         <p class="small muted">
           Each package release declares the compiler range it supports in <code>quidra.package</code>; with no version
           written, the newest release compatible with your compiler is chosen, and an incompatible request fails instead
-          of silently picking another version. <a href={links.vision} rel="noopener">Vision</a> 0.4.0 and
-          <a href={links.dnn} rel="noopener">DNN</a> 0.4.0 support Quidra 0.4.0. See
+          of silently picking another version. <a href={links.vision} rel="noopener">Vision</a> {site.quidraVersion} and
+          <a href={links.dnn} rel="noopener">DNN</a> {site.quidraVersion} support Quidra {site.quidraVersion}. See
           <a href={links.docs.packages} rel="noopener">package management</a> for the full contract.
         </p>
       </div>

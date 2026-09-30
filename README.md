@@ -4,9 +4,9 @@ The official website of the [Quidra programming language](https://github.com/qui
 served at **https://quidra-lang.com**.
 
 It is a fully static site: no backend, no database, no secrets. Every Quidra
-program shown on it is a real file under `examples/` that the released compiler
-checks, formats and runs during verification, so the site cannot drift from the
-language.
+program shown on it is a real file under `examples/` that CI checks, formats
+and runs against the matching Core branch, so `develop` can evolve with Core
+`develop` without being constrained by the latest release.
 
 ## Stack
 
@@ -21,9 +21,10 @@ language.
 
 ## Local development
 
-Requires Node 24 (see `.node-version`) and, for the example checks, the Quidra
-compiler on `PATH` (`quidra --version` should print the version recorded in
-`examples/manifest.json`).
+Requires Node 24 (see `.node-version`) and, for the example checks, a Quidra
+compiler from the matching Core branch on `PATH`: Website `develop` is
+verified with Core `develop`, while Website `main` is verified with Core
+`main`.
 
 ```bash
 npm ci
@@ -46,8 +47,13 @@ node scripts/check-links.mjs dist --external   # additionally probes every exter
 ```
 
 `npm run verify` runs the build-independent checks; `.github/workflows/ci.yml`
-runs all of them on every push, installing the released Quidra Debian package
-so the examples are verified against the compiler visitors actually download.
+runs all of them on every push using a compiler built from the matching Core
+branch. Pull requests use the target branch, so a PR into `develop` verifies
+against Core `develop` and a PR into `main` verifies against Core `main`.
+First-party packages used by the examples, currently Math, are checked out from
+that same branch as well. On `develop`, `examples/manifest.json` records the
+matching development compiler version even when it is newer than the public
+release in `src/config/site.ts`; on `main`, those versions must agree.
 
 ## Deployment
 
@@ -125,12 +131,30 @@ other Quidra repositories. No `feature/*` branches.
 
 ## Updating for a new Quidra release
 
-1. Set `quidraVersion` and `releaseDate` in `src/config/site.ts`.
-2. Re-run `bash scripts/check-examples.sh` with the new compiler and update any
-   recorded output or diagnostic that legitimately changed, plus `compiler` in
-   `examples/manifest.json`.
-3. If a new formal benchmark run was imported into the core repository, run
+The website is the final step of an unqualified coordinated Quidra release.
+Core's `docs/development.md` is the canonical cross-repository release procedure.
+The coordinated release is not complete until the production website has been
+updated and verified.
+
+1. Set `quidraVersion` and `releaseDate` in `src/config/site.ts` to the
+   released Core version and date.
+2. Re-run `bash scripts/check-examples.sh` with the released compiler and update
+   any recorded output or diagnostic that legitimately changed, plus `compiler`
+   in `examples/manifest.json`.
+3. Update release/download links and Math/NN/Vision/Video/DNN references to
+   the same shared version as Core. First-party computational package versions
+   are lockstep; the website must not present independent package versions.
+4. Do not run or regenerate benchmarks as part of a release. If a formal
+   benchmark run was completed separately and is explicitly intended for
+   publication, synchronize that existing result with
    `python3 scripts/sync-benchmarks.py ../quidra`.
+5. Run `npm ci`, `npm run verify`, `npm run build`, and
+   `node scripts/check-links.mjs dist --external`. Require the Website
+   `develop` CI to pass.
+6. Fast-forward `main` to the verified `develop` state, deploy with the
+   configured Cloudflare Workers build or `npm run deploy`, and verify the live
+   `https://quidra-lang.com` version, release/download links, docs links, and
+   Playground link. Only then is the coordinated Quidra release complete.
 
 ## License
 

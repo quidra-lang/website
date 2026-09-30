@@ -60,7 +60,17 @@ manifest_invalid_field() {
 
 [ -f "$manifest" ] || { echo "missing $manifest" >&2; exit 1; }
 command -v "$QUIDRA" >/dev/null 2>&1 || { echo "compiler not found: $QUIDRA" >&2; exit 1; }
-echo "compiler: $("$QUIDRA" --version)"
+
+actual_compiler="$("$QUIDRA" --version)"
+expected_compiler="$(node -e '
+    const manifest = JSON.parse(require("fs").readFileSync(process.argv[1], "utf8"));
+    process.stdout.write(String(manifest.compiler ?? ""));
+' "$manifest")"
+if [ "$actual_compiler" != "$expected_compiler" ]; then
+    echo "compiler mismatch: manifest expects '$expected_compiler', got '$actual_compiler'" >&2
+    exit 1
+fi
+echo "compiler: $actual_compiler"
 echo
 
 # --- valid examples -----------------------------------------------------------

@@ -1,5 +1,5 @@
 {
-  "compiler": "quidra 0.4.0",
+  "compiler": "quidra 0.5.0",
   "examples": [
     {
       "id": "hero",
@@ -14,7 +14,7 @@
       "id": "tensors",
       "file": "tensors.qui",
       "title": "Tensors with shape contracts",
-      "summary": "Exact-rank tensor<float32><3, _, _> bindings, strict singleton broadcasting, .item() and .shape(), plus linear.matmul and stats.mean on 2-D tensors.",
+      "summary": "Exact-rank tensor<float32><3, _, _> bindings, strict singleton broadcasting, .item() and .shape(), plus math.matmul and math.mean from the first-party Math package on 2-D tensors.",
       "run": true,
       "args": [],
       "output": "tensors.out"

@@ -9,7 +9,10 @@ auto | error result = lookup(1)
 match result
     int value
         print(value)
+        print(NL)
     none
         print("none")
+        print(NL)
     error problem
         print(problem)
+        print(NL)

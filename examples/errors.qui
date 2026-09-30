@@ -9,5 +9,7 @@ for text in inputs
     match parse_score(text)
         int value
             print("score {value}")
+            print(NL)
         error problem
             print("rejected: {problem}")
+            print(NL)

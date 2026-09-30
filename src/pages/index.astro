@@ -95,30 +95,50 @@ quidra --version`;
 
 const ordinal = (n: number) => `${n}${['th', 'st', 'nd', 'rd'][(n % 100 > 10 && n % 100 < 14) || n % 10 > 3 ? 0 : n % 10]}`;
 
+const developTree = (href: string) => `${href}/tree/develop`;
+
 const ecosystem = [
   {
     name: 'Core',
     repo: 'quidra-lang/quidra',
-    href: links.core,
+    href: developTree(links.core),
     text: 'The compiler, native runtime, REPL, language server and standard namespaces. C++20 over LLVM, MIT licensed, released from immutable tags with archives for Linux, macOS and Windows.',
   },
   {
     name: 'Playground',
     repo: 'quidra-lang/playground',
-    href: links.playgroundRepo,
+    href: developTree(links.playgroundRepo),
     text: 'The real compiler frontend runs as WebAssembly for browser-local Check, Format, IR, Inspect and Patch. Native Build/Run use a sandboxed runner only when requested, gated to the same language version and exact Core commit.',
+  },
+  {
+    name: 'Math',
+    repo: 'quidra-lang/math',
+    href: developTree(links.math),
+    text: 'import math. Generic mathematical semantics such as reductions, unary functions, dot products and matrix multiplication live outside Core with their own native and compiler optimizations.',
+  },
+  {
+    name: 'NN',
+    repo: 'quidra-lang/nn',
+    href: developTree(links.nn),
+    text: 'import nn. Architecture-independent neural-network state, reusable layers, losses, optimizers, persistence and NN-owned accelerator/compiler policy live here.',
   },
   {
     name: 'Vision',
     repo: 'quidra-lang/vision',
-    href: links.vision,
-    text: 'import vision. Image processing on rank-3 CHW tensors: crop, resize, flips and rotations, grayscale, threshold, blur, filter, dilate and erode. Invalid shapes or parameters return error and are never reinterpreted.',
+    href: developTree(links.vision),
+    text: 'import vision. Image codecs and tensor image processing such as crop, resize, grayscale, filtering and morphology are Vision-owned package semantics.',
+  },
+  {
+    name: 'Video',
+    repo: 'quidra-lang/video',
+    href: developTree(links.video),
+    text: 'import video. Video decoding and FFmpeg integration are package-owned; decoded frames are ordinary Quidra tensors and device transfer remains explicit.',
   },
   {
     name: 'DNN',
     repo: 'quidra-lang/dnn',
-    href: links.dnn,
-    text: 'import dnn. Parameters, State, layers, losses, optimizers and model persistence are ordinary source-package abstractions over Core tensor/autograd primitives. The execution mode is chosen explicitly with dnn.mode.fast() or dnn.mode.deterministic().',
+    href: developTree(links.dnn),
+    text: 'import dnn. Concrete model architecture families such as AlexNet, VGG and ResNet compose NN and Math rather than re-owning generic layers, optimizers or accelerator backends.',
   },
 ];
 
@@ -299,9 +319,10 @@ const uninitialized = invalidExample('uninitialized');
   <section class="section" id="ecosystem">
     <div class="container">
       <SectionHead number="07" eyebrow="ecosystem" title="A small, explicit library boundary">
-        The standard namespaces are always visible and never imported. Tensor/autograd primitives plus image and video
-        I/O are built in; DNN model state, layers and computer vision ship as ordinary source packages installed from
-        immutable release tags.
+        Core keeps language, tensor, autograd, device and extension mechanisms. Generic mathematics, reusable neural-network
+        semantics, image processing, video decoding and concrete DNN model architectures live in explicit first-party packages.
+        The cards below describe the current development architecture. The released compiler and install instructions on this
+        site remain pinned to Quidra {site.quidraVersion}; package availability for that release is shown on Get started.
       </SectionHead>
       <ul class="cards">
         {
@@ -359,7 +380,7 @@ const uninitialized = invalidExample('uninitialized');
         <CodeBlock code={install} lang="bash" file="Debian and Ubuntu">
           <CopyButton slot="title" text={install} />
         </CodeBlock>
-        <CodeBlock code={`print("Hello from Quidra")`} file="hello.qui" output="Hello from Quidra" outputLabel="quidra hello.qui" />
+        <CodeBlock code={`print("Hello from Quidra")\nprint(NL)`} file="hello.qui" output="Hello from Quidra" outputLabel="quidra hello.qui" />
       </div>
     </div>
   </section>
