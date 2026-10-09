@@ -36,9 +36,9 @@ const THEME = 'github-dark';
 // confirmed by docs/spec/grammar.ebnf, docs/spec/language.md, and src/lexer.cpp.
 const RESERVED_WORDS = new Set([
   // control flow
-  'if', 'elif', 'else', 'for', 'in', 'while', 'match', 'return', 'break', 'continue', 'try',
+  'if', 'elif', 'else', 'for', 'in', 'while', 'match', 'return', 'break', 'continue', 'try', 'then', 'parallel',
   // declarations and modifiers
-  'import', 'public', 'extern', 'cli', 'enum', 'class', 'construct', 'private', 'const', 'auto',
+  'import', 'public', 'extern', 'cli', 'enum', 'class', 'construct', 'private', 'const', 'auto', 'export', 'literal', 'this',
   // operators spelled as words
   'and', 'or', 'not', 'AND', 'OR', 'XOR', 'NOT',
   // literals
@@ -48,7 +48,8 @@ const RESERVED_WORDS = new Set([
   // built-in types
   'int', 'int8', 'int16', 'int32', 'int64', 'uint8', 'uint16', 'uint32', 'uint64',
   'bigint', 'float', 'float32', 'float64', 'bigreal', 'bool', 'string', 'bin', 'error',
-  'tensor', 'neural', 'fn',
+  'tensor', 'neural', 'fn', 'nat', 'nat8', 'nat16', 'nat32', 'nat64',
+  'real', 'real16', 'real16b', 'real32', 'real64', 'com', 'com16', 'com16b', 'com32', 'com64',
 ]);
 
 const IDENTIFIER = /^[A-Za-z_][A-Za-z0-9_]*$/;
