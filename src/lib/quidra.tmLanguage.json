@@ -263,6 +263,7 @@
         { "include": "#number" },
         { "include": "#operator-address" },
         { "include": "#operator-union" },
+        { "include": "#slice-direction-marker" },
         { "include": "#operator-shift" },
         { "include": "#operator-assignment" },
         { "include": "#operator-comparison" },
@@ -312,6 +313,11 @@
     "operator-bitwise-word": {
       "match": "\\b(AND|OR|XOR|NOT)\\b",
       "name": "keyword.operator.bitwise.quidra"
+    },
+
+    "slice-direction-marker": {
+      "match": "<:|>:|:<|:>",
+      "name": "punctuation.definition.slice-boundary.quidra"
     },
 
     "operator-shift": {
