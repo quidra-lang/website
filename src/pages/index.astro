@@ -35,23 +35,23 @@ const laws = [
   {
     id: 'values',
     title: 'Values are the default; storage is explicit.',
-    text: 'Ordinary = means an independent value. Observable aliasing is written with &: a T & path can write, a const T & path can only observe. The implementation may share storage or copy on write only when the difference cannot be observed.',
+    text: 'Ordinary = means an independent value. Observable aliasing is written with &: T & is a mutable reference, while T and const T are values. Const references are not part of the language. The implementation may share storage or copy on write only when the difference cannot be observed.',
   },
   {
     id: 'authority',
     title: 'Authority is part of the call.',
-    text: 'A reference parameter makes caller-owned storage access explicit, and the parameter decides whether that path may write. The checker tracks what a call requires to be initialized and what it guarantees afterwards, so a writable parameter can safely initialize storage.',
+    text: 'A T & parameter explicitly receives writable caller-owned storage. By-value parameters do not grant access to mutate the caller's original binding. The checker tracks what a call requires to be initialized and what it guarantees afterwards, so a writable parameter can safely initialize storage.',
   },
   {
     id: 'state',
     title: 'State facts are tracked, not guessed.',
-    text: 'Uninitialized does not mean zero, none or a hidden default. Definite initialization is followed through branches, loops, references, fields, calls and returns; a class may be intentionally partial, and reading the missing part is rejected before the program runs.',
+    text: 'Uninitialized does not mean zero, none or a hidden default. Initialization is tracked across branches, loops, references, fields and calls: definitely missing values fail at compile time, and uncertain reads are checked at runtime.',
     invalid: 'uninitialized',
   },
   {
     id: 'representation',
     title: 'Representation changes are explicit.',
-    text: 'An already-typed numeric value never changes representation implicitly, even when the conversion would be lossless. Casts use the destination type and integer narrowing is range checked. Floating-point to integer is not a generic cast, because the rounding is the meaning: say math.round, math.floor, math.ceil or math.trunc.',
+    text: 'An already-typed numeric value never changes representation implicitly, even when the conversion would be lossless. Casts name their destination type. Fixed-width narrowing is range checked; converting a non-integral real to an integer requires an explicit rounding operation such as math.round, math.floor, math.ceil or math.trunc.',
   },
   {
     id: 'names',
@@ -253,7 +253,7 @@ const uninitialized = invalidExample('uninitialized');
         </SectionHead>
         <ul class="facts-list">
           <li>The compiler is written in C++20. Native code is produced through LLVM IR and Clang, optimized at -O3 without fast-math.</li>
-          <li>Runtime safety stays on: integer overflow at every width, division by zero, array and bin bounds, allocation sizes and out-of-range casts are all checked. A runtime safety failure terminates deterministically with status 101.</li>
+          <li>Runtime safety stays on: fixed-width integer overflow, division by zero, array and bin bounds, allocation sizes and out-of-range casts are all checked. A runtime safety failure terminates deterministically with status 101.</li>
           <li>The REPL lowers each submission to LLVM IR and executes it with ORC JIT; nothing is interpreted.</li>
           <li>Linux, macOS and Windows are supported. GPU placement is explicit through the cuda, hip and metal backends, and there is never an implicit fallback to the CPU.</li>
         </ul>
