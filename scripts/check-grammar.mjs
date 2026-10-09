@@ -44,11 +44,10 @@ const RESERVED_WORDS = new Set([
   // literals
   'true', 'false', 'none', 'void',
   // control-character constants
-  'ENTER', 'TAB', 'HOME', 'QUOTE', 'BACKSPACE', 'PAGE', 'VTAB', 'BELL',
+  'NL', 'HT', 'CR', 'DQ', 'BS', 'FF', 'VT', 'BL',
   // built-in types
-  'int', 'int8', 'int16', 'int32', 'int64', 'uint8', 'uint16', 'uint32', 'uint64',
-  'bigint', 'float', 'float32', 'float64', 'bigreal', 'bool', 'string', 'bin', 'error',
-  'tensor', 'neural', 'fn', 'nat', 'nat8', 'nat16', 'nat32', 'nat64',
+  'int', 'int8', 'int16', 'int32', 'int64', 'bool', 'string', 'bin', 'error',
+  'tensor', 'fn', 'nat', 'nat8', 'nat16', 'nat32', 'nat64',
   'real', 'real16', 'real16b', 'real32', 'real64', 'com', 'com16', 'com16b', 'com32', 'com64',
 ]);
 
