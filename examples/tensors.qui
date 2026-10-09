@@ -1,17 +1,17 @@
 import math
 
-tensor<float32><3, _, _> pixels = tensor.zeros<float32>([3, 64, 64])
-tensor<float32><1, _, _> bias = tensor.ones<float32>([1, 64, 64])
-tensor<float32><3, _, _> shifted = pixels + bias
-float32 sample = shifted[0, 10, 20].item()
+tensor<real32><3, _, _> pixels = tensor.zeros<real32>([3, 64, 64])
+tensor<real32><1, _, _> bias = tensor.ones<real32>([1, 64, 64])
+tensor<real32><3, _, _> shifted = pixels + bias
+real32 sample = shifted[0, 10, 20].item()
 print(sample)
 print(NL)
 int[] shape = shifted.shape()
 print(shape[0])
 print(NL)
-tensor<float32> a = tensor.ones([2, 3])
-tensor<float32> b = tensor.ones([3, 2])
-tensor<float32> c = math.matmul(a, b)
+tensor<real32> a = tensor.ones([2, 3])
+tensor<real32> b = tensor.ones([3, 2])
+tensor<real32> c = math.matmul(a, b)
 print(c[0, 0].item())
 print(NL)
 print(math.mean(c).item())

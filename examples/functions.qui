@@ -20,6 +20,6 @@ print(NL)
 int[] scores = [3, 9, 4]
 print(largest(scores))
 print(NL)
-float[] readings = [2.5, 1.5]
+real64[] readings = [2.5, 1.5]
 print(largest(readings))
 print(NL)

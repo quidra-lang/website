@@ -1,9 +1,9 @@
 import math
 
 int value = 100
-int8 small = int8(value)
-float ratio = float(value) / 3.0
-int rounded = math.round(ratio)
+int8 small = try int8(value)
+real64 ratio = (try real64(value)) / 3.0
+int rounded = try math.round(ratio)
 print(small)
 print(NL)
 print(rounded)
