@@ -6,8 +6,8 @@
 const rows = [
   { form: 'int count = 3', meaning: 'a typed binding with familiar declaration syntax' },
   { form: 'auto name = "Quidra"', meaning: 'infer a type when the initializer makes it unambiguous' },
-  { form: 'for value in values', meaning: 'iterate directly over values' },
-  { form: 'Point(3.0, 4.0)', meaning: 'construct a value by calling its type' },
+  { form: 'for auto value = values[]', meaning: 'iterate directly over values' },
+  { form: 'Point(3.0, 4.0)', meaning: 'create a value and execute its class initialization' },
   { form: '=', meaning: 'ordinary assignment has independent value semantics' },
   { form: '&x', meaning: 'observable aliasing is requested explicitly' },
   { form: 'T(value)', meaning: 'representation changes are explicit' },

@@ -8,7 +8,8 @@ print(NL)
 
 int x = 1
 int &writer = &x
-const int &view = &x
+// A const value is an independent snapshot, even when x has a writable alias.
+const int snapshot = x
 writer = 5
-print(view)
+print(snapshot)
 print(NL)

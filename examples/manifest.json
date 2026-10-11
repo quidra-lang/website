@@ -14,7 +14,7 @@
       "id": "tensors",
       "file": "tensors.qui",
       "title": "Tensors with shape contracts",
-      "summary": "Exact-rank tensor<float32><3, _, _> bindings, strict singleton broadcasting, .item() and .shape(), plus math.matmul and math.mean from the first-party Math package on 2-D tensors.",
+      "summary": "Exact-rank tensor<real32>{3, _, _} bindings, strict singleton broadcasting, .item() and .shape(), plus math.matmul and math.mean from the first-party Math package on 2-D tensors.",
       "run": true,
       "args": [],
       "output": "tensors.out"
@@ -23,7 +23,7 @@
       "id": "basics",
       "file": "basics.qui",
       "title": "Bindings, values and loops",
-      "summary": "Typed and auto bindings, string interpolation, an int[] copy that stays independent after mutation, a for loop over an array and over range() and an if/elif/else chain.",
+      "summary": "Typed and auto bindings, string interpolation, an int[] copy that stays independent after mutation, a collection for loop and an explicit range header and an if/elif/else chain.",
       "run": true,
       "args": [],
       "output": "basics.out"
@@ -32,7 +32,7 @@
       "id": "functions",
       "file": "functions.qui",
       "title": "Defaults, names and generics",
-      "summary": "A default parameter, a call with named arguments and a constrained generic T largest<T: ordered>(T[] values) whose type argument is inferred from typed int[] and float[] variables.",
+      "summary": "A default parameter, a call with named arguments and a constrained generic T largest<T: ordered>(T[] values) whose type argument is inferred from typed int[] and real64[] variables.",
       "run": true,
       "args": [],
       "output": "functions.out"
@@ -50,7 +50,7 @@
       "id": "classes",
       "file": "classes.qui",
       "title": "Classes with value semantics",
-      "summary": "A class with fields, a construct, a public and a private method, an independent copy via =, an explicit Point &alias that writes through and value equality with ==.",
+      "summary": "A class with initialization arguments and ordered field assignments, a public and a private method, an independent copy via =, an explicit Point &alias that writes through and value equality with ==.",
       "run": true,
       "args": [],
       "output": "classes.out"
@@ -59,7 +59,7 @@
       "id": "references",
       "file": "references.qui",
       "title": "Write authority at the call",
-      "summary": "const int[] & versus int[] & parameters called with &data: the caller always writes & and the parameter declaration decides whether the path may write.",
+      "summary": "A const int[] value parameter receives a snapshot; an int[] & parameter takes writable storage through the marked .double_all(&data) call.",
       "run": true,
       "args": [],
       "output": "references.out"
@@ -82,7 +82,7 @@
       "id": "values",
       "file": "values.qui",
       "title": "Values by default, storage by request",
-      "summary": "An int[] copied with = stays independent when the copy is mutated; an explicit int &writer alias writes through to x and a const int &view observes the change without write authority.",
+      "summary": "An int[] copied with = stays independent when the copy is mutated; an explicit int &writer alias writes through to x while a const int snapshot keeps the earlier independent value.",
       "run": true,
       "args": [],
       "output": "values.out"
@@ -91,7 +91,7 @@
       "id": "authority",
       "file": "authority.qui",
       "title": "Authority is part of the call",
-      "summary": "A const int & parameter can only observe; an int & parameter may write and the checker lets it initialize storage that was declared without a value.",
+      "summary": "A const int value parameter can only observe its value; an int & parameter may write and the checker lets it initialize storage that was declared without a value.",
       "run": true,
       "args": [],
       "output": "authority.out"
@@ -100,7 +100,7 @@
       "id": "representation",
       "file": "representation.qui",
       "title": "Explicit representation changes",
-      "summary": "int8(value) is a range-checked narrowing cast, float(value) an explicit widening and math.round states the rounding rule that a generic float-to-int cast would hide.",
+      "summary": "int8(value) is a range-checked narrowing cast, real64(value) explicitly changes representation and math.round states the rounding rule instead of a generic real-to-int cast.",
       "run": true,
       "args": [],
       "output": "representation.out"

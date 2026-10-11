@@ -5,7 +5,7 @@ int | error parse_score(string text)
     return value
 
 string[] inputs = ["42", "500", "abc"]
-for text in inputs
+for auto text = inputs[]
     match parse_score(text)
         int value
             print("score {value}")

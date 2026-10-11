@@ -10,12 +10,12 @@ print("original[0] = {original[0]}, copy[0] = {copy[0]}")
 print(NL)
 
 int total = 0
-for value in original
+for auto value = original[]
     total += value
 print("total = {total}")
 print(NL)
 
-for i in range(0, count)
+for 0 <= int i < count
     if i == 0
         print("first")
         print(NL)

@@ -1,18 +1,18 @@
-void inspect(const int[] &values)
+void inspect(const int[] values)
     int total = 0
-    for value in values
+    for auto value = values[]
         total += value
     print("total {total}")
     print(NL)
 
-void double_all(int[] &values)
-    for &value in values
+void .double_all(int[] &values)
+    for auto &value = &values[]
         value = value * 2
 
 int[] data = [1, 2, 3]
-// The caller writes & at every call; the parameter decides read-only or read/write.
-inspect(&data)
-double_all(&data)
-inspect(&data)
+// Value parameters receive snapshots; mutable calls name the writable storage explicitly.
+inspect(data)
+.double_all(&data)
+inspect(data)
 print(data[2])
 print(NL)

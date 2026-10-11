@@ -7,9 +7,9 @@
     { "include": "#comment" },
     { "include": "#string" },
     { "include": "#class-declaration" },
+    { "include": "#enum-declaration" },
     { "include": "#cli-declaration" },
     { "include": "#extern-declaration" },
-    { "include": "#constructor-declaration" },
     { "include": "#function-declaration" },
     { "include": "#binding-declaration" },
     { "include": "#expression" }
@@ -67,11 +67,54 @@
     },
 
     "class-declaration": {
-      "match": "^\\s*(class|enum)\\s+([A-Za-z_][A-Za-z0-9_]*)\\s*(<(?:[^<>\\n]|<[^<>\\n]*>)*>)?",
+      "name": "meta.class.quidra",
+      "begin": "^\\s*(?:(private)\\s+)?(class)\\s+([A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*)\\s*(<(?:[^<>\\n]|<[^<>\\n]*>)*>)?(?:\\s+([A-Za-z_][A-Za-z0-9_]*))?\\s*(\\()",
+      "beginCaptures": {
+        "1": {
+          "name": "storage.modifier.quidra"
+        },
+        "2": {
+          "name": "keyword.declaration.quidra"
+        },
+        "3": {
+          "name": "entity.name.type.quidra"
+        },
+        "4": {
+          "patterns": [
+            {
+              "include": "#type-parameters"
+            }
+          ]
+        },
+        "5": {
+          "name": "variable.language.receiver.quidra"
+        },
+        "6": {
+          "name": "punctuation.section.parens.begin.quidra"
+        }
+      },
+      "end": "\\)",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.section.parens.end.quidra"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#parameter-list"
+        }
+      ]
+    },
+
+    "enum-declaration": {
+      "match": "^\\s*(enum)\\s+([A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*)",
       "captures": {
-        "1": { "name": "keyword.declaration.quidra" },
-        "2": { "name": "entity.name.type.quidra" },
-        "3": { "patterns": [{ "include": "#type-parameters" }] }
+        "1": {
+          "name": "keyword.declaration.quidra"
+        },
+        "2": {
+          "name": "entity.name.type.quidra"
+        }
       }
     },
 
@@ -84,7 +127,7 @@
 
     "extern-declaration": {
       "name": "meta.function.extern.quidra",
-      "begin": "^\\s*(extern)\\s+((?:fn<(?:[^<>\\n]|<[^<>\\n]*>)*>\\([^()\\n]*\\)|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?:<(?:[^<>\\n]|<[^<>\\n]*>)*>)*)(?:\\[[^\\[\\]\\n]*\\])*(?:\\s*\\|\\s*(?:fn<(?:[^<>\\n]|<[^<>\\n]*>)*>\\([^()\\n]*\\)|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?:<(?:[^<>\\n]|<[^<>\\n]*>)*>)*)(?:\\[[^\\[\\]\\n]*\\])*)*)\\s+([A-Za-z_][A-Za-z0-9_]*)\\s*(\\()",
+      "begin": "^\\s*(extern)\\s+((?:func<(?:[^<>\\n]|<[^<>\\n]*>)*>\\([^()\\n]*\\)|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?:<(?:[^<>\\n]|<[^<>\\n]*>)*>)*)(?:\\[[^\\[\\]\\n]*\\])*(?:\\s*\\|\\s*(?:func<(?:[^<>\\n]|<[^<>\\n]*>)*>\\([^()\\n]*\\)|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?:<(?:[^<>\\n]|<[^<>\\n]*>)*>)*)(?:\\[[^\\[\\]\\n]*\\])*)*)\\s+([A-Za-z_][A-Za-z0-9_]*)\\s*(\\()",
       "beginCaptures": {
         "1": { "name": "keyword.declaration.quidra" },
         "2": { "patterns": [{ "include": "#type" }] },
@@ -98,46 +141,67 @@
       "patterns": [{ "include": "#parameter-list" }]
     },
 
-    "constructor-declaration": {
-      "name": "meta.function.constructor.quidra",
-      "begin": "^\\s*(?:(private)\\s+)?(?:((?:fn<(?:[^<>\\n]|<[^<>\\n]*>)*>\\([^()\\n]*\\)|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?:<(?:[^<>\\n]|<[^<>\\n]*>)*>)*)(?:\\[[^\\[\\]\\n]*\\])*(?:\\s*\\|\\s*(?:fn<(?:[^<>\\n]|<[^<>\\n]*>)*>\\([^()\\n]*\\)|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?:<(?:[^<>\\n]|<[^<>\\n]*>)*>)*)(?:\\[[^\\[\\]\\n]*\\])*)*)\\s+)?(construct)\\s*(\\()",
-      "beginCaptures": {
-        "1": { "name": "storage.modifier.quidra" },
-        "2": { "patterns": [{ "include": "#type" }] },
-        "3": { "name": "keyword.declaration.quidra" },
-        "4": { "name": "punctuation.section.parens.begin.quidra" }
-      },
-      "end": "\\)",
-      "endCaptures": {
-        "0": { "name": "punctuation.section.parens.end.quidra" }
-      },
-      "patterns": [{ "include": "#parameter-list" }]
-    },
 
     "function-declaration": {
       "name": "meta.function.quidra",
-      "begin": "^\\s*(?:(private)\\s+)?(?!(?:return|if|elif|else|for|while|match|import|public|try|not|and|or|in|break|continue|class|enum|extern|cli|construct|private|const|NOT|AND|OR|XOR)\\b)((?:fn<(?:[^<>\\n]|<[^<>\\n]*>)*>\\([^()\\n]*\\)|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?:<(?:[^<>\\n]|<[^<>\\n]*>)*>)*)(?:\\[[^\\[\\]\\n]*\\])*(?:\\s*\\|\\s*(?:fn<(?:[^<>\\n]|<[^<>\\n]*>)*>\\([^()\\n]*\\)|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?:<(?:[^<>\\n]|<[^<>\\n]*>)*>)*)(?:\\[[^\\[\\]\\n]*\\])*)*)\\s+([A-Za-z_][A-Za-z0-9_]*)\\s*(<(?:[^<>\\n]|<[^<>\\n]*>)*>)?\\s*(\\()",
+      "begin": "^\\s*(?:(private)\\s+)?(?!(?:return|if|elif|else|for|while|match|import|public|try|not|and|or|break|continue|class|enum|extern|cli|private|const|NOT|AND|OR|XOR|then|parallel|export|literal|local)\\b)((?:func<(?:[^<>\\n]|<[^<>\\n]*>)*>\\([^()\\n]*\\)|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?:<(?:[^<>\\n]|<[^<>\\n]*>)*>)*)(?:\\[[^\\[\\]\\n]*\\])*(?:\\s*\\|\\s*(?:func<(?:[^<>\\n]|<[^<>\\n]*>)*>\\([^()\\n]*\\)|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?:<(?:[^<>\\n]|<[^<>\\n]*>)*>)*)(?:\\[[^\\[\\]\\n]*\\])*)*)\\s+(\\.?[A-Za-z_][A-Za-z0-9_]*)\\s*(<(?:[^<>\\n]|<[^<>\\n]*>)*>)?\\s*(\\()",
       "beginCaptures": {
-        "1": { "name": "storage.modifier.quidra" },
-        "2": { "patterns": [{ "include": "#type" }] },
-        "3": { "name": "entity.name.function.quidra" },
-        "4": { "patterns": [{ "include": "#type-parameters" }] },
-        "5": { "name": "punctuation.section.parens.begin.quidra" }
+        "1": {
+          "name": "storage.modifier.quidra"
+        },
+        "2": {
+          "patterns": [
+            {
+              "include": "#type"
+            }
+          ]
+        },
+        "3": {
+          "name": "entity.name.function.quidra"
+        },
+        "4": {
+          "patterns": [
+            {
+              "include": "#type-parameters"
+            }
+          ]
+        },
+        "5": {
+          "name": "punctuation.section.parens.begin.quidra"
+        }
       },
       "end": "\\)",
       "endCaptures": {
-        "0": { "name": "punctuation.section.parens.end.quidra" }
+        "0": {
+          "name": "punctuation.section.parens.end.quidra"
+        }
       },
-      "patterns": [{ "include": "#parameter-list" }]
+      "patterns": [
+        {
+          "include": "#parameter-list"
+        }
+      ]
     },
 
     "binding-declaration": {
-      "match": "^\\s*(?:(private)\\s+)?(?:(const)\\s+)?(?!(?:return|if|elif|else|for|while|match|import|public|try|not|and|or|in|break|continue|class|enum|extern|cli|construct|private|const|NOT|AND|OR|XOR)\\b)((?:fn<(?:[^<>\\n]|<[^<>\\n]*>)*>\\([^()\\n]*\\)|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?:<(?:[^<>\\n]|<[^<>\\n]*>)*>)*)(?:\\[[^\\[\\]\\n]*\\])*(?:\\s*\\|\\s*(?:fn<(?:[^<>\\n]|<[^<>\\n]*>)*>\\([^()\\n]*\\)|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?:<(?:[^<>\\n]|<[^<>\\n]*>)*>)*)(?:\\[[^\\[\\]\\n]*\\])*)*)\\s+(&)?\\s*([A-Za-z_][A-Za-z0-9_]*)\\b(?=\\s*(?:=(?!=)|$|//))",
+      "match": "^\\s*(?:(private)\\s+)?(?:(local|const)\\s+)?(?:(?:const)\\s+)?(?!(?:return|if|elif|else|for|while|match|import|public|try|not|and|or|break|continue|class|enum|extern|cli|private|const|NOT|AND|OR|XOR|then|parallel|export|literal|local)\\b)((?:func<(?:[^<>\\n]|<[^<>\\n]*>)*>\\([^()\\n]*\\)|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?:<(?:[^<>\\n]|<[^<>\\n]*>)*>)*)(?:\\[[^\\[\\]\\n]*\\])*(?:\\s*\\|\\s*(?:func<(?:[^<>\\n]|<[^<>\\n]*>)*>\\([^()\\n]*\\)|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?:<(?:[^<>\\n]|<[^<>\\n]*>)*>)*)(?:\\[[^\\[\\]\\n]*\\])*)*)\\s+(&)?\\s*([A-Za-z_][A-Za-z0-9_]*)\\b(?=\\s*(?:=(?!=)|$|//))",
       "captures": {
-        "1": { "name": "storage.modifier.quidra" },
-        "2": { "name": "storage.modifier.quidra" },
-        "3": { "patterns": [{ "include": "#type" }] },
-        "4": { "name": "keyword.operator.address.quidra" }
+        "1": {
+          "name": "storage.modifier.quidra"
+        },
+        "2": {
+          "name": "storage.modifier.quidra"
+        },
+        "3": {
+          "patterns": [
+            {
+              "include": "#type"
+            }
+          ]
+        },
+        "4": {
+          "name": "keyword.operator.address.quidra"
+        }
       }
     },
 
@@ -243,7 +307,7 @@
     "expression": {
       "patterns": [
         { "include": "#string" },
-        { "include": "#keyword-control" },
+            { "include": "#keyword-control" },
         { "include": "#keyword-try" },
         { "include": "#keyword-import" },
         { "include": "#keyword-declaration" },
@@ -262,6 +326,7 @@
         { "include": "#number" },
         { "include": "#operator-address" },
         { "include": "#operator-union" },
+        { "include": "#slice-direction-marker" },
         { "include": "#operator-shift" },
         { "include": "#operator-assignment" },
         { "include": "#operator-comparison" },
@@ -274,7 +339,7 @@
     },
 
     "keyword-control": {
-      "match": "\\b(if|elif|else|for|in|while|match|return|break|continue)\\b",
+      "match": "\\b(if|elif|else|for|while|match|return|break|continue|then|parallel)\\b",
       "name": "keyword.control.quidra"
     },
 
@@ -289,12 +354,13 @@
     },
 
     "keyword-declaration": {
-      "match": "\\b(class|enum|construct|extern)\\b",
+      "match": "\\b(class|enum|extern|export|literal)\\b",
       "name": "keyword.declaration.quidra"
     },
 
+
     "storage-modifier": {
-      "match": "\\b(const|private|auto)\\b",
+      "match": "\\b(local|const|private|auto)\\b",
       "name": "storage.modifier.quidra"
     },
 
@@ -306,6 +372,11 @@
     "operator-bitwise-word": {
       "match": "\\b(AND|OR|XOR|NOT)\\b",
       "name": "keyword.operator.bitwise.quidra"
+    },
+
+    "slice-direction-marker": {
+      "match": "<:|>:|:<|:>",
+      "name": "punctuation.definition.slice-boundary.quidra"
     },
 
     "operator-shift": {
@@ -334,12 +405,12 @@
     },
 
     "namespace": {
-      "match": "(?<!\\.)\\b(math|cli|file|environment|test|time|gpu|task|atomic|ref|random|process|map|set|json|http|stats|linear|signal|image|video|tensor|neural)\\b(?=\\s*\\.)",
+      "match": "(?<!\\.)\\b(math|cli|file|environment|test|time|gpu|random|process|map|set|json|http|stats|linear|signal|image|video|tensor|neural)\\b(?=\\s*\\.)",
       "name": "support.namespace.quidra"
     },
 
     "primitive-type": {
-      "match": "(?<!\\.)\\b(int|int8|int16|int32|int64|uint8|uint16|uint32|uint64|bigint|float|float32|float64|bigreal|bool|string|bin|error|tensor|neural|fn)\\b",
+      "match": "(?<!\\.)\\b(nat|nat8|nat16|nat32|nat64|real|real16|real16b|real32|real64|com|com16|com16b|com32|com64|int|int8|int16|int32|int64|bool|string|bin|error|tensor|func)\\b",
       "name": "storage.type.primitive.quidra"
     },
 
@@ -370,7 +441,7 @@
     },
 
     "number": {
-      "match": "\\b[0-9]+(?:\\.[0-9]+(?:[eE][+-]?[0-9]+)?)?\\b",
+      "match": "\\b[0-9]+(?:\\.[0-9]+(?:[eE][+-]?[0-9]+)?i?)?\\b",
       "name": "constant.numeric.quidra"
     },
 
@@ -421,6 +492,14 @@
         {
           "match": "\\]",
           "name": "punctuation.section.brackets.end.quidra"
+        },
+        {
+          "match": "\\{",
+          "name": "punctuation.section.braces.begin.quidra"
+        },
+        {
+          "match": "\\}",
+          "name": "punctuation.section.braces.end.quidra"
         }
       ]
     },

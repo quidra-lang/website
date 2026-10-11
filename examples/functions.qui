@@ -6,7 +6,7 @@ bool within(int value, int minimum, int maximum)
 
 T largest<T: ordered>(T[] values)
     T best = values[0]
-    for value in values
+    for auto value = values[]
         if value > best
             best = value
     return best
@@ -20,6 +20,6 @@ print(NL)
 int[] scores = [3, 9, 4]
 print(largest(scores))
 print(NL)
-float[] readings = [2.5, 1.5]
+real64[] readings = [2.5, 1.5]
 print(largest(readings))
 print(NL)

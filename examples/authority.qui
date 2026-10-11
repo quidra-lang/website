@@ -1,10 +1,10 @@
-void inspect(const int &value)
+void inspect(const int value)
     print(value)
     print(NL)
 
-void initialize(int &value)
+void .initialize(int &value)
     value = 7
 
 int value
-initialize(&value)
-inspect(&value)
+.initialize(&value)
+inspect(value)

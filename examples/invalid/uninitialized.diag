@@ -1,2 +1,2 @@
-uninitialized.qui:2:7: error[UNINITIALIZED] Binding 'x' may be uninitialized.
+uninitialized.qui:2:7: error[UNINITIALIZED] 'x' is read before it is initialized on every path.
 1 error(s) generated.

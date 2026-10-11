@@ -2,7 +2,8 @@ import math
 
 int value = 100
 int8 small = int8(value)
-float ratio = float(value) / 3.0
+real64 converted = real64(value)
+real64 ratio = converted / 3.0
 int rounded = math.round(ratio)
 print(small)
 print(NL)
