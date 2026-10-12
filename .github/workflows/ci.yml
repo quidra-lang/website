@@ -62,6 +62,9 @@ jobs:
       - name: Verify palette contrast
         run: node scripts/check-contrast.mjs
 
+      - name: Verify benchmark scores, comparison leaders and evidence
+        run: npm run check:benchmarks
+
       - run: npm run check
       - run: npm run lint
       - run: npm run build

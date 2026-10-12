@@ -1,0 +1,273 @@
+---
+import Base from '../../layouts/Base.astro';
+import BenchmarkEvidence from '../../components/BenchmarkEvidence.astro';
+import { links, site } from '../../config/site';
+import benchmarks from '../../data/benchmarks.json';
+import analysisData from '../../data/benchmark-analysis.json';
+import {
+  evaluationPath,
+  formatDelta,
+  formatScore,
+  ordinal,
+  requirementComparisons,
+  type BenchmarkAnalysisDocument,
+  type BenchmarkEvaluation,
+  type EvaluationAnalysis,
+} from '../../lib/benchmark-analysis';
+
+export function getStaticPaths() {
+  const document: BenchmarkAnalysisDocument = analysisData;
+  if (document.schema_version !== 1) throw new Error('Unsupported benchmark analysis schema version.');
+  if (document.run_id !== benchmarks.run_id) throw new Error('Benchmark analysis refers to a different run.');
+  if (document.evaluated_commit !== benchmarks.evaluated_commit) throw new Error('Benchmark analysis refers to a different evaluated compiler commit.');
+  if (typeof document.source_commit !== 'string' || !/^[a-f0-9]{40}$/i.test(document.source_commit)) {
+    throw new Error('Benchmark analysis requires a full source commit SHA.');
+  }
+  if (document.evaluations.length !== benchmarks.evaluations.length) throw new Error('Benchmark analysis must include exactly the published evaluations.');
+  return benchmarks.evaluations.map((evaluation) => {
+    const matches = document.evaluations.filter((item) => item.id === evaluation.id);
+    if (matches.length !== 1) throw new Error(`Expected one detailed analysis for ${evaluation.id}.`);
+    const analysis = matches[0];
+    return {
+      params: { evaluation: evaluation.id.replaceAll('_', '-') },
+      props: { evaluation, analysis },
+    };
+  });
+}
+
+interface Props {
+  evaluation: BenchmarkEvaluation;
+  analysis: EvaluationAnalysis;
+}
+
+const { evaluation, analysis } = Astro.props;
+const comparisons = requirementComparisons(evaluation, analysis);
+const description = `${evaluation.name}: evidence behind all ${comparisons.length} requirement scores for Quidra v${benchmarks.version} and each requirement's strongest other languages in the ${benchmarks.run_date} benchmark.`;
+const snapshotUrl = (url: string) => url.replace(/\/(blob|tree)\/[^/]+\//, (_match, kind: string) => `/${kind}/${analysisData.source_commit}/`);
+const methodologyUrl = snapshotUrl(evaluation.methodology_url);
+const breakdownUrl = snapshotUrl(evaluation.breakdown_url);
+const rankingsUrl = snapshotUrl(benchmarks.source_urls.rankings);
+const runUrl = snapshotUrl(benchmarks.source_urls.run);
+const provenanceUrl = `${links.core}/blob/${analysisData.source_commit}/benchmark/${benchmarks.run_id}/provenance.json`;
+const runDate = new Date(`${benchmarks.run_date}T00:00:00Z`).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+const formatWeight = (weight: number) => `${Number((weight * 100).toFixed(2))}%`;
+const weightDescription = (weight: number | null, category: string | null) => {
+  if (weight !== null) return `${evaluation.id === 'semantic_compression' ? 'Quality component' : 'Evaluation'} weight ${formatWeight(weight)}`;
+  const group = evaluation.categories.find((item) => item.id === category);
+  if (!group) return '';
+  const share = group.weight / group.metrics.length;
+  const approximate = Math.abs(share * 100 - Number((share * 100).toFixed(2))) > 1e-9;
+  return `Effective evaluation weight ${approximate ? '≈' : ''}${formatWeight(share)}`;
+};
+---
+
+<Base title={`${evaluation.name} benchmark analysis`} description={description}>
+  <section class="section page-hero">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol><li><a href="/benchmarks/">Benchmarks</a></li><li aria-current="page">{evaluation.name}</li></ol>
+      </nav>
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow"><b>{String(evaluation.order).padStart(2, '0')}</b> / detailed analysis</p>
+          <h1>{evaluation.name}</h1>
+          <p class="lede">{analysis.introduction}</p>
+        </div>
+        <dl class="hero-score">
+          <div><dt>Quidra’s evaluation rank</dt><dd>{ordinal(evaluation.quidra.rank)}<span> of {evaluation.ranking.length}</span></dd></div>
+          <div><dt>Evaluation score</dt><dd>{formatScore(evaluation.quidra.score)}<span> / 100</span></dd></div>
+        </dl>
+      </div>
+      <div class="snapshot">
+        <p><strong>Recorded run · {runDate}.</strong> These scores evaluate <a href={`${links.releases}/tag/v${benchmarks.version}`} rel="noopener">Quidra v{benchmarks.version}</a> at <a href={`${links.core}/commit/${benchmarks.evaluated_commit}`} rel="noopener"><code>{benchmarks.evaluated_commit_short}</code></a>. The site’s current compiler release is <a href={links.latestRelease} rel="noopener">v{site.quidraVersion}</a>.</p>
+        <p><a href={runUrl} rel="noopener">Run <code>{benchmarks.run_id}</code></a> · <a href={methodologyUrl} rel="noopener">Methodology reference</a> · <a href={breakdownUrl} rel="noopener">Published score breakdown</a></p>
+        <p>Run’s declared inference model: <code>{benchmarks.inference_model}</code>. Any separate review stages in the archived assessments are identified in the evidence notes.</p>
+        <p>Score records belong to this run; methodology links point to a later source snapshot. Its full template hash differs from the <a href={provenanceUrl} rel="noopener">run’s recorded template hash</a>. The explanations distinguish verified rubric inputs and score calculations from missing original observations.</p>
+      </div>
+    </div>
+  </section>
+
+  <nav class="evaluation-nav" aria-label="Benchmark evaluations">
+    <div class="container">
+      <ol>
+        {benchmarks.evaluations.map((item) => (
+          <li><a href={evaluationPath(item.id)} aria-current={item.id === evaluation.id ? 'page' : undefined}>{item.name}</a></li>
+        ))}
+      </ol>
+    </div>
+  </nav>
+
+  <section class="section comparison" id="comparison" aria-labelledby="comparison-heading">
+    <div class="container">
+      <div class="comparison-intro">
+        <p class="eyebrow"><b>{comparisons.length}</b> requirements / 0–100 scores</p>
+        <h2 id="comparison-heading">Per-requirement comparison</h2>
+        <p>Higher is better in every row. “Best other” is the highest-scoring non-Quidra language for that requirement, with every tie included. Δ is Quidra’s score minus the best other score. <a href={rankingsUrl} rel="noopener">Published scores</a>.</p>
+      </div>
+      <p class="table-hint">Scroll horizontally to see every column.</p>
+      <div class="table-wrap comparison-table" tabindex="0" role="region" aria-label={`${evaluation.name}: Quidra versus the best other language per requirement`}>
+        <table class="table">
+          <caption class="visually-hidden">All {comparisons.length} {evaluation.name} requirements. Select a requirement to read its evidence.</caption>
+          <thead>
+            <tr>
+              <th scope="col">Requirement</th>
+              <th scope="col" class="num quidra-column">Quidra</th>
+              <th scope="col">Best other</th>
+              <th scope="col" class="num">Other score</th>
+              <th scope="col" class="num"><abbr title="Quidra minus best other, in score points">Δ</abbr></th>
+            </tr>
+          </thead>
+          <tbody>
+            {comparisons.map((requirement) => (
+              <tr>
+                <th scope="row" class="requirement-name"><a href={`#${requirement.anchor}`}>{requirement.title}</a></th>
+                <td class="num quidra-column">{formatScore(requirement.quidra.score)}</td>
+                <td class="leader-names">{requirement.leaders.map((language) => language.name).join(', ')}</td>
+                <td class="num">{formatScore(requirement.bestOtherScore)}</td>
+                <td class:list={['num', 'delta', { 'is-positive': requirement.delta > 0, 'is-negative': requirement.delta < 0 }]}>{formatDelta(requirement.delta)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <aside class="aggregation" aria-labelledby="aggregation-heading">
+        <h3 id="aggregation-heading">How the evaluation score is combined</h3>
+        <p>{analysis.aggregation} <a href={breakdownUrl} rel="noopener">Recorded score calculation</a> · <a href={methodologyUrl} rel="noopener">Methodology reference</a>.</p>
+      </aside>
+    </div>
+  </section>
+
+  <div class="container requirement-list">
+    {comparisons.map((requirement, index) => (
+      <section class="requirement" id={requirement.anchor} aria-labelledby={`${requirement.anchor}-heading`}>
+        <header class="requirement-header">
+          <div class="requirement-meta">
+            <p class="eyebrow"><b>{String(index + 1).padStart(2, '0')}</b> / <code>{requirement.id}</code></p>
+            {weightDescription(requirement.weight, requirement.category) && <span class="requirement-weight">{weightDescription(requirement.weight, requirement.category)}</span>}
+          </div>
+          <h2 id={`${requirement.anchor}-heading`}>{requirement.title}</h2>
+          <p class="requirement-description">{requirement.description}</p>
+        </header>
+        <div class="measurement">
+          <h3>How it is measured</h3>
+          <p>{requirement.method} <a href={breakdownUrl} rel="noopener">Score breakdown</a> · <a href={methodologyUrl} rel="noopener">Methodology reference</a>.</p>
+          {requirement.comparison_notes.length > 0 && (
+            <div class="comparison-notes">{requirement.comparison_notes.map((note) => <p>{note}</p>)}</div>
+          )}
+        </div>
+        <div class="evidence-grid">
+          <div class="evidence-column">
+            <p class="column-label">Quidra</p>
+            <BenchmarkEvidence language={requirement.quidra} quidra />
+          </div>
+          <div class="evidence-column">
+            <p class="column-label">Best other{requirement.leaders.length > 1 && <span> · {requirement.leaders.length} tied languages</span>}</p>
+            {requirement.leaders.map((language, leaderIndex) => (
+              <BenchmarkEvidence language={language} collapsed={leaderIndex > 0} />
+            ))}
+          </div>
+        </div>
+        <div class="requirement-footer">
+          <p>Quidra − best other: <strong class:list={{ 'is-positive': requirement.delta > 0, 'is-negative': requirement.delta < 0 }}>{formatDelta(requirement.delta)} points</strong>{requirement.delta === 0 && ' (tied)'}</p>
+          <a href="#comparison">All requirements <span aria-hidden="true">↑</span></a>
+        </div>
+      </section>
+    ))}
+  </div>
+
+  <section class="section analysis-footer">
+    <div class="container">
+      <h2>Read the result in context</h2>
+      <p>These are descriptive results for the frozen benchmark sample. They do not establish statistical superiority beyond that sample. Each evaluation stands on its own; the project publishes no cross-evaluation total.</p>
+      <p>The analysis above reads the recorded evidence alongside the scores. The <a href={rankingsUrl} rel="noopener">machine-readable rankings</a> and <a href={breakdownUrl} rel="noopener">score breakdown</a> are the published result. The <a href={methodologyUrl} rel="noopener">methodology reference</a> describes the linked source snapshot; its full template is not identical to the run’s recorded template.</p>
+      <a class="link-arrow" href={`/benchmarks/#${evaluation.id}`}>Return to all ten languages in {evaluation.name}</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-hero { border-top: 0; padding-top: clamp(2rem, 5vw, 4rem); padding-bottom: clamp(2rem, 4vw, 3rem); }
+  .page-hero > .container { display: grid; gap: 2rem; }
+  .breadcrumb { font-size: var(--text-sm); color: var(--fg-2); }
+  .breadcrumb ol { display: flex; flex-wrap: wrap; gap: 0.5rem; list-style: none; }
+  .breadcrumb li + li::before { content: '/' / ''; margin-right: 0.5rem; color: var(--fg-3); }
+  .hero-grid { display: grid; gap: 2rem; align-items: start; }
+  .hero-copy { display: grid; gap: 1rem; }
+  h1 { font-size: clamp(2.25rem, 1.8rem + 2.5vw, 4rem); max-width: 22ch; }
+  .hero-copy .lede { font-size: var(--text-base); max-width: 68ch; }
+  .hero-score { display: flex; flex-wrap: wrap; gap: 1.5rem 3rem; padding-top: 0.3rem; }
+  .hero-score div { display: grid; gap: 0.5rem; }
+  .hero-score dt { font-size: var(--text-xs); color: var(--fg-2); }
+  .hero-score dd { margin: 0; font-size: 2rem; font-weight: 600; line-height: 1.1; letter-spacing: var(--tracking-tight); font-variant-numeric: tabular-nums; }
+  .hero-score dd span { font-size: var(--text-sm); font-weight: 400; letter-spacing: 0; color: var(--fg-3); }
+  .snapshot { display: grid; gap: 0.45rem; padding-top: 1.25rem; border-top: 1px solid var(--rule); color: var(--fg-2); font-size: var(--text-sm); }
+  .snapshot strong { color: var(--fg); font-weight: 500; }
+  .snapshot code { overflow-wrap: anywhere; }
+  .evaluation-nav { border-block: 1px solid var(--rule); }
+  .evaluation-nav ol { display: flex; flex-wrap: wrap; gap: 0.35rem 1.5rem; list-style: none; padding-block: 0.75rem; }
+  .evaluation-nav a { display: inline-flex; align-items: center; min-height: 2.25rem; color: var(--fg-2); font-size: var(--text-sm); text-decoration: none; }
+  .evaluation-nav a:hover { color: var(--accent-text); text-decoration: underline; }
+  .evaluation-nav a[aria-current='page'] { color: var(--accent-text); font-weight: 600; text-decoration: underline; text-underline-offset: 0.35em; }
+  .comparison { border-top: 0; padding-block: clamp(2.5rem, 5vw, 4rem); }
+  .comparison-intro { display: grid; gap: 0.9rem; max-width: 76ch; margin-bottom: 1.75rem; }
+  .comparison-intro > p:not(.eyebrow) { font-size: var(--text-sm); color: var(--fg-2); }
+  .comparison-table { border-top: 1px solid var(--rule-strong); }
+  .comparison-table .table { min-width: 38rem; }
+  .comparison-table thead th { white-space: nowrap; }
+  .comparison-table th.requirement-name { width: 36%; color: var(--fg); font: 500 var(--text-sm)/1.5 var(--font-sans); letter-spacing: 0; text-transform: none; }
+  .comparison-table .requirement-name a { display: inline-block; }
+  .comparison-table .leader-names { width: 30%; color: var(--fg-2); }
+  .comparison-table .quidra-column { background: var(--accent-soft); font-weight: 600; }
+  .comparison-table th.quidra-column { color: var(--accent-text); }
+  .comparison-table .num { vertical-align: middle; white-space: nowrap; }
+  .comparison-table abbr { text-decoration: none; }
+  .is-positive { color: var(--ok); }
+  .is-negative { color: var(--err); }
+  .table-hint { display: none; margin-bottom: 0.65rem; color: var(--fg-3); font-size: var(--text-xs); }
+  .aggregation { display: grid; gap: 0.6rem; margin-top: 1.75rem; padding: 1.25rem 1.5rem; border-left: 2px solid var(--rule-strong); background: var(--bg-2); }
+  .aggregation h3 { font-size: 1rem; }
+  .aggregation p { max-width: 95ch; color: var(--fg-2); font-size: var(--text-sm); }
+  .requirement-list { padding-bottom: clamp(2rem, 4vw, 4rem); }
+  .requirement { padding-block: clamp(2.5rem, 5vw, 4rem); border-top: 1px solid var(--rule-strong); }
+  .requirement:target { scroll-margin-top: 1rem; }
+  .requirement-header { display: grid; gap: 0.85rem; }
+  .requirement-meta { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem 1rem; }
+  .requirement-meta .eyebrow { overflow-wrap: anywhere; }
+  .requirement-meta code { font-size: 1em; letter-spacing: 0; text-transform: none; }
+  .requirement-weight { font-size: var(--text-xs); color: var(--fg-3); }
+  .requirement h2 { max-width: 36ch; font-size: var(--text-xl); }
+  .requirement-description { max-width: 90ch; color: var(--fg-2); }
+  .measurement { display: grid; gap: 0.65rem; margin-block: 1.5rem 1.75rem; max-width: 98ch; font-size: var(--text-sm); color: var(--fg-2); }
+  .measurement h3 { color: var(--fg); font-size: var(--text-sm); letter-spacing: 0; }
+  .measurement p { overflow-wrap: anywhere; }
+  .comparison-notes { display: grid; gap: 0.6rem; padding-left: 0.85rem; border-left: 2px solid var(--rule); }
+  .evidence-grid { display: grid; gap: 1.5rem; align-items: start; }
+  .evidence-column { display: grid; gap: 0.75rem; min-width: 0; }
+  .column-label { color: var(--fg); font: 500 var(--text-xs) var(--font-mono); }
+  .column-label span { color: var(--fg-3); font-weight: 400; }
+  .requirement-footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.75rem 1.5rem; margin-top: 1.25rem; font-size: var(--text-xs); color: var(--fg-2); }
+  .requirement-footer strong { font-family: var(--font-mono); font-weight: 500; }
+  .requirement-footer a { display: inline-block; padding-block: 0.1rem; }
+  .analysis-footer { padding-block: clamp(2.5rem, 5vw, 4rem); background: var(--bg-2); }
+  .analysis-footer .container { display: grid; gap: 1rem; }
+  .analysis-footer h2 { font-size: var(--text-xl); }
+  .analysis-footer p { max-width: 82ch; color: var(--fg-2); font-size: var(--text-sm); }
+  .analysis-footer .link-arrow { width: fit-content; margin-top: 0.5rem; font-size: var(--text-sm); }
+  @media (min-width: 48rem) { .evidence-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; } }
+  @media (min-width: 64rem) {
+    .hero-grid { grid-template-columns: minmax(0, 3fr) minmax(13rem, 1fr); gap: 4rem; }
+    .hero-score { display: grid; gap: 1.5rem; padding-left: 2rem; border-left: 1px solid var(--rule); }
+  }
+  @media (max-width: 42rem) {
+    .table-hint { display: block; }
+    .evaluation-nav ol { gap: 0.2rem 1.1rem; }
+    .aggregation { padding: 1rem; }
+  }
+  @media print {
+    .evaluation-nav, .table-hint, .requirement-footer a { display: none; }
+    .comparison-table { overflow: visible; }
+    .comparison-table .table { min-width: 0; }
+    .requirement { break-before: auto; }
+    .requirement-header { break-after: avoid; }
+  }
+</style>

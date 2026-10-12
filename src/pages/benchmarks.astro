@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import { links } from '../config/site';
 import data from '../data/benchmarks.json';
+import { evaluationPath, requirementAnchor } from '../lib/benchmark-analysis';
 
 /**
  * The Quidra project runs its own benchmark of ten languages across five
@@ -64,6 +65,7 @@ const fmt = (n: number) => n.toFixed(2);
             <h2>{ev.name}</h2>
             <p>{ev.summary}</p>
             <ul class="eval-links">
+              <li><a href={evaluationPath(ev.id)} class="link-arrow analysis-link">Detailed analysis<span class="visually-hidden"> of all {ev.requirements.length} {ev.name} requirements</span></a></li>
               <li><a href={ev.methodology_url} rel="noopener" class="link-arrow">Methodology<span class="visually-hidden"> of {ev.name}</span></a></li>
               <li><a href={ev.breakdown_url} rel="noopener" class="link-arrow">Score breakdown<span class="visually-hidden"> of {ev.name}</span></a></li>
             </ul>
@@ -108,7 +110,7 @@ const fmt = (n: number) => n.toFixed(2);
                     <tbody>
                       {ev.requirements.map((req) => (
                         <tr>
-                          <th scope="row"><code>{req.id}</code></th>
+                          <th scope="row"><a href={`${evaluationPath(ev.id)}#${requirementAnchor(req.id)}`}><code>{req.id}</code></a></th>
                           <td class="num">{req.weight === null ? '—' : req.weight}</td>
                           {data.languages.map((l) => (
                             <td class:list={['num', { 'is-quidra-cell': l.id.startsWith('quidra') }]}>
@@ -185,6 +187,7 @@ const fmt = (n: number) => n.toFixed(2);
   .eval-text h2 { color: var(--fg); }
   .eval-links { list-style: none; display: grid; gap: 0.25rem; font-size: var(--text-sm); }
   .eval-links a { min-height: 2.25rem; }
+  .eval-links .analysis-link { font-weight: 600; }
   .eval-table { display: grid; gap: 1rem; min-width: 0; }
   .eval-table .table { max-width: 32rem; }
   .requirements summary { font-size: var(--text-sm); font-weight: 500; color: var(--accent-text); width: fit-content; }

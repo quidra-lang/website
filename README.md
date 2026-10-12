@@ -42,6 +42,7 @@ npm run preview                        # serve dist/ locally
 bash scripts/check-examples.sh         # every example: quidra check, fmt --check, run == recorded output
 node scripts/check-grammar.mjs         # every example token is scoped by the Quidra grammar
 node scripts/check-contrast.mjs        # WCAG contrast of the palette and both syntax themes
+npm run check:benchmarks               # every analyzed score, all tied leaders, pinned citations
 node scripts/check-links.mjs dist      # internal links and fragments in the built site
 node scripts/check-links.mjs dist --external   # additionally probes every external URL
 ```
@@ -54,6 +55,44 @@ First-party packages used by the examples, currently Math, are checked out from
 that same branch as well. On `develop`, `examples/manifest.json` records the
 matching development compiler version even when it is newer than the public
 release in `src/config/site.ts`; on `main`, those versions must agree.
+
+### Benchmark analysis pages
+
+`/benchmarks/` remains the ten-language overview. Its five detailed-analysis
+links lead to `/benchmarks/semantic-compression/`, `/benchmarks/llm-learnability/`,
+`/benchmarks/language-quality/`, `/benchmarks/ecosystem/`, and
+`/benchmarks/llm-proficiency/`. Every requirement compares Quidra with the highest
+published non-Quidra score for that row, including all ties. Requirement links
+open the corresponding explanation directly. The pages are static HTML; reading
+scores, evidence, source links and expandable tied-language panels needs no JavaScript.
+
+The overview's `src/data/benchmarks.json` is the score authority. Its companion
+`src/data/benchmark-analysis.json` is generated from the same run's committed
+evidence, the selected cache records and the scoring definitions. It preserves
+runner scores even when worker proposals differ, cites an immutable Core commit,
+and makes missing traces or conflicting evidence explicit. It describes the
+evaluated compiler snapshot, not a re-evaluation of the latest language release.
+
+To regenerate explanations for the **already published** run, use a clean Core
+checkout containing its benchmark run, template and selected cache records:
+
+```bash
+python3 scripts/sync-benchmark-analysis.py ../quidra
+python3 scripts/sync-benchmark-analysis.py ../quidra --check
+npm run check:benchmarks
+```
+
+The `--check` command verifies reproducibility without writing. It expects the
+same Core source commit recorded in the generated file. When publishing a new
+completed run, `sync-benchmarks.py` updates the overview and analysis together
+and rejects missing or incompatible evidence before replacing either view. None
+of these commands runs the benchmark or calls an inference model. CI verifies
+all row identities, published scores, complete tied-leader selection, explanation
+coverage and pinned evidence links, then checks all built internal links.
+
+The evidence readers include reviewed observations specific to the published
+run. Review and adapt them before publishing a different run; the LLM reader
+rejects an unknown run rather than applying old explanations to new scores.
 
 ## Deployment
 
@@ -116,16 +155,20 @@ other Quidra repositories. No `feature/*` branches.
 │   ├── check-links.mjs         internal (and optionally external) links in dist/
 │   ├── write-headers.mjs       post-build: dist/_headers with a hash-based CSP
 │   ├── build-brand-assets.py   regenerates public/ images from the official logo PNGs
-│   ├── sync-benchmarks.py      regenerates src/data/benchmarks.json from the core repo
+│   ├── sync-benchmarks.py      regenerates published scores and their analysis from Core
+│   ├── sync-benchmark-analysis.py  regenerates explanations for the selected run
+│   ├── check-benchmark-analysis.py  offline score/evidence consistency checks
+│   ├── benchmark_analysis/    source-specific evidence readers and validation tests
 │   └── sync-fonts.sh           copies the pinned font files from node_modules
 └── src/
     ├── assets/fonts/       woff2 files and their licenses
     ├── components/         Astro components (CodeBlock, ExampleTabs, Header, …)
     ├── config/site.ts      site constants and every external URL
     ├── data/benchmarks.json published benchmark result (generated)
+    ├── data/benchmark-analysis.json cited requirement explanations (generated)
     ├── layouts/Base.astro  document shell, metadata, Open Graph, JSON-LD
     ├── lib/                Quidra grammar, Shiki themes, highlighter, example loader
-    ├── pages/              /, /get-started/, /docs/, /benchmarks/, 404
+    ├── pages/              /, /get-started/, /docs/, /benchmarks/, five analysis pages, 404
     └── styles/global.css   design tokens and all shared styles
 ```
 

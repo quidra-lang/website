@@ -14,6 +14,8 @@ dist/
 # tooling
 npm-debug.log*
 *.tsbuildinfo
+__pycache__/
+*.py[cod]
 .DS_Store
 
 # local editor/agent tooling

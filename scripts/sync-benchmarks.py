@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Sync the published Quidra benchmark result into src/data/benchmarks.json.
+"""Sync the published Quidra benchmark result and its requirement analysis.
 
 usage:
     python3 scripts/sync-benchmarks.py /path/to/quidra-core-checkout [--ref main]
@@ -19,7 +19,10 @@ files that the benchmark itself declares authoritative:
 
 The run directory is the newest ``benchmark/20??-??-??-*/`` directory that contains a
 ``rankings.json``. Only stdlib is used. Output is deterministic: fixed key order,
-2-space indent, trailing newline. Every ranking number written is re-read from the
+2-space indent, trailing newline. The companion benchmark-analysis.json explains
+every requirement using recorded worker evidence, rubrics and runner measurements,
+with all sources pinned to the Core checkout's commit. No model or benchmark is run.
+Every ranking number written is re-read from the
 generated file and asserted equal to rankings.json before the script exits 0.
 
 Structure of breakdown/<evaluation>.json this script relies on (schema_version 1):
@@ -428,6 +431,8 @@ def verify_output(path: Path, run_dir: Path) -> None:
 
 
 def main(argv: list[str]) -> int:
+    from benchmark_analysis import build_analysis
+
     unknown = [a for a in argv[1:] if a.startswith("--") and a != "--ref"]
     if unknown:
         raise SystemExit(f"unknown option(s): {' '.join(unknown)}")
@@ -451,18 +456,23 @@ def main(argv: list[str]) -> int:
 
     try:
         data, _rankings = build(core, ref)
+        # Generate and validate both views before writing either one. A new run
+        # with missing/incompatible evidence must not silently leave stale prose.
+        analysis = build_analysis(core, data)
         OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
         text = json.dumps(data, indent=2, ensure_ascii=False) + "\n"
+        analysis_text = json.dumps(analysis, indent=2, ensure_ascii=False) + "\n"
         OUTPUT_PATH.write_text(text, encoding="utf-8")
+        OUTPUT_PATH.with_name("benchmark-analysis.json").write_text(analysis_text, encoding="utf-8")
         verify_output(OUTPUT_PATH, core / "benchmark" / data["run_id"])
-    except SyncError as exc:
+    except (SyncError, ValueError, KeyError, OSError) as exc:
         print(f"sync-benchmarks: {exc}", file=sys.stderr)
         return 1
 
     n_req = sum(len(e["requirements"]) for e in data["evaluations"])
     print(
         f"wrote {OUTPUT_PATH}: run {data['run_id']}, {len(data['evaluations'])} evaluations, "
-        f"{len(data['languages'])} languages, {n_req} requirement rows; verified against rankings.json"
+        f"{len(data['languages'])} languages, {n_req} requirement rows with analysis; verified against rankings.json"
     )
     return 0
 
