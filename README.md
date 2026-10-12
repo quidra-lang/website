@@ -109,6 +109,12 @@ With Workers Builds (Git integration) use build command `npm run build` and
 deploy command `npx wrangler deploy`. Attach the custom domain
 `quidra-lang.com` to the Worker in the dashboard (Settings › Domains & Routes).
 
+For development branches such as `develop`, use deploy command
+`npx wrangler preview` to create a branch Preview with its own URL. The empty
+`previews` block in `wrangler.jsonc` enables this static site to use that command;
+assets and compatibility settings stay at the top level. Production publishing
+uses `npx wrangler deploy` after changes reach `main`.
+
 **Pages.** Connect the repository, framework preset *Astro*, build command
 `npm run build`, output directory `dist`, then add `quidra-lang.com` as a custom
 domain.
