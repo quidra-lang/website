@@ -12,8 +12,8 @@ export const site = {
   url: 'https://quidra-lang.com',
   description:
     'Quidra is a statically typed, natively compiled general-purpose programming language designed for both humans and language models. Maximum Meaning Per Token.',
-  quidraVersion: '0.4.0',
-  releaseDate: '2026-09-29',
+  quidraVersion: '0.5.0',
+  releaseDate: '2026-10-13',
 } as const;
 
 const org = 'https://github.com/quidra-lang';
