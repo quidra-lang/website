@@ -1,5 +1,5 @@
 {
-  "compiler": "quidra 0.5.0",
+  "compiler": "quidra 0.6.0",
   "examples": [
     {
       "id": "hero",
