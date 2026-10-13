@@ -34,6 +34,14 @@ export const links = {
   video: `${org}/video`,
   dnn: `${org}/dnn`,
   website: `${org}/website`,
+  /** Immutable, version-matched first-party package release pages. */
+  packageReleases: {
+    math: `${org}/math/releases/tag/v${site.quidraVersion}`,
+    nn: `${org}/nn/releases/tag/v${site.quidraVersion}`,
+    vision: `${org}/vision/releases/tag/v${site.quidraVersion}`,
+    video: `${org}/video/releases/tag/v${site.quidraVersion}`,
+    dnn: `${org}/dnn/releases/tag/v${site.quidraVersion}`,
+  },
   docs: {
     readme: `${core}#readme`,
     language: `${core}/blob/main/docs/spec/language.md`,

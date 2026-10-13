@@ -199,8 +199,12 @@ const uninitialized = invalidExample('uninitialized');
         <p class="small muted">
           Each package release declares the compiler range it supports in <code>quidra.package</code>; with no version
           written, the newest release compatible with your compiler is chosen, and an incompatible request fails instead
-          of silently picking another version. <a href={links.vision} rel="noopener">Vision</a> {site.quidraVersion} and
-          <a href={links.dnn} rel="noopener">DNN</a> {site.quidraVersion} support Quidra {site.quidraVersion}. See
+          of silently picking another version. The synchronized v{site.quidraVersion} releases of
+          <a href={links.packageReleases.math} rel="noopener">Math</a>,
+          <a href={links.packageReleases.nn} rel="noopener">NN</a>,
+          <a href={links.packageReleases.vision} rel="noopener">Vision</a>,
+          <a href={links.packageReleases.video} rel="noopener">Video</a> and
+          <a href={links.packageReleases.dnn} rel="noopener">DNN</a> support Quidra {site.quidraVersion}. See
           <a href={links.docs.packages} rel="noopener">package management</a> for the full contract.
         </p>
       </div>
