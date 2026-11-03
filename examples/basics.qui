@@ -1,14 +1,14 @@
-int count = 3
-auto name = "Quidra"
+int count := 3
+name := "Quidra"
 print.line("Hello, {name}")
 
-int[] original = [1, 2, 3]
-int[] copy = original
+int[] original := [1, 2, 3]
+int[] copy := original
 copy[0] = 9
 print.line("original[0] = {original[0]}, copy[0] = {copy[0]}")
 
-int total = 0
-for auto value = original[]
+int total := 0
+for value := original[]
     total += value
 print.line("total = {total}")
 

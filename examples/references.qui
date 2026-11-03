@@ -1,14 +1,14 @@
 void inspect(const int[] values)
-    int total = 0
-    for auto value = values[]
+    int total := 0
+    for value := values[]
         total += value
     print.line("total {total}")
 
 void .double_all(int[] &values)
-    for auto &value = &values[]
+    for &value := &values[]
         value = value * 2
 
-int[] data = [1, 2, 3]
+int[] data := [1, 2, 3]
 // Value parameters receive snapshots; mutable calls name the writable storage explicitly.
 inspect(data)
 .double_all(&data)

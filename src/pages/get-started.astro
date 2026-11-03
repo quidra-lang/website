@@ -4,7 +4,7 @@ import CodeBlock from '../components/CodeBlock.astro';
 import CopyButton from '../components/CopyButton.astro';
 import Icon from '../components/Icon.astro';
 import { links, releaseAssets, releaseAssetUrl, site } from '../config/site';
-import { example, invalidExample } from '../lib/examples';
+import { compilerVersion, example, invalidExample } from '../lib/examples';
 
 const description = `Install Quidra ${site.quidraVersion} from a release archive or build it from source, run your first program, and learn the compiler's commands.`;
 
@@ -28,8 +28,7 @@ quidra inspect program.qui          # typed source nodes with ids and hashes
 quidra lsp                          # Language Server Protocol over stdio`;
 const repl = `$ quidra
 Quidra ${site.quidraVersion}
->>> int x = 5
->>> x * 8
+>>> 5 * 8
 40
 >>> int square(int value)
 ...     return value * value
@@ -243,7 +242,7 @@ const uninitialized = invalidExample('uninitialized');
         <a class="btn btn-primary" href={links.playground} rel="noopener">Open the Playground <Icon name="external" /></a>
       </div>
       <div class="step-body">
-        <CodeBlock code={tryIt.code} file={tryIt.file} output={tryIt.output} />
+        <CodeBlock code={tryIt.code} file={tryIt.file} output={tryIt.output} outputLabel={compilerVersion} />
       </div>
     </div>
   </section>

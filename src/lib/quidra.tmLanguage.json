@@ -184,7 +184,7 @@
     },
 
     "binding-declaration": {
-      "match": "^\\s*(?:(private)\\s+)?(?:(local|const)\\s+)?(?:(?:const)\\s+)?(?!(?:return|if|elif|else|for|while|match|import|public|try|not|and|or|break|continue|class|enum|extern|cli|private|const|NOT|AND|OR|XOR|then|parallel|export|literal|local)\\b)((?:func<(?:[^<>\\n]|<[^<>\\n]*>)*>\\([^()\\n]*\\)|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?:<(?:[^<>\\n]|<[^<>\\n]*>)*>)*)(?:\\[[^\\[\\]\\n]*\\])*(?:\\s*\\|\\s*(?:func<(?:[^<>\\n]|<[^<>\\n]*>)*>\\([^()\\n]*\\)|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?:<(?:[^<>\\n]|<[^<>\\n]*>)*>)*)(?:\\[[^\\[\\]\\n]*\\])*)*)\\s+(&)?\\s*([A-Za-z_][A-Za-z0-9_]*)\\b(?=\\s*(?:=(?!=)|$|//))",
+      "match": "^\\s*(?:(private)\\s+)?(?:(local|const)\\s+)?(?:(?:const)\\s+)?(?!(?:return|if|elif|else|for|while|match|import|public|try|not|and|or|break|continue|class|enum|extern|cli|private|const|NOT|AND|OR|XOR|then|parallel|export|literal|local)\\b)((?:func<(?:[^<>\\n]|<[^<>\\n]*>)*>\\([^()\\n]*\\)|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?:<(?:[^<>\\n]|<[^<>\\n]*>)*>)*)(?:\\[[^\\[\\]\\n]*\\])*(?:\\s*\\|\\s*(?:func<(?:[^<>\\n]|<[^<>\\n]*>)*>\\([^()\\n]*\\)|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?:<(?:[^<>\\n]|<[^<>\\n]*>)*>)*)(?:\\[[^\\[\\]\\n]*\\])*)*)\\s+(&)?\\s*([A-Za-z_][A-Za-z0-9_]*)\\b(?=\\s*(?::=|=(?!=)|$|//))",
       "captures": {
         "1": {
           "name": "storage.modifier.quidra"
@@ -231,7 +231,7 @@
     },
 
     "parameter-name": {
-      "match": "(?<=[A-Za-z0-9_>\\])]\\s|&)([a-z_][A-Za-z0-9_]*)\\b(?=\\s*(?:,|=(?!=)|\\)|$|//))",
+      "match": "(?:(?<=[A-Za-z0-9_>\\])]\\s|&)|(?<=[(,])\\s*)([a-z_][A-Za-z0-9_]*)\\b(?=\\s*(?:,|:=|\\)|$|//))",
       "captures": {
         "1": { "name": "variable.parameter.quidra" }
       }
@@ -360,7 +360,7 @@
 
 
     "storage-modifier": {
-      "match": "\\b(local|const|private|auto)\\b",
+      "match": "\\b(local|const|private)\\b",
       "name": "storage.modifier.quidra"
     },
 
@@ -456,7 +456,7 @@
     },
 
     "operator-assignment": {
-      "match": "\\+=|-=|\\*=|/=|%=|=(?!=)",
+      "match": ":=|\\+=|-=|\\*=|/=|%=|=(?!=)",
       "name": "keyword.operator.assignment.quidra"
     },
 

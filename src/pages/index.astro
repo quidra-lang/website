@@ -8,7 +8,7 @@ import Pipeline from '../components/Pipeline.astro';
 import SectionHead from '../components/SectionHead.astro';
 import TokenTable from '../components/TokenTable.astro';
 import { links, site } from '../config/site';
-import { example, examples, invalidExample } from '../lib/examples';
+import { compilerVersion, example, examples, invalidExample } from '../lib/examples';
 import type { Annotation } from '../lib/highlight';
 import benchmarks from '../data/benchmarks.json';
 
@@ -35,7 +35,7 @@ const laws = [
   {
     id: 'values',
     title: 'Values are the default; storage is explicit.',
-    text: 'Ordinary = means an independent value. Observable aliasing is written with &: T & is a mutable reference, while T and const T are values. Const references are not part of the language. The implementation may share storage or copy on write only when the difference cannot be observed.',
+    text: 'Declaring with := or assigning with = gives a binding its own value. Observable aliasing is written with &: T & is a mutable reference, while T and const T are values. Const references are not part of the language. The implementation may share storage or copy on write only when the difference cannot be observed.',
   },
   {
     id: 'authority',
@@ -257,8 +257,8 @@ const uninitialized = invalidExample('uninitialized');
     <div class="container">
       <SectionHead number="03" eyebrow="the language" title="Start familiar. Go as deep as you need.">
         Begin with bindings, functions, classes and iteration; reach for references, tensors or explicit errors only when
-        the program needs them. Every example below is checked, canonically formatted and run with Quidra
-        {site.quidraVersion} before it is published.
+        the program needs them. Every example below is checked, canonically formatted and run with
+        {compilerVersion} before it is published.
       </SectionHead>
       <ExampleTabs tabs={tabs} label="Language examples" />
     </div>

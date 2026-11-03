@@ -23,7 +23,7 @@
       "id": "basics",
       "file": "basics.qui",
       "title": "Bindings, values and loops",
-      "summary": "Typed and auto bindings, string interpolation, an int[] copy that stays independent after mutation, a collection for loop and an explicit range header and an if/elif/else chain.",
+      "summary": "Explicit and inferred := bindings, string interpolation, an int[] copy that stays independent after mutation, a collection for loop and an explicit range header and an if/elif/else chain.",
       "run": true,
       "args": [],
       "output": "basics.out"
@@ -32,7 +32,7 @@
       "id": "functions",
       "file": "functions.qui",
       "title": "Defaults, names and generics",
-      "summary": "A default parameter, a call with named arguments and a constrained generic T largest<T: ordered>(T[] values) whose type argument is inferred from typed int[] and real64[] variables.",
+      "summary": "A parameter type inferred from its := default, a call with named arguments written with = and a constrained generic T largest<T: ordered>(T[] values) whose type argument is inferred from typed int[] and real64[] variables.",
       "run": true,
       "args": [],
       "output": "functions.out"
@@ -50,7 +50,7 @@
       "id": "classes",
       "file": "classes.qui",
       "title": "Classes with value semantics",
-      "summary": "A class with initialization arguments and ordered field assignments, a public and a private method, an independent copy via =, an explicit Point &alias that writes through and value equality with ==.",
+      "summary": "A class with initialization arguments and ordered field assignments, a public and a private method, an independent copy initialized with :=, an explicit Point &alias that writes through and value equality with ==.",
       "run": true,
       "args": [],
       "output": "classes.out"
@@ -82,7 +82,7 @@
       "id": "values",
       "file": "values.qui",
       "title": "Values by default, storage by request",
-      "summary": "An int[] copied with = stays independent when the copy is mutated; an explicit int &writer alias writes through to x while a const int snapshot keeps the earlier independent value.",
+      "summary": "An int[] copied into a new binding with := stays independent when the copy is mutated; an explicit int &writer alias writes through to x while a const int snapshot keeps the earlier independent value.",
       "run": true,
       "args": [],
       "output": "values.out"
@@ -109,7 +109,7 @@
       "id": "absence",
       "file": "absence.qui",
       "title": "Absence, failure and value",
-      "summary": "lookup returns int | none | error; an auto | error binding keeps the error alternative and an exhaustive match handles each one.",
+      "summary": "lookup returns int | none | error; an explicitly typed union binding keeps the error alternative and an exhaustive match handles each one.",
       "run": true,
       "args": [],
       "output": "absence.out"

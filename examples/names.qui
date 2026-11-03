@@ -1,6 +1,6 @@
 int local_value()
-    int x = 5
+    int x := 5
     return x
 
-int x = 7
+int x := 7
 print.line(local_value() + x)

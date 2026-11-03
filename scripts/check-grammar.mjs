@@ -38,7 +38,7 @@ const RESERVED_WORDS = new Set([
   // control flow
   'if', 'elif', 'else', 'for', 'while', 'match', 'return', 'break', 'continue', 'try', 'then', 'parallel',
   // declarations and modifiers
-  'import', 'public', 'extern', 'cli', 'enum', 'class', 'private', 'const', 'local', 'auto', 'export', 'literal',
+  'import', 'public', 'extern', 'cli', 'enum', 'class', 'private', 'const', 'local', 'export', 'literal',
   // operators spelled as words
   'and', 'or', 'not', 'AND', 'OR', 'XOR', 'NOT',
   // literals
@@ -229,6 +229,25 @@ function tokenizeFile(code) {
     }
     return out;
   });
+}
+
+for (const source of [
+  'int count := 3',
+  'name := "Quidra"',
+  'for value := values[]',
+  'int add(int a, int b := 1)',
+]) {
+  const tokens = tokenizeFile(source)[0] ?? [];
+  if (!tokens.some((token) => token.content === ':=' &&
+      token.scopes.includes('keyword.operator.assignment.quidra'))) {
+    fail(`binding initializer is not highlighted as one operator: ${source}`);
+  }
+}
+
+const defaultParameter = tokenizeFile('int offset(b := int(1))')[0] ?? [];
+if (!defaultParameter.some((token) => token.content === 'b' &&
+    token.scopes.includes('variable.parameter.quidra'))) {
+  fail('a parameter with a default loses parameter highlighting');
 }
 
 // Check develop collection types even when released examples do not use them.

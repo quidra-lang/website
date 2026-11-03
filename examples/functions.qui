@@ -1,12 +1,12 @@
-int add(int a, int b = 1)
+int add(int a, b := int(1))
     return a + b
 
 bool within(int value, int minimum, int maximum)
     return value >= minimum and value <= maximum
 
 T largest<T: ordered>(T[] values)
-    T best = values[0]
-    for auto value = values[]
+    T best := values[0]
+    for value := values[]
         if value > best
             best = value
     return best
@@ -14,7 +14,7 @@ T largest<T: ordered>(T[] values)
 print.line(add(41))
 print.line(add(a = 40, b = 2))
 print.line(within(50, minimum = 0, maximum = 100))
-int[] scores = [3, 9, 4]
+int[] scores := [3, 9, 4]
 print.line(largest(scores))
-real64[] readings = [2.5, 1.5]
+real64[] readings := [2.5, 1.5]
 print.line(largest(readings))
