@@ -1,5 +1,8 @@
-int add(int a, b := int(1))
+int add(int a, int b := 1)
     return a + b
+
+string greet(label := "hello")
+    return label
 
 bool within(int value, int minimum, int maximum)
     return value >= minimum and value <= maximum
@@ -13,6 +16,7 @@ T largest<T: ordered>(T[] values)
 
 print.line(add(41))
 print.line(add(a = 40, b = 2))
+print.line(greet())
 print.line(within(50, minimum = 0, maximum = 100))
 int[] scores := [3, 9, 4]
 print.line(largest(scores))

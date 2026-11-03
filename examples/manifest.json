@@ -50,7 +50,7 @@
       "id": "classes",
       "file": "classes.qui",
       "title": "Classes with value semantics",
-      "summary": "A class with initialization arguments and ordered field assignments, a public and a private method, an independent copy initialized with :=, an explicit Point &alias that writes through and value equality with ==.",
+      "summary": "A class with initialization arguments and ordered field assignments, a public and a private method, an independent copy initialized with :=, an explicit &alias that writes through and value equality with ==.",
       "run": true,
       "args": [],
       "output": "classes.out"
@@ -82,7 +82,7 @@
       "id": "values",
       "file": "values.qui",
       "title": "Values by default, storage by request",
-      "summary": "An int[] copied into a new binding with := stays independent when the copy is mutated; an explicit int &writer alias writes through to x while a const int snapshot keeps the earlier independent value.",
+      "summary": "An int[] copied into a new binding with := stays independent when the copy is mutated; an explicit &writer alias writes through to x while a const snapshot keeps the earlier independent value.",
       "run": true,
       "args": [],
       "output": "values.out"

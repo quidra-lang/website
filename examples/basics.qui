@@ -3,7 +3,7 @@ name := "Quidra"
 print.line("Hello, {name}")
 
 int[] original := [1, 2, 3]
-int[] copy := original
+copy := original
 copy[0] = 9
 print.line("original[0] = {original[0]}, copy[0] = {copy[0]}")
 

@@ -236,16 +236,18 @@ for (const source of [
   'name := "Quidra"',
   'for value := values[]',
   'int add(int a, int b := 1)',
+  'tensor<real32>{nat H, W := H * 2} image := tensor.zeros([32, 64])',
 ]) {
   const tokens = tokenizeFile(source)[0] ?? [];
-  if (!tokens.some((token) => token.content === ':=' &&
-      token.scopes.includes('keyword.operator.assignment.quidra'))) {
+  const highlighted = tokens.filter((token) => token.content === ':=' &&
+    token.scopes.includes('keyword.operator.assignment.quidra'));
+  if (highlighted.length !== source.split(':=').length - 1) {
     fail(`binding initializer is not highlighted as one operator: ${source}`);
   }
 }
 
-const defaultParameter = tokenizeFile('int offset(b := int(1))')[0] ?? [];
-if (!defaultParameter.some((token) => token.content === 'b' &&
+const defaultParameter = tokenizeFile('string greet(label := "hello")')[0] ?? [];
+if (!defaultParameter.some((token) => token.content === 'label' &&
     token.scopes.includes('variable.parameter.quidra'))) {
   fail('a parameter with a default loses parameter highlighting');
 }

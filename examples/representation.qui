@@ -1,9 +1,9 @@
 import math
 
 int value := 100
-int8 small := int8(value)
-real64 converted := real64(value)
-real64 ratio := converted / 3.0
-int rounded := math.round(ratio)
+small := int8(value)
+converted := real64(value)
+ratio := converted / 3.0
+rounded := math.round(ratio)
 print.line(small)
 print.line(rounded)

@@ -11,10 +11,10 @@ class Point(local int x_value, local int y_value)
     string describe()
         return "({x}, {y}) sum {sum()}"
 
-Point a := Point(1, 2)
-Point b := a
+a := Point(1, 2)
+b := a
 b.x = 9
-Point &alias := &a
+&alias := &a
 alias.y = 5
 print.line(a.describe())
 print.line(b.describe())

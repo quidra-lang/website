@@ -1,12 +1,12 @@
 int[] a := [1, 2, 3]
-int[] b := a
+b := a
 b[0] = 9
 print.line(a[0])
 print.line(b[0])
 
 int x := 1
-int &writer := &x
+&writer := &x
 // A const value is an independent snapshot, even when x has a writable alias.
-const int snapshot := x
+const snapshot := x
 writer = 5
 print.line(snapshot)
