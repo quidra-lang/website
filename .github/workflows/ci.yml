@@ -42,7 +42,7 @@ jobs:
           mkdir -p "$RUNNER_TEMP/quidra-packages"
           git clone --depth 1 --branch "$QUIDRA_CORE_REF" https://github.com/quidra-lang/math "$RUNNER_TEMP/quidra-packages/math"
           cmake -S "$RUNNER_TEMP/quidra" -B "$RUNNER_TEMP/quidra-build" -G Ninja -DCMAKE_BUILD_TYPE=Release
-          cmake --build "$RUNNER_TEMP/quidra-build" --parallel 4
+          cmake --build "$RUNNER_TEMP/quidra-build" --target quidra --parallel 4
           "$RUNNER_TEMP/quidra-build/quidra" --version
           echo "QUIDRA=$RUNNER_TEMP/quidra-build/quidra" >> "$GITHUB_ENV"
           echo "QUIDRA_PACKAGE_PATH=$RUNNER_TEMP/quidra-packages" >> "$GITHUB_ENV"

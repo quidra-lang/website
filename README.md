@@ -52,7 +52,10 @@ runs all of them on every push using a compiler built from the matching Core
 branch. Pull requests use the target branch, so a PR into `develop` verifies
 against Core `develop` and a PR into `main` verifies against Core `main`.
 First-party packages used by the examples, currently Math, are checked out from
-that same branch as well. On `develop`, `examples/manifest.json` records the
+that same branch as well.
+The `develop` architecture also includes the Collections, Text and Encoding
+Layer-2 packages; the site links to their development repositories without
+presenting them as already released for the pinned public compiler version. On `develop`, `examples/manifest.json` records the
 matching development compiler version even when it is newer than the public
 release in `src/config/site.ts`; on `main`, those versions must agree.
 

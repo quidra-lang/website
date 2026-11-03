@@ -405,12 +405,12 @@
     },
 
     "namespace": {
-      "match": "(?<!\\.)\\b(math|cli|file|environment|test|time|gpu|random|process|map|set|json|http|stats|linear|signal|image|video|tensor|neural)\\b(?=\\s*\\.)",
+      "match": "(?<!\\.)\\b(math|cli|file|environment|test|time|gpu|random|process|map|distinct|json|http|stats|linear|signal|image|video|tensor|neural)\\b(?=\\s*\\.)",
       "name": "support.namespace.quidra"
     },
 
     "primitive-type": {
-      "match": "(?<!\\.)\\b(nat|nat8|nat16|nat32|nat64|real|real16|real16b|real32|real64|com|com16|com16b|com32|com64|int|int8|int16|int32|int64|bool|string|bin|error|tensor|func)\\b",
+      "match": "(?<!\\.)\\b(nat|nat8|nat16|nat32|nat64|real|real16|real16b|real32|real64|com|com16|com16b|com32|com64|int|int8|int16|int32|int64|bool|string|bin|error|tensor|func|map(?=\\s*<)|distinct(?=\\s*<))\\b",
       "name": "storage.type.primitive.quidra"
     },
 

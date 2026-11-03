@@ -8,8 +8,6 @@ string[] inputs = ["42", "500", "abc"]
 for auto text = inputs[]
     match parse_score(text)
         int value
-            print("score {value}")
-            print(NL)
+            print.line("score {value}")
         error problem
-            print("rejected: {problem}")
-            print(NL)
+            print.line("rejected: {problem}")

@@ -47,7 +47,7 @@ const RESERVED_WORDS = new Set([
   'NL', 'HT', 'CR', 'DQ', 'BS', 'FF', 'VT', 'BL',
   // built-in types
   'int', 'int8', 'int16', 'int32', 'int64', 'bool', 'string', 'bin', 'error',
-  'tensor', 'func', 'nat', 'nat8', 'nat16', 'nat32', 'nat64',
+  'tensor', 'func', 'map', 'distinct', 'nat', 'nat8', 'nat16', 'nat32', 'nat64',
   'real', 'real16', 'real16b', 'real32', 'real64', 'com', 'com16', 'com16b', 'com32', 'com64',
 ]);
 
@@ -229,6 +229,21 @@ function tokenizeFile(code) {
     }
     return out;
   });
+}
+
+// Check develop collection types even when released examples do not use them.
+// The name set remains available to user-defined functions.
+for (const [source, expected] of [
+  ['map<string, int> entries', 'map'],
+  ['map <string, int> entries', 'map'],
+  ['distinct<string> seen', 'distinct'],
+  ['distinct <string> seen', 'distinct'],
+]) {
+  const tokens = tokenizeFile(source)[0] ?? [];
+  if (!tokens.some((token) => token.content === expected &&
+      token.scopes.includes('storage.type.primitive.quidra'))) {
+    fail(`collection type is not highlighted: ${source}`);
+  }
 }
 
 function effectiveScopes(scopes) {

@@ -1,6 +1,5 @@
 void inspect(const int value)
-    print(value)
-    print(NL)
+    print.line(value)
 
 void .initialize(int &value)
     value = 7

@@ -29,6 +29,9 @@ export const links = {
   playground: 'https://quidra-lang.github.io/playground/',
   playgroundRepo: `${org}/playground`,
   math: `${org}/math`,
+  collections: `${org}/collections`,
+  text: `${org}/text`,
+  encoding: `${org}/encoding`,
   nn: `${org}/nn`,
   vision: `${org}/vision`,
   video: `${org}/video`,
@@ -45,6 +48,7 @@ export const links = {
   docs: {
     readme: `${core}#readme`,
     language: `${core}/blob/main/docs/spec/language.md`,
+    developLanguage: `${core}/blob/develop/docs/spec/language.md`,
     numericAndBin: `${core}/blob/main/docs/spec/numeric-and-bin.md`,
     grammar: `${core}/blob/main/docs/spec/grammar.ebnf`,
     llmGuide: `${core}/blob/main/docs/spec/llm-guide.md`,
@@ -54,7 +58,7 @@ export const links = {
     packages: `${core}/blob/main/docs/packages.md`,
     development: `${core}/blob/main/docs/development.md`,
     examples: `${core}/tree/main/examples`,
-    benchmark: `${core}/blob/main/benchmark/README.md`,
+    benchmark: `${org}/benchmark/blob/main/README.md`,
   },
 } as const;
 

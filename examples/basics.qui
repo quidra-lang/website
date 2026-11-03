@@ -1,27 +1,21 @@
 int count = 3
 auto name = "Quidra"
-print("Hello, {name}")
-print(NL)
+print.line("Hello, {name}")
 
 int[] original = [1, 2, 3]
 int[] copy = original
 copy[0] = 9
-print("original[0] = {original[0]}, copy[0] = {copy[0]}")
-print(NL)
+print.line("original[0] = {original[0]}, copy[0] = {copy[0]}")
 
 int total = 0
 for auto value = original[]
     total += value
-print("total = {total}")
-print(NL)
+print.line("total = {total}")
 
 for 0 <= int i < count
     if i == 0
-        print("first")
-        print(NL)
+        print.line("first")
     elif i < count - 1
-        print("middle")
-        print(NL)
+        print.line("middle")
     else
-        print("last")
-        print(NL)
+        print.line("last")

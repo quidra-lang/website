@@ -26,7 +26,7 @@ const heroAnnotations: Annotation[] = [
   },
   {
     line: 7,
-    token: 'print(factorial(5))',
+    token: 'print.line(factorial(5))',
     text: 'Top-level code can run directly, while the file still compiles through LLVM to native machine code.',
   },
 ];
@@ -117,6 +117,24 @@ const ecosystem = [
     text: 'import math. Generic mathematical semantics such as reductions, unary functions, dot products and matrix multiplication live outside Core with their own native and compiler optimizations.',
   },
   {
+    name: 'Collections',
+    repo: 'quidra-lang/collections',
+    href: developTree(links.collections),
+    text: 'import collections. Stable priority queues and generic frequency counting extend the built-in map and distinct types without duplicating Core semantics.',
+  },
+  {
+    name: 'Text',
+    repo: 'quidra-lang/text',
+    href: developTree(links.text),
+    text: 'import text. ASCII case conversion, whitespace tokenization, CSV parsing and URL query decoding are library-owned text operations.',
+  },
+  {
+    name: 'Encoding',
+    repo: 'quidra-lang/encoding',
+    href: developTree(links.encoding),
+    text: 'import encoding. Binary-to-text encodings such as standard Base64 remain separate from Core string and binary storage.',
+  },
+  {
     name: 'NN',
     repo: 'quidra-lang/nn',
     href: developTree(links.nn),
@@ -169,6 +187,9 @@ const uninitialized = invalidExample('uninitialized');
 
       <div class="hero-code">
         <CodeBlock code={hero.code} file={hero.file} annotations={heroAnnotations} output={hero.output} outputLabel={`quidra run ${hero.file}`} />
+        {site.quidraVersion.startsWith("0.5.") && (
+          <p class="small muted">This example previews the unreleased Quidra 0.6 syntax. The released 0.5 compiler uses an explicit newline marker instead of print.line.</p>
+        )}
         <ol class="annotations">
           {
             heroAnnotations.map((a, i) => (
@@ -296,7 +317,7 @@ const uninitialized = invalidExample('uninitialized');
     <div class="container">
       <SectionHead number="06" eyebrow="measured" title="Quidra publishes its own benchmark, including where it loses.">
         Ten languages, five independent evaluations, one frozen methodology. Every ranking, score and per-requirement
-        result of run {benchmarks.run_id} is committed as data in the compiler repository. Quidra {benchmarks.version}, measured at
+        result of run {benchmarks.run_id} is preserved as a published, source-linked snapshot. Quidra {benchmarks.version}, measured at
         snapshot <code>{benchmarks.evaluated_commit_short}</code>, places:
       </SectionHead>
       <ol class="scoreboard">
@@ -319,7 +340,7 @@ const uninitialized = invalidExample('uninitialized');
   <section class="section" id="ecosystem">
     <div class="container">
       <SectionHead number="07" eyebrow="ecosystem" title="A small, explicit library boundary">
-        Core keeps language, tensor, autograd, device and extension mechanisms. Generic mathematics, reusable neural-network
+        Core keeps language, tensor, autograd, device and extension mechanisms. Mathematics, collections, text parsing, encoding and reusable neural-network
         semantics, image processing, video decoding and concrete DNN model architectures live in explicit first-party packages.
         The cards below describe the current development architecture. The released compiler and install instructions on this
         site remain pinned to Quidra {site.quidraVersion}; package availability for that release is shown on Get started.
@@ -380,7 +401,7 @@ const uninitialized = invalidExample('uninitialized');
         <CodeBlock code={install} lang="bash" file="Debian and Ubuntu">
           <CopyButton slot="title" text={install} />
         </CodeBlock>
-        <CodeBlock code={`print("Hello from Quidra")\nprint(NL)`} file="hello.qui" output="Hello from Quidra" outputLabel="quidra hello.qui" />
+        <CodeBlock code={site.quidraVersion.startsWith("0.5.") ? `print("Hello from Quidra{NL}")` : `print.line("Hello from Quidra")`} file="hello.qui" output="Hello from Quidra" outputLabel="quidra hello.qui" />
       </div>
     </div>
   </section>

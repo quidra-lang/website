@@ -22,6 +22,37 @@ const stale = [
 
 const problems = [];
 
+// Keep every example on the current Core output API. Diagnostic fixtures are
+// source-revision-locked, so any intentional edit updates their golden metadata.
+for (const [directory, entries] of [
+  ["examples", exampleManifest.examples],
+  ["examples/invalid", exampleManifest.invalid],
+]) {
+  for (const entry of entries) {
+    const path = `${directory}/${entry.file}`;
+    const source = readFileSync(resolve(root, path), "utf8");
+    if (/\bprint\(NL\)/.test(source)) {
+      problems.push(`${path}: use print.line instead of print(NL)`);
+    }
+  }
+}
+if (combined.includes("print(NL)")) problems.push("published documentation still uses print(NL)");
+
+if (!docs.includes('map<K, V> and distinct<T> collections')) {
+  problems.push('docs index: missing current develop collection type names');
+}
+if (!docs.includes('set is available for user functions')) {
+  problems.push('docs index: user-defined set naming is not documented');
+}
+
+const grammar = JSON.parse(readFileSync(resolve(root, 'src/lib/quidra.tmLanguage.json'), 'utf8'));
+const collectionTypes = grammar.repository?.['primitive-type']?.match ?? '';
+if (!collectionTypes.includes('map(?=\\s*<)') ||
+    !collectionTypes.includes('distinct(?=\\s*<)') ||
+    collectionTypes.includes('set(?=\\s*<)')) {
+  problems.push('TextMate grammar: collection names are out of sync with Core');
+}
+
 const siteVersion = /quidraVersion:\s*'([^']+)'/.exec(siteConfig)?.[1];
 let coreRef = process.env.QUIDRA_CORE_REF ?? '';
 if (!coreRef) {
@@ -38,6 +69,9 @@ if (!coreRef) {
 
 if (!siteVersion) {
   problems.push('site config: could not read quidraVersion');
+}
+if (siteVersion?.startsWith('0.5.') && /const hello\s*=\s*`print\.line\(/.test(started)) {
+  problems.push('get-started: the public Quidra 0.5 compiler does not support print.line');
 }
 if (!/^quidra \d+\.\d+\.\d+$/.test(String(exampleManifest.compiler))) {
   problems.push(`examples manifest: invalid compiler identity: ${String(exampleManifest.compiler)}`);
@@ -59,7 +93,7 @@ for (const [label, source, required] of [
     '<li><b>Run</b>',
     'sandboxed native runner',
     'Core keeps language, tensor, autograd, device and extension mechanisms.',
-    'Generic mathematics, reusable neural-network',
+    'Mathematics, collections, text parsing, encoding and reusable neural-network',
     'concrete DNN model architectures live in explicit first-party packages',
     'The cards below describe the current development architecture.',
     'The released compiler and install instructions on this',
@@ -67,6 +101,9 @@ for (const [label, source, required] of [
     'developTree(links.core)',
     'developTree(links.playgroundRepo)',
     'developTree(links.math)',
+    'developTree(links.collections)',
+    'developTree(links.text)',
+    'developTree(links.encoding)',
     'developTree(links.nn)',
     'developTree(links.vision)',
     'developTree(links.video)',

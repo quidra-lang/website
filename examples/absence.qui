@@ -8,11 +8,8 @@ int | none | error lookup(int id)
 auto | error result = lookup(1)
 match result
     int value
-        print(value)
-        print(NL)
+        print.line(value)
     none
-        print("none")
-        print(NL)
+        print.line("none")
     error problem
-        print(problem)
-        print(NL)
+        print.line(problem)

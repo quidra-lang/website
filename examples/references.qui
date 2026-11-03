@@ -2,8 +2,7 @@ void inspect(const int[] values)
     int total = 0
     for auto value = values[]
         total += value
-    print("total {total}")
-    print(NL)
+    print.line("total {total}")
 
 void .double_all(int[] &values)
     for auto &value = &values[]
@@ -14,5 +13,4 @@ int[] data = [1, 2, 3]
 inspect(data)
 .double_all(&data)
 inspect(data)
-print(data[2])
-print(NL)
+print.line(data[2])

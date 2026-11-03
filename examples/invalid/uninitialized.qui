@@ -1,3 +1,2 @@
 int x
 print(x)
-print(NL)
