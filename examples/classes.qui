@@ -16,6 +16,6 @@ b := a
 b.x = 9
 &alias := &a
 alias.y = 5
-print.line(a.describe())
-print.line(b.describe())
-print.line("{a == b} {a == Point(1, 5)}")
+println(a.describe())
+println(b.describe())
+println("{a == b} {a == Point(1, 5)}")

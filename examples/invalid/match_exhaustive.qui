@@ -5,4 +5,4 @@ int | none maybe_value(bool present)
 
 match maybe_value(true)
     int value
-        print.line(value)
+        println(value)

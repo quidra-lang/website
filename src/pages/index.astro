@@ -26,7 +26,7 @@ const heroAnnotations: Annotation[] = [
   },
   {
     line: 7,
-    token: 'print.line(factorial(5))',
+    token: 'println(factorial(5))',
     text: 'Top-level code can run directly, while the file still compiles through LLVM to native machine code.',
   },
 ];
@@ -188,7 +188,7 @@ const uninitialized = invalidExample('uninitialized');
       <div class="hero-code">
         <CodeBlock code={hero.code} file={hero.file} annotations={heroAnnotations} output={hero.output} outputLabel={`quidra run ${hero.file}`} />
         {site.quidraVersion.startsWith("0.5.") && (
-          <p class="small muted">This example previews the unreleased Quidra 0.6 syntax. The released 0.5 compiler uses an explicit newline marker instead of print.line.</p>
+          <p class="small muted">This example previews the unreleased Quidra 0.6 syntax. The released 0.5 compiler uses an explicit newline marker instead of println.</p>
         )}
         <ol class="annotations">
           {
@@ -401,7 +401,7 @@ const uninitialized = invalidExample('uninitialized');
         <CodeBlock code={install} lang="bash" file="Debian and Ubuntu">
           <CopyButton slot="title" text={install} />
         </CodeBlock>
-        <CodeBlock code={site.quidraVersion.startsWith("0.5.") ? `print("Hello from Quidra{NL}")` : `print.line("Hello from Quidra")`} file="hello.qui" output="Hello from Quidra" outputLabel="quidra hello.qui" />
+        <CodeBlock code={site.quidraVersion.startsWith("0.5.") ? `print("Hello from Quidra{NL}")` : `println("Hello from Quidra")`} file="hello.qui" output="Hello from Quidra" outputLabel="quidra hello.qui" />
       </div>
     </div>
   </section>

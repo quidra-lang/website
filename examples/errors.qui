@@ -8,6 +8,6 @@ inputs := ["42", "500", "abc"]
 for text := inputs[]
     match parse_score(text)
         int value
-            print.line("score {value}")
+            println("score {value}")
         error problem
-            print.line("rejected: {problem}")
+            println("rejected: {problem}")

@@ -14,11 +14,11 @@ T largest<T: ordered>(T[] values)
             best = value
     return best
 
-print.line(add(41))
-print.line(add(a = 40, b = 2))
-print.line(greet())
-print.line(within(50, minimum = 0, maximum = 100))
+println(add(41))
+println(add(a = 40, b = 2))
+println(greet())
+println(within(50, minimum = 0, maximum = 100))
 int[] scores := [3, 9, 4]
-print.line(largest(scores))
+println(largest(scores))
 real64[] readings := [2.5, 1.5]
-print.line(largest(readings))
+println(largest(readings))

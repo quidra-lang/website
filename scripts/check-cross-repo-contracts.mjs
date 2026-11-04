@@ -31,12 +31,14 @@ for (const [directory, entries] of [
   for (const entry of entries) {
     const path = `${directory}/${entry.file}`;
     const source = readFileSync(resolve(root, path), "utf8");
-    if (/\bprint\(NL\)/.test(source)) {
-      problems.push(`${path}: use print.line instead of print(NL)`);
+    if (/\bprint(?:\s*\.\s*line\s*\(|\(NL\))/.test(source)) {
+      problems.push(`${path}: use println for console line output`);
     }
   }
 }
-if (combined.includes("print(NL)")) problems.push("published documentation still uses print(NL)");
+if (/\bprint(?:\s*\.\s*line\s*\(|\(NL\))/.test(combined)) {
+  problems.push("published documentation still uses obsolete console line output syntax");
+}
 
 if (!docs.includes('map<K, V> and distinct<T> collections')) {
   problems.push('docs index: missing current develop collection type names');
@@ -70,8 +72,8 @@ if (!coreRef) {
 if (!siteVersion) {
   problems.push('site config: could not read quidraVersion');
 }
-if (siteVersion?.startsWith('0.5.') && /const hello\s*=\s*`print\.line\(/.test(started)) {
-  problems.push('get-started: the public Quidra 0.5 compiler does not support print.line');
+if (siteVersion?.startsWith('0.5.') && /const hello\s*=\s*`println\(/.test(started)) {
+  problems.push('get-started: the public Quidra 0.5 compiler does not support println');
 }
 if (!/^quidra \d+\.\d+\.\d+$/.test(String(exampleManifest.compiler))) {
   problems.push(`examples manifest: invalid compiler identity: ${String(exampleManifest.compiler)}`);

@@ -10,7 +10,7 @@ const description = `Install Quidra ${site.quidraVersion} from a release archive
 
 const hello = site.quidraVersion.startsWith("0.5.")
   ? `print("Hello from Quidra{NL}")`
-  : `print.line("Hello from Quidra")`;
+  : `println("Hello from Quidra")`;
 const runHello = `quidra hello.qui`;
 const build = `quidra build hello.qui -o hello
 ./hello`;
@@ -132,7 +132,7 @@ const uninitialized = invalidExample('uninitialized');
         {site.quidraVersion.startsWith("0.5.") && (
           <p class="small muted">
             The released 0.5 compiler uses explicit <code>{"{NL}"}</code> for a line break;
-            the unreleased 0.6 development branch introduces <code>print.line(...)</code>.
+            the unreleased 0.6 development branch introduces <code>println(...)</code>.
           </p>
         )}
       </div>
