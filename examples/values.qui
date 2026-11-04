@@ -4,7 +4,7 @@ b[0] = 9
 println(a[0])
 println(b[0])
 
-int x := 1
+x := 1
 &writer := &x
 // A const value is an independent snapshot, even when x has a writable alias.
 const snapshot := x

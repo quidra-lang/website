@@ -1,6 +1,6 @@
 import math
 
-int value := 100
+value := 100
 small := int8(value)
 converted := real64(value)
 ratio := converted / 3.0
