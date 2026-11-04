@@ -42,7 +42,7 @@ const RESERVED_WORDS = new Set([
   // operators spelled as words
   'and', 'or', 'not', 'AND', 'OR', 'XOR', 'NOT',
   // literals
-  'true', 'false', 'none', 'void',
+  'true', 'false', 'none', 'void', 'inf',
   // control-character constants
   'NL', 'HT', 'CR', 'DQ', 'BS', 'FF', 'VT', 'BL',
   // built-in types
@@ -264,6 +264,51 @@ for (const [source, expected] of [
   if (!tokens.some((token) => token.content === expected &&
       token.scopes.includes('storage.type.primitive.quidra'))) {
     fail(`collection type is not highlighted: ${source}`);
+  }
+}
+
+// Namespace highlighting follows Core's reserved namespaces. Package names
+// and former namespaces remain ordinary identifiers outside an import context.
+const manifestPath = join(coreDir, 'quidra.manifest.json');
+const standardModules = existsSync(manifestPath)
+  ? JSON.parse(readFileSync(manifestPath, 'utf8')).standard_modules
+  : ['cli', 'file', 'environment', 'test', 'time', 'gpu', 'autograd', 'reflect',
+    'random', 'process', 'map', 'distinct', 'json', 'http', 'tensor'];
+for (const name of standardModules) {
+  for (const separator of ['.', ' . ']) {
+    const source = `${name}${separator}member()`;
+    const tokens = tokenizeFile(source)[0] ?? [];
+    if (!tokens.some((token) => token.content === name &&
+        token.scopes.includes('support.namespace.quidra'))) {
+      fail(`Core standard namespace is not highlighted: ${source}`);
+    }
+  }
+}
+for (const name of ['math', 'stats', 'linear', 'signal', 'image', 'video', 'neural']) {
+  const tokens = tokenizeFile(`${name}.member()`)[0] ?? [];
+  if (tokens.some((token) => token.content === name &&
+      token.scopes.includes('support.namespace.quidra'))) {
+    fail(`ordinary identifier is highlighted as a Core standard namespace: ${name}`);
+  }
+}
+
+for (const format of ['group=3', 'group=3,frac=2', 'group=3,int=12,zero']) {
+  const source = `println("{value:${format}}")`;
+  const tokens = tokenizeFile(source)[0] ?? [];
+  if (!tokens.some((token) => token.content === format &&
+      token.scopes.includes('constant.other.format-spec.quidra'))) {
+    fail(`numeric format specification is not highlighted: ${source}`);
+  }
+}
+
+for (const [source, content, scope] of [
+  ['value := inf', 'inf', 'constant.numeric.quidra'],
+  ['value := -inf', 'inf', 'constant.numeric.quidra'],
+  ['squared := value ^ 2', '^', 'keyword.operator.arithmetic.quidra'],
+]) {
+  const tokens = tokenizeFile(source)[0] ?? [];
+  if (!tokens.some((token) => token.content === content && token.scopes.includes(scope))) {
+    fail(`numeric literal or operator is not highlighted: ${source}`);
   }
 }
 

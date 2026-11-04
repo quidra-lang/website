@@ -59,7 +59,7 @@
     },
 
     "format-spec": {
-      "match": "(:)\\s*((?:int|frac|sig|zero)(?:=[0-9]+)?(?:\\s*,\\s*(?:int|frac|sig|zero)(?:=[0-9]+)?)*)\\s*(?=\\})",
+      "match": "(:)\\s*((?:int|frac|sig|group|zero)(?:=[0-9]+)?(?:\\s*,\\s*(?:int|frac|sig|group|zero)(?:=[0-9]+)?)*)\\s*(?=\\})",
       "captures": {
         "1": { "name": "punctuation.separator.quidra" },
         "2": { "name": "constant.other.format-spec.quidra" }
@@ -405,7 +405,7 @@
     },
 
     "namespace": {
-      "match": "(?<!\\.)\\b(math|cli|file|environment|test|time|gpu|random|process|map|distinct|json|http|stats|linear|signal|image|video|tensor|neural)\\b(?=\\s*\\.)",
+      "match": "(?<!\\.)\\b(cli|file|environment|test|time|gpu|autograd|reflect|random|process|map|distinct|json|http|tensor)\\b(?=\\s*\\.)",
       "name": "support.namespace.quidra"
     },
 
@@ -441,7 +441,7 @@
     },
 
     "number": {
-      "match": "\\b[0-9]+(?:\\.[0-9]+(?:[eE][+-]?[0-9]+)?i?)?\\b",
+      "match": "\\b(?:inf|[0-9]+(?:\\.[0-9]+(?:[eE][+-]?[0-9]+)?i?)?)\\b",
       "name": "constant.numeric.quidra"
     },
 
@@ -466,7 +466,7 @@
     },
 
     "operator-arithmetic": {
-      "match": "[-+*/%]",
+      "match": "[-+*/%^]",
       "name": "keyword.operator.arithmetic.quidra"
     },
 
