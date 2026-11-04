@@ -8,7 +8,7 @@ void .double_all(int[] &values)
     for &value := &values[]
         value = value * 2
 
-int[] data := [1, 2, 3]
+data := [1, 2, 3]
 // Value parameters receive snapshots; mutable calls name the writable storage explicitly.
 inspect(data)
 .double_all(&data)

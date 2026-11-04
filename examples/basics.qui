@@ -2,7 +2,7 @@ count := 3
 name := "Quidra"
 println("Hello, {name}")
 
-int[] original := [1, 2, 3]
+original := [1, 2, 3]
 copy := original
 copy[0] = 9
 println("original[0] = {original[0]}, copy[0] = {copy[0]}")
