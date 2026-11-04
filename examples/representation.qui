@@ -7,3 +7,18 @@ ratio := converted / 3.0
 rounded := math.round(ratio)
 println(small)
 println(rounded)
+
+a := 5 + 6
+int32 b := 5 + 6
+c := b + 1
+nat64 natural := 2
+int32 signed := 3
+mixed := natural + signed
+println(a)
+println(c)
+println(mixed)
+
+int8 take(int8 number)
+    return number
+
+println(take(value))

@@ -99,8 +99,8 @@
     {
       "id": "representation",
       "file": "representation.qui",
-      "title": "Explicit representation changes",
-      "summary": "int8(value) is a range-checked narrowing cast, real64(value) explicitly changes representation and math.round states the rounding rule instead of a generic real-to-int cast.",
+      "title": "Static operator types and explicit conversions",
+      "summary": "Literals default to int or take int32 context; nat64 + int32 uses int32. Numeric value arguments convert to the parameter type with explicit-cast checks. Assignments remain explicit, and operand variables keep their types.",
       "run": true,
       "args": [],
       "output": "representation.out"

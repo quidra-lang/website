@@ -50,8 +50,8 @@ const laws = [
   },
   {
     id: 'representation',
-    title: 'Representation changes are explicit.',
-    text: 'An already-typed numeric value never changes representation implicitly, even when the conversion would be lossless. Casts name their destination type. Fixed-width narrowing is range checked; converting a non-integral real to an integer requires an explicit rounding operation such as math.round, math.floor, math.ceil or math.trunc.',
+    title: 'Numeric operators have a static common type.',
+    text: 'Literals use context, otherwise default to int, exact real or exact com; nat needs context. Numeric operators select the highest family (Natural < Integer < Real < Complex), then width only within that family, and convert both operands before evaluation with checked range and normal real/complex rounding. nat64 + int32 therefore uses int32. Original variable types stay fixed. Numeric value arguments convert to the parameter type with the same range, rounding and integrality checks as explicit casts; writable reference arguments stay exact. Assignments and returns still require explicit representation conversions.',
   },
   {
     id: 'names',
@@ -213,7 +213,7 @@ const uninitialized = invalidExample('uninitialized');
       <TokenTable />
       <p class="after-table muted">
         The deeper safety rules stay out of ordinary code until they matter: copies remain independent, aliasing is
-        requested explicitly, representation changes are written down, and visible names cannot be silently shadowed.
+        requested explicitly, numeric operator types follow static rules, and visible names cannot be silently shadowed.
       </p>
     </div>
   </section>
