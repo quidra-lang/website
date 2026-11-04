@@ -12,7 +12,7 @@ for value := original[]
     total += value
 println("total = {total}")
 
-for 0 <= int i < count
+for: 0 <= int i < count
     if i == 0
         println("first")
     elif i < count - 1
