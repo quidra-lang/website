@@ -51,6 +51,7 @@ export const links = {
     developLanguage: `${core}/blob/develop/docs/spec/language.md`,
     numericAndBin: `${core}/blob/main/docs/spec/numeric-and-bin.md`,
     developNumericAndBin: `${core}/blob/develop/docs/spec/numeric-and-bin.md`,
+    developMathReductions: `${org}/math/blob/develop/README.md#reduction-specification`,
     grammar: `${core}/blob/main/docs/spec/grammar.ebnf`,
     llmGuide: `${core}/blob/main/docs/spec/llm-guide.md`,
     architecture: `${core}/blob/main/docs/spec/architecture.md`,

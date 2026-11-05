@@ -27,7 +27,7 @@ const groups = [
         name: 'Development language reference',
         href: links.docs.developLanguage,
         path: 'docs/spec/language.md (develop)',
-        text: 'Unreleased develop-branch syntax, including := for initialized declarations, with type omission as the default style when the initializer determines the intended type; for: declares a range variable or every written collection index, while each element uses := to declare or = to reuse a binding. Zipped arrays may each supply a new nat index. Tuple patterns infer value and reference types. Numeric tensor-axis expressions convert their final result to nat with explicit-cast checks; := defines derived shape dimensions. Parameter defaults use := and may determine an omitted parameter type; assignment and named arguments use =. Other development APIs include bare map<K, V> and distinct<T> collections, println, sorted(by = ...), explicit file.read/file.write/file.append stream types, and compact numeric interpolation such as {x:3}, {x:03.2} and {x::3}. Collection insertion-order, value and mutation semantics are documented here; set is available for user functions and the map method remains .counts.set(...).',
+        text: 'Unreleased develop-branch syntax, including := for initialized declarations, with type omission as the default style when the initializer determines the intended type; for: declares a range variable or every written collection index, while each element uses := to declare or = to reuse a binding. Zipped arrays may each supply a new nat index. Tuple patterns infer value and reference types. Numeric tensor-axis expressions convert their final result to nat with explicit-cast checks; := defines derived shape dimensions. Parameter defaults use := and may determine an omitted parameter type; assignment and named arguments use =. Other development APIs include bare map<K, V> and distinct<T> collections, println, sorted(by = ...), explicit file.read/file.write/file.append stream types, and compact numeric interpolation such as {x:3}, {x:03.2} and {x::3}. Collection insertion-order, value and mutation semantics are documented here; set is available for user functions and the map method remains .counts.set(...). The reference also specifies @ as Math matrix multiplication. Compiler support is pending.',
       },
       {
         name: 'Grammar',
@@ -45,7 +45,13 @@ const groups = [
         name: 'Development numeric types and bin',
         href: links.docs.developNumericAndBin,
         path: 'docs/spec/numeric-and-bin.md (develop)',
-        text: 'Current develop rules: contextual literals default to int, real or com; numeric operators choose the highest family and width only within it. Numeric value arguments convert to the resolved parameter type with explicit-cast range, rounding and integrality checks; writable references keep exact storage types. Assignments and returns require explicit conversion.',
+        text: 'Current develop rules: contextual literals default to int, real or com; numeric operators choose the highest family and width only within it. Numeric value arguments convert to the resolved parameter type with explicit-cast range, rounding and integrality checks; writable references keep exact storage types. Assignments and returns require explicit conversion. The reference also specifies postfix integer factorial n!, which awaits compiler support.',
+      },
+      {
+        name: 'Development Math reductions',
+        href: links.docs.developMathReductions,
+        path: 'math/README.md (develop)',
+        text: 'The Math specification covers whole-value sum(), mean(), max() and min(), with scalar results for arrays and rank-0 results for tensors. Tensor reductions with dim remove the selected dimension. The new extrema names and dim overloads await package support.',
       },
     ],
   },
@@ -122,7 +128,7 @@ quidra describe llm`;
       <h1>Documentation</h1>
       <p class="lede">
         Quidra's reference documentation lives beside the compiler in the <a href={links.core} rel="noopener">quidra-lang/quidra</a> repository,
-        where its examples are verified by the compiler's own test suite. The released reference and the newer, unreleased develop reference are linked separately.
+        where runnable examples are verified by the compiler's own test suite. The released reference and the newer, unreleased develop reference are linked separately.
       </p>
     </div>
   </section>
