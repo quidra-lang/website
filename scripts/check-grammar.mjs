@@ -294,7 +294,8 @@ for (const name of ['math', 'stats', 'linear', 'signal', 'image', 'video', 'neur
 
 for (const format of [
   '3', '3.', '03.', '.0', '.2', '.02', '03.2', ':3', '03.2:3', '3:3',
-  'base=2', 'base=16,upper', 'upper,base=16',
+  '1000', '01000.', '.01000', ':003', '03 . 02 : 003',
+  'base=2', 'base=16,upper', 'upper,base=16', 'base = 036',
 ]) {
   const source = `println("{value:${format}}")`;
   const tokens = tokenizeFile(source)[0] ?? [];
@@ -306,6 +307,7 @@ for (const format of [
 
 for (const format of [
   '03', '0', '0.', '.', '03:3', '3:3:3', 'int=3:3',
+  '1001', '01001.2', '.1001', ':1001', '3:1001', ':000', 'base=1', 'base=37',
   'int=3', 'frac=2', 'sig=3', 'group=3', 'zero',
   'group=3,frac=2', 'group=3,int=12,zero',
 ]) {
