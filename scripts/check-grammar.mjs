@@ -292,12 +292,42 @@ for (const name of ['math', 'stats', 'linear', 'signal', 'image', 'video', 'neur
   }
 }
 
-for (const format of ['group=3', 'group=3,frac=2', 'group=3,int=12,zero']) {
+for (const format of [
+  '3', '3.', '03.', '.0', '.2', '.02', '03.2', ':3', '03.2:3', '3:3',
+  'base=2', 'base=16,upper', 'upper,base=16',
+]) {
   const source = `println("{value:${format}}")`;
   const tokens = tokenizeFile(source)[0] ?? [];
   if (!tokens.some((token) => token.content === format &&
       token.scopes.includes('constant.other.format-spec.quidra'))) {
     fail(`numeric format specification is not highlighted: ${source}`);
+  }
+}
+
+for (const format of [
+  '03', '0', '0.', '.', '03:3', '3:3:3', 'int=3:3',
+  'int=3', 'frac=2', 'sig=3', 'group=3', 'zero',
+  'group=3,frac=2', 'group=3,int=12,zero',
+]) {
+  const source = `println("{value:${format}}")`;
+  const tokens = tokenizeFile(source)[0] ?? [];
+  if (tokens.some((token) => token.scopes.includes('constant.other.format-spec.quidra'))) {
+    fail(`invalid or abolished numeric format specification is highlighted as valid: ${source}`);
+  }
+}
+
+for (const [source, format] of [
+  ['println("{values[1:3][0]:3}")', '3'],
+  ['println("{values[indices[1:3][0]:<limit][0]:03.2:3}")', '03.2:3'],
+  ['println("{values[1:3]}")', null],
+  ['println("{values[indices[1:3][0]:<limit]}")', null],
+]) {
+  const tokens = tokenizeFile(source)[0] ?? [];
+  const formats = tokens.filter((token) =>
+    token.scopes.includes('constant.other.format-spec.quidra'));
+  if (format === null ? formats.length !== 0 :
+    formats.length !== 1 || formats[0].content !== format) {
+    fail(`slice colons and numeric format specifications are confused: ${source}`);
   }
 }
 

@@ -59,11 +59,22 @@
     },
 
     "format-spec": {
-      "match": "(:)\\s*((?:int|frac|sig|group|zero)(?:=[0-9]+)?(?:\\s*,\\s*(?:int|frac|sig|group|zero)(?:=[0-9]+)?)*)\\s*(?=\\})",
-      "captures": {
-        "1": { "name": "punctuation.separator.quidra" },
-        "2": { "name": "constant.other.format-spec.quidra" }
-      }
+      "patterns": [
+        {
+          "match": "(:)\\s*((?:[1-9][0-9]*|0*[1-9][0-9]*\\.[0-9]*|\\.[0-9]+)(?:\\s*:\\s*[1-9][0-9]*)?|:\\s*[1-9][0-9]*|base\\s*=\\s*[0-9]+(?:\\s*,\\s*upper)?|upper\\s*,\\s*base\\s*=\\s*[0-9]+)\\s*(?=\\})",
+          "captures": {
+            "1": { "name": "punctuation.separator.quidra" },
+            "2": { "name": "constant.other.format-spec.quidra" }
+          }
+        },
+        {
+          "comment": "Consume invalid format suffixes from their first colon without crossing slice, call or string boundaries.",
+          "match": "(:)[^{}\\[\\]()\"\\r\\n]*(?=\\})",
+          "captures": {
+            "1": { "name": "punctuation.separator.quidra" }
+          }
+        }
+      ]
     },
 
     "class-declaration": {
