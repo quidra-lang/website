@@ -114,7 +114,7 @@ const ecosystem = [
     name: 'Math',
     repo: 'quidra-lang/math',
     href: developTree(links.math),
-    text: 'import math. Generic mathematical semantics such as reductions, unary functions, dot products and matrix multiplication live outside Core with their own native and compiler optimizations.',
+    text: 'import math. The package provides unary functions, dot products, matrix multiplication and *_last reductions that broadcast along the final tensor axis.',
   },
   {
     name: 'Collections',
@@ -340,8 +340,8 @@ const uninitialized = invalidExample('uninitialized');
   <section class="section" id="ecosystem">
     <div class="container">
       <SectionHead number="07" eyebrow="ecosystem" title="A small, explicit library boundary">
-        Core keeps language, tensor, autograd, device and extension mechanisms. Mathematics, collections, text parsing, encoding and reusable neural-network
-        semantics, image processing, video decoding and concrete DNN model architectures live in explicit first-party packages.
+        Core provides the language, tensors, numeric reductions, autograd, devices and extension mechanisms. First-party packages provide linear algebra,
+        collections, text parsing, encoding, reusable neural-network semantics, image processing, video decoding and concrete DNN model architectures.
         The cards below describe the current development architecture. The released compiler and install instructions on this
         site remain pinned to Quidra {site.quidraVersion}; package availability for that release is shown on Get started.
       </SectionHead>

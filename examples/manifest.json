@@ -14,7 +14,7 @@
       "id": "tensors",
       "file": "tensors.qui",
       "title": "Tensors with shape contracts",
-      "summary": "Exact-rank tensor<real32>{3, _, _} bindings, strict singleton broadcasting, .item() and .shape(), plus math.matmul and math.mean from the first-party Math package on 2-D tensors.",
+      "summary": "Exact-rank tensor<real32>{3, _, _} bindings, strict singleton broadcasting, Core's .item(), .shape() and .mean() methods, and math.matmul for 2-D tensors.",
       "run": true,
       "args": [],
       "output": "tensors.out"
