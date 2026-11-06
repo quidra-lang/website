@@ -147,7 +147,7 @@
 
     "extern-declaration": {
       "name": "meta.function.extern.quidra",
-      "begin": "^\\s*(extern)\\s+((?:func<(?:[^<>\\n]|<[^<>\\n]*>)*>\\([^()\\n]*\\)|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?:<(?:[^<>\\n]|<[^<>\\n]*>)*>)*)(?:\\[[^\\[\\]\\n]*\\])*(?:\\s*\\|\\s*(?:func<(?:[^<>\\n]|<[^<>\\n]*>)*>\\([^()\\n]*\\)|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?:<(?:[^<>\\n]|<[^<>\\n]*>)*>)*)(?:\\[[^\\[\\]\\n]*\\])*)*)\\s+([A-Za-z_][A-Za-z0-9_]*)\\s*(\\()",
+      "begin": "^\\s*(?<extern>extern)\\s+(?<return_type>\\g<type_atom>(?:\\s*\\|\\s*\\g<type_atom>)*)\\s+(?<name>[A-Za-z_][A-Za-z0-9_]*)\\s*(?<open>\\()(?<type_atom>(?:func\\s*\\g<angles>(?:\\s*\\([^()\\n]*\\))?|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?:\\g<angles>)*)(?:\\[[^\\[\\]\\n]*\\])*){0}(?<angles><(?:[^<>\\n]|\\g<angles>)*>){0}",
       "beginCaptures": {
         "1": { "name": "keyword.declaration.quidra" },
         "2": { "patterns": [{ "include": "#type" }] },
@@ -164,7 +164,7 @@
 
     "function-declaration": {
       "name": "meta.function.quidra",
-      "begin": "^\\s*(?:(private)\\s+)?(?!(?:return|if|elif|else|for|while|match|import|public|try|not|and|or|break|continue|class|enum|extern|cli|private|const|NOT|AND|OR|XOR|then|parallel|export|literal|local)\\b)((?:func<(?:[^<>\\n]|<[^<>\\n]*>)*>\\([^()\\n]*\\)|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?:<(?:[^<>\\n]|<[^<>\\n]*>)*>)*)(?:\\[[^\\[\\]\\n]*\\])*(?:\\s*\\|\\s*(?:func<(?:[^<>\\n]|<[^<>\\n]*>)*>\\([^()\\n]*\\)|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?:<(?:[^<>\\n]|<[^<>\\n]*>)*>)*)(?:\\[[^\\[\\]\\n]*\\])*)*)\\s+(\\.?[A-Za-z_][A-Za-z0-9_]*)\\s*(<(?:[^<>\\n]|<[^<>\\n]*>)*>)?\\s*(\\()",
+      "begin": "^\\s*(?:(?<visibility>private)\\s+)?(?!(?:return|if|elif|else|for|while|match|import|public|try|not|and|or|break|continue|class|enum|extern|cli|private|const|NOT|AND|OR|XOR|then|parallel|export|literal|local)\\b)(?<return_type>\\g<type_atom>(?:\\s*\\|\\s*\\g<type_atom>)*)\\s+(?<name>\\.?[A-Za-z_][A-Za-z0-9_]*)\\s*(?<type_parameters>\\g<angles>)?\\s*(?<open>\\()(?<type_atom>(?:func\\s*\\g<angles>(?:\\s*\\([^()\\n]*\\))?|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?:\\g<angles>)*)(?:\\[[^\\[\\]\\n]*\\])*){0}(?<angles><(?:[^<>\\n]|\\g<angles>)*>){0}",
       "beginCaptures": {
         "1": {
           "name": "storage.modifier.quidra"
@@ -204,7 +204,7 @@
     },
 
     "binding-declaration": {
-      "match": "^\\s*(?:(private)\\s+)?(?:(local|const)\\s+)?(?:(?:const)\\s+)?(?!(?:return|if|elif|else|for|while|match|import|public|try|not|and|or|break|continue|class|enum|extern|cli|private|const|NOT|AND|OR|XOR|then|parallel|export|literal|local)\\b)((?:func<(?:[^<>\\n]|<[^<>\\n]*>)*>\\([^()\\n]*\\)|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?:<(?:[^<>\\n]|<[^<>\\n]*>)*>)*)(?:\\[[^\\[\\]\\n]*\\])*(?:\\s*\\|\\s*(?:func<(?:[^<>\\n]|<[^<>\\n]*>)*>\\([^()\\n]*\\)|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?:<(?:[^<>\\n]|<[^<>\\n]*>)*>)*)(?:\\[[^\\[\\]\\n]*\\])*)*)\\s+(&)?\\s*([A-Za-z_][A-Za-z0-9_]*)\\b(?=\\s*(?::=|=(?!=)|$|//))",
+      "match": "^\\s*(?:(?<visibility>private)\\s+)?(?:(?<modifier>local|const)\\s+)?(?:(?:const)\\s+)?(?!(?:return|if|elif|else|for|while|match|import|public|try|not|and|or|break|continue|class|enum|extern|cli|private|const|NOT|AND|OR|XOR|then|parallel|export|literal|local)\\b)(?<return_type>\\g<type_atom>(?:\\s*\\|\\s*\\g<type_atom>)*)\\s+(?<address>&)?\\s*(?<name>[A-Za-z_][A-Za-z0-9_]*)\\b(?=\\s*(?::=|=(?!=)|$|//))(?<type_atom>(?:func\\s*\\g<angles>(?:\\s*\\([^()\\n]*\\))?|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?:\\g<angles>)*)(?:\\[[^\\[\\]\\n]*\\])*){0}(?<angles><(?:[^<>\\n]|\\g<angles>)*>){0}",
       "captures": {
         "1": {
           "name": "storage.modifier.quidra"
@@ -232,11 +232,11 @@
         { "include": "#storage-modifier" },
         { "include": "#constant-boolean" },
         { "include": "#namespace" },
+        { "include": "#angle" },
         { "include": "#primitive-type" },
         { "include": "#type-void-none" },
         { "include": "#user-type" },
         { "include": "#call" },
-        { "include": "#angle" },
         { "include": "#number" },
         { "include": "#operator-address" },
         { "include": "#operator-union" },
@@ -303,10 +303,10 @@
       "patterns": [
         { "include": "#storage-modifier" },
         { "include": "#namespace" },
+        { "include": "#angle" },
         { "include": "#primitive-type" },
         { "include": "#type-void-none" },
         { "include": "#user-type" },
-        { "include": "#angle" },
         { "include": "#punctuation-brackets" },
         { "include": "#punctuation-parens" },
         { "include": "#operator-union" },
@@ -339,11 +339,11 @@
         { "include": "#constant-none" },
         { "include": "#constant-void" },
         { "include": "#namespace" },
+        { "include": "#angle" },
         { "include": "#primitive-type" },
         { "include": "#integer-radix-member" },
         { "include": "#user-type" },
         { "include": "#call" },
-        { "include": "#angle" },
         { "include": "#number" },
         { "include": "#operator-address" },
         { "include": "#operator-union" },
@@ -456,11 +456,13 @@
     },
 
     "angle": {
-      "match": "(?<=[A-Za-z0-9_>])(<)((?:[^<>\\n]|<(?:[^<>\\n]|<[^<>\\n]*>)*>)*)(>)",
+      "comment": "Match nested type arguments, including whitespace between func and its angle bracket.",
+      "match": "(?:(?<!\\.)\\b(?<function_type>func)\\s*|(?<=[A-Za-z0-9_>]))(?<open><)(?<arguments>(?:[^<>\\n]|\\g<angles>)*)(?<close>>)(?<angles><(?:[^<>\\n]|\\g<angles>)*>){0}",
       "captures": {
-        "1": { "name": "punctuation.section.angle.begin.quidra" },
-        "2": { "patterns": [{ "include": "#type" }] },
-        "3": { "name": "punctuation.section.angle.end.quidra" }
+        "1": { "name": "storage.type.primitive.quidra" },
+        "2": { "name": "punctuation.section.angle.begin.quidra" },
+        "3": { "patterns": [{ "include": "#type" }] },
+        "4": { "name": "punctuation.section.angle.end.quidra" }
       }
     },
 

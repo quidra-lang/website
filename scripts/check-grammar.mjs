@@ -267,6 +267,32 @@ for (const [source, expected] of [
   }
 }
 
+for (const [source, declaration, parameters = []] of [
+  ['func<int()> callback := answer'],
+  ['func<int(int)>[] callbacks := []'],
+  ['map<string, func<int(int)>> callbacks := map.new()'],
+  ['int apply(func<int(int, int)> callback, int value)', 'apply', ['callback', 'value']],
+  ['int visit(map<string, func<func<int()>(int)>> callbacks, int value)', 'visit', ['callbacks', 'value']],
+  ['func<int(func<int()>)> make_consumer()', 'make_consumer'],
+  ['func<map<string, func<int()>>(func<int(int)>[])> make_table()', 'make_table'],
+  ['extern func<map<string, func<int()>>(int)> make_foreign_callback()', 'make_foreign_callback'],
+  ['int spaced(func <int(int)> callback, int value)', 'spaced', ['callback', 'value']],
+  ['func <int()> make_callback()', 'make_callback'],
+  ['func<int>(int) legacy(func<int>(int) callback)', 'legacy', ['callback']],
+]) {
+  const tokens = tokenizeFile(source)[0] ?? [];
+  const hasScope = (content, scope) => tokens.some((token) => token.content === content &&
+    token.scopes.includes(scope));
+  const angles = tokens.filter((token) => token.scopes.includes(
+    `punctuation.section.angle.${token.content === '<' ? 'begin' : 'end'}.quidra`));
+  if (!hasScope('func', 'storage.type.primitive.quidra') ||
+      angles.map((token) => token.content).join('') !== source.replace(/[^<>]/g, '') ||
+      (declaration && !hasScope(declaration, 'entity.name.function.quidra')) ||
+      parameters.some((name) => !hasScope(name, 'variable.parameter.quidra'))) {
+    fail(`function type is not highlighted in its declaration: ${source}`);
+  }
+}
+
 // Namespace highlighting follows Core's reserved namespaces. Package names
 // and former namespaces remain ordinary identifiers outside an import context.
 const manifestPath = join(coreDir, 'quidra.manifest.json');
@@ -337,6 +363,8 @@ for (const [source, content, scope] of [
   ['value := inf', 'inf', 'constant.numeric.quidra'],
   ['value := -inf', 'inf', 'constant.numeric.quidra'],
   ['squared := value ^ 2', '^', 'keyword.operator.arithmetic.quidra'],
+  ['ordered := left < right', '<', 'keyword.operator.comparison.quidra'],
+  ['shifted := left >> right', '>>', 'keyword.operator.bitwise.quidra'],
 ]) {
   const tokens = tokenizeFile(source)[0] ?? [];
   if (!tokens.some((token) => token.content === content && token.scopes.includes(scope))) {
