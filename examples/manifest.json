@@ -41,7 +41,7 @@
       "id": "errors",
       "file": "errors.qui",
       "title": "Errors and match",
-      "summary": "int | error is the whole failure story: try propagates the parse error, error(...) creates one and an exhaustive match handles success and failure without exceptions.",
+      "summary": "int(text) returns int | error. try propagates a parse error, error(...) creates one and an exhaustive match handles success and failure without exceptions.",
       "run": true,
       "args": [],
       "output": "errors.out"

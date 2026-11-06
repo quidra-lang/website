@@ -1,5 +1,5 @@
 int | error parse_score(string text)
-    value := try int.parse(text)
+    value := try int(text)
     if value > 100
         return error("score above 100: {value}")
     return value

@@ -121,7 +121,7 @@ function build(name: string, type: 'light' | 'dark', p: Palette): ThemeRegistrat
     },
     { scope: ['support.namespace', 'support.namespace.quidra', 'support.class'], settings: { foreground: p.namespace } },
     { scope: ['entity.name.function', 'entity.name.function.quidra'], settings: { foreground: p.functionName, fontStyle: 'bold' } },
-    { scope: ['support.function', 'support.function.quidra', 'variable.parameter.quidra'], settings: { foreground: p.fg } },
+    { scope: ['support.function', 'support.function.quidra', 'variable.parameter.quidra', 'variable.other.member.quidra'], settings: { foreground: p.fg } },
     {
       scope: ['keyword.operator.assignment.quidra', 'keyword.operator.comparison.quidra', 'keyword.operator.arithmetic.quidra', 'keyword.operator'],
       settings: { foreground: p.operator },
