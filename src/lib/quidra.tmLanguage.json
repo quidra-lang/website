@@ -240,6 +240,7 @@
         { "include": "#number" },
         { "include": "#operator-address" },
         { "include": "#operator-union" },
+        { "include": "#operator-comparison" },
         { "include": "#operator-assignment" },
         { "include": "#operator-arithmetic" },
         { "include": "#punctuation-brackets" },
@@ -497,7 +498,7 @@
     },
 
     "operator-arithmetic": {
-      "match": "[-+*/%^#]",
+      "match": "[-+*/%^#!@]",
       "name": "keyword.operator.arithmetic.quidra"
     },
 

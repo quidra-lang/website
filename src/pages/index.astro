@@ -51,7 +51,7 @@ const laws = [
   {
     id: 'representation',
     title: 'Numeric operators have a static common type.',
-    text: 'Literals use context, otherwise default to int, exact real or exact com; nat needs context. Numeric operators select the highest family (Natural < Integer < Real < Complex), then width only within that family, and convert both operands before evaluation with checked range and normal real/complex rounding. nat64 + int32 therefore uses int32. Original variable types stay fixed. Numeric value arguments convert to the parameter type with the same range, rounding and integrality checks as explicit casts; writable reference arguments stay exact. Assignments and returns still require explicit representation conversions.',
+    text: 'Literals use context, otherwise default to int, exact real or exact com; nat needs context. Numeric operators select the highest family (Natural < Integer < Real < Complex), then width only within that family, and convert both operands before evaluation with checked range and normal real/complex rounding. nat64 + int32 therefore uses int32. Original variable types stay fixed. Numeric initialized declarations, assignments, returns, parameter defaults and value arguments convert to their destination type with the same range, rounding and integrality checks as explicit casts; writable reference arguments stay exact. Boolean values remain separate: conditions and logical operators require bool, and numeric values do not convert implicitly to bool.',
   },
   {
     id: 'names',

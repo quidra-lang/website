@@ -100,7 +100,7 @@
       "id": "representation",
       "file": "representation.qui",
       "title": "Static operator types and explicit conversions",
-      "summary": "Literals default to int or take int32 context; nat64 + int32 uses int32. Numeric value arguments convert to the parameter type with explicit-cast checks. Assignments remain explicit, and operand variables keep their types.",
+      "summary": "Literals default to int or take int32 context; nat64 + int32 uses int32. Numeric initialized declarations, assignments, returns, defaults and value arguments convert to the destination type with explicit-cast checks; writable references require exact storage types. Operand variables keep their types.",
       "run": true,
       "args": [],
       "output": "representation.out"
