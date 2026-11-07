@@ -1,3 +1,2 @@
-int value := 100
-int8 small := value
+int8 small := 128
 println(small)

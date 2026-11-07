@@ -1,2 +1,2 @@
-narrowing.qui:2:15: error[TYPE_MISMATCH] Expected int8 but received int.
+narrowing.qui:1:15: error[INTEGER_RANGE] Integer-family literal is outside the range of int8.
 1 error(s) generated.

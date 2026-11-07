@@ -135,9 +135,9 @@
     {
       "id": "narrowing",
       "file": "narrowing.qui",
-      "title": "Implicit narrowing",
+      "title": "Integer literal outside its range",
       "diagnostic": "narrowing.diag",
-      "code": "TYPE_MISMATCH"
+      "code": "INTEGER_RANGE"
     },
     {
       "id": "match_exhaustive",
