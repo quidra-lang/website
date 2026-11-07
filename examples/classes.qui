@@ -19,3 +19,10 @@ alias.y = 5
 println(a.describe())
 println(b.describe())
 println("{a == b} {a == Point(1, 5)}")
+
+class Group(string[] members)
+    nat len()
+        return #members
+
+group := Group(["Aki", "Yui", "Haru"])
+println(#group)

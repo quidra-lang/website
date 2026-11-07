@@ -363,6 +363,8 @@ for (const [source, content, scope] of [
   ['value := inf', 'inf', 'constant.numeric.quidra'],
   ['value := -inf', 'inf', 'constant.numeric.quidra'],
   ['squared := value ^ 2', '^', 'keyword.operator.arithmetic.quidra'],
+  ['count := #values', '#', 'keyword.operator.arithmetic.quidra'],
+  ['println("{#values}")', '#', 'keyword.operator.arithmetic.quidra'],
   ['ordered := left < right', '<', 'keyword.operator.comparison.quidra'],
   ['shifted := left >> right', '>>', 'keyword.operator.bitwise.quidra'],
 ]) {

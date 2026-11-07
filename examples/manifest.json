@@ -50,7 +50,7 @@
       "id": "classes",
       "file": "classes.qui",
       "title": "Classes with value semantics",
-      "summary": "A class with initialization arguments and ordered field assignments, a public and a private method, an independent copy initialized with :=, an explicit &alias that writes through and value equality with ==.",
+      "summary": "A class with initialization arguments and ordered field assignments, a public and a private method, an independent copy initialized with :=, an explicit &alias that writes through, value equality with ==, and #group automatically calling a user-defined len() method.",
       "run": true,
       "args": [],
       "output": "classes.out"
