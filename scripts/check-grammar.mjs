@@ -47,7 +47,7 @@ const RESERVED_WORDS = new Set([
   'NL', 'HT', 'CR', 'DQ', 'BS', 'FF', 'VT', 'BL',
   // built-in types
   'int', 'int8', 'int16', 'int32', 'int64', 'bool', 'string', 'bin', 'error',
-  'tensor', 'func', 'map', 'distinct', 'nat', 'nat8', 'nat16', 'nat32', 'nat64',
+  'tensor', 'func', 'Iterator', 'map', 'distinct', 'nat', 'nat8', 'nat16', 'nat32', 'nat64',
   'real', 'real16', 'real16b', 'real32', 'real64', 'com', 'com16', 'com16b', 'com32', 'com64',
 ]);
 

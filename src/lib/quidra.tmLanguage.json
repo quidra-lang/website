@@ -431,7 +431,7 @@
     },
 
     "primitive-type": {
-      "match": "(?<!\\.)\\b(nat|nat8|nat16|nat32|nat64|real|real16|real16b|real32|real64|com|com16|com16b|com32|com64|int|int8|int16|int32|int64|bool|string|bin|error|tensor|func|map(?=\\s*<)|distinct(?=\\s*<))\\b",
+      "match": "(?<!\\.)\\b(nat|nat8|nat16|nat32|nat64|real|real16|real16b|real32|real64|com|com16|com16b|com32|com64|int|int8|int16|int32|int64|bool|string|bin|error|tensor|func|Iterator|map(?=\\s*<)|distinct(?=\\s*<))\\b",
       "name": "storage.type.primitive.quidra"
     },
 
