@@ -293,6 +293,47 @@ for (const [source, declaration, parameters = []] of [
   }
 }
 
+for (const [source, name, parameters] of [
+  ['int operator()()', 'operator()', []],
+  ['int operator()(int value)', 'operator()', ['value']],
+  ['bool .operator()(T &value)', '.operator()', ['value']],
+  ['private int operator[](int row, int column)', 'operator[]', ['row', 'column']],
+  ['int .operator[](int index)', '.operator[]', ['index']],
+  ['func<int(int)> operator()()', 'operator()', []],
+  ['int operator(int value)', 'operator', ['value']],
+]) {
+  const tokens = tokenizeFile(source)[0] ?? [];
+  if (!tokens.some((token) => token.content === name &&
+      token.scopes.includes('entity.name.function.quidra')) ||
+      parameters.some((parameter) => !tokens.some((token) => token.content === parameter &&
+        token.scopes.includes('variable.parameter.quidra')))) {
+    fail(`class operator name or parameter is not highlighted: ${source}`);
+  }
+}
+
+for (const stream of ['read', 'write', 'append']) {
+  for (const source of [
+    `file.${stream} stream`,
+    `file.${stream} | error open_stream(string path)`,
+    `void use_stream(file.${stream} stream)`,
+    `func<file.${stream}()> callback`,
+    `void invoke(func<file.${stream}()> callback)`,
+    `func<file.${stream} | error()> callback`,
+    `file . ${stream} stream := file.${stream}("path.txt")`,
+  ]) {
+    const tokens = tokenizeFile(source)[0] ?? [];
+    if (!tokens.some((token) => token.content === stream &&
+        token.scopes.includes('storage.type.primitive.quidra'))) {
+      fail(`qualified file stream type is not highlighted: ${source}`);
+    }
+  }
+  const factory = tokenizeFile(`stream := file.${stream}("path.txt")`)[0] ?? [];
+  if (!factory.some((token) => token.content === stream &&
+      token.scopes.includes('support.function.quidra'))) {
+    fail(`file stream factory is not highlighted as a function: ${stream}`);
+  }
+}
+
 // Namespace highlighting follows Core's reserved namespaces. Package names
 // and former namespaces remain ordinary identifiers outside an import context.
 const manifestPath = join(coreDir, 'quidra.manifest.json');

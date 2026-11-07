@@ -164,7 +164,7 @@
 
     "function-declaration": {
       "name": "meta.function.quidra",
-      "begin": "^\\s*(?:(?<visibility>private)\\s+)?(?!(?:return|if|elif|else|for|while|match|import|public|try|not|and|or|break|continue|class|enum|extern|cli|private|const|NOT|AND|OR|XOR|then|parallel|export|literal|local)\\b)(?<return_type>\\g<type_atom>(?:\\s*\\|\\s*\\g<type_atom>)*)\\s+(?<name>\\.?[A-Za-z_][A-Za-z0-9_]*)\\s*(?<type_parameters>\\g<angles>)?\\s*(?<open>\\()(?<type_atom>(?:func\\s*\\g<angles>(?:\\s*\\([^()\\n]*\\))?|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?:\\g<angles>)*)(?:\\[[^\\[\\]\\n]*\\])*){0}(?<angles><(?:[^<>\\n]|\\g<angles>)*>){0}",
+      "begin": "^\\s*(?:(?<visibility>private)\\s+)?(?!(?:return|if|elif|else|for|while|match|import|public|try|not|and|or|break|continue|class|enum|extern|cli|private|const|NOT|AND|OR|XOR|then|parallel|export|literal|local)\\b)(?<return_type>\\g<type_atom>(?:\\s*\\|\\s*\\g<type_atom>)*)\\s+(?<name>\\.?(?:operator(?:\\(\\)|\\[\\])|[A-Za-z_][A-Za-z0-9_]*))\\s*(?<type_parameters>\\g<angles>)?\\s*(?<open>\\()(?<type_atom>(?:func\\s*\\g<angles>(?:\\s*\\([^()\\n]*\\))?|[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*(?:\\g<angles>)*)(?:\\[[^\\[\\]\\n]*\\])*){0}(?<angles><(?:[^<>\\n]|\\g<angles>)*>){0}",
       "beginCaptures": {
         "1": {
           "name": "storage.modifier.quidra"
@@ -231,6 +231,7 @@
         { "include": "#string" },
         { "include": "#storage-modifier" },
         { "include": "#constant-boolean" },
+        { "include": "#file-stream-type" },
         { "include": "#namespace" },
         { "include": "#angle" },
         { "include": "#primitive-type" },
@@ -303,6 +304,7 @@
     "type": {
       "patterns": [
         { "include": "#storage-modifier" },
+        { "include": "#qualified-file-type" },
         { "include": "#namespace" },
         { "include": "#angle" },
         { "include": "#primitive-type" },
@@ -339,6 +341,7 @@
         { "include": "#constant-boolean" },
         { "include": "#constant-none" },
         { "include": "#constant-void" },
+        { "include": "#file-stream-type" },
         { "include": "#namespace" },
         { "include": "#angle" },
         { "include": "#primitive-type" },
@@ -429,6 +432,24 @@
     "namespace": {
       "match": "(?<!\\.)\\b(cli|file|environment|test|time|gpu|autograd|reflect|random|process|map|distinct|json|http|tensor)\\b(?=\\s*\\.)",
       "name": "support.namespace.quidra"
+    },
+
+    "qualified-file-type": {
+      "match": "(?<!\\.)\\b(file)\\s*(\\.)\\s*(read|write|append)\\b",
+      "captures": {
+        "1": { "name": "support.namespace.quidra" },
+        "2": { "name": "punctuation.accessor.quidra" },
+        "3": { "name": "storage.type.primitive.quidra" }
+      }
+    },
+
+    "file-stream-type": {
+      "match": "(?<!\\.)\\b(file)\\s*(\\.)\\s*(read|write|append)\\b(?!\\s*\\()",
+      "captures": {
+        "1": { "name": "support.namespace.quidra" },
+        "2": { "name": "punctuation.accessor.quidra" },
+        "3": { "name": "storage.type.primitive.quidra" }
+      }
     },
 
     "primitive-type": {
